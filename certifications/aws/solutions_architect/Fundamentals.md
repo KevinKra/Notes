@@ -1,7 +1,3 @@
-# Solutions Architect Guide
-
----
-
 # AWS Fundamentals
 
 ## Availability Zones and Regions
@@ -87,5 +83,3 @@ If you can control it (security groups, IAM, patching EC2 operating systems, ect
 - **Reliability**: ensuring workload performs its intended function correctly and consistently.
 - **Performance Efficiency**: using IT and computing resources efficiently.
 - **Cost Optimization**: avoiding unnecessary costs.
-
----
