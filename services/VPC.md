@@ -145,21 +145,29 @@
 
 ## Other
 
-# A
+# Q
 
 1. Security Groups provide security on what level, how is that different from NACLs?
 1. Can you apply Security Groups and NACLs rules on the same resources within a VPC?
 1. What does the `Route Table` do?
 1. What does a `NAT Gateway` do?
 1. How many IP addresses are reserved by AWS for subnets?
+1. Do nondefault subnets have the IPv4 public addressing attribute set to false?
+1. How many Internet Gateways can you have attached to a VPC?
+1. If you create a subnet and don't associate it to a Route Table within a VPC what does it get assigned to?
+1. Why is it a bad idea to have your Main Route Table internet accessible?
 
-# Q
+# A
 
 1. Security Groups are applied on a per-instance level, when they're created they are attached to instance(s). NACLs apply access restrictions to the entire subnet that instances may live in.
 1. Yes, they can both work together to add layers of security to your instances.
 1. The `Route Table` controls routing of outgoing Network Requests.
 1. A `NAT Gateway` translates internal IPs into public ones (NAT Gateway has a public IP) and forwards it to the Internet Gateway. It allows private subnets to remain private and use the NAT Gateway as a proxy to reach the internet.
 1. AWS reserves 5 IP addresses on subnets.
+1. Yes, nondefault subnets (unless generated automatically by another service, like EC2) default to private IPv4 settings.
+1. 1 Internet Gateway per VPC.
+1. The subnets will be assigned, by default, to the Main Route Table.
+1. If your Main Route Table is internet accessible, that means your subnets if not set, will default to the MRT and become internet accessible. Not ideal.
 
 ---
 
