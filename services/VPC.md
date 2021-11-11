@@ -156,6 +156,10 @@
 1. How many Internet Gateways can you have attached to a VPC?
 1. If you create a subnet and don't associate it to a Route Table within a VPC what does it get assigned to?
 1. Why is it a bad idea to have your Main Route Table internet accessible?
+1. Computers communicate through protocols, what are the Linux, Windows, HTTP, and HTTP protocols?
+1. By default, do Security Groups enable or block everything?
+1. What SG address allows all traffic?
+1. Security Groups are stateful, what does this mean?
 
 # A
 
@@ -168,6 +172,10 @@
 1. 1 Internet Gateway per VPC.
 1. The subnets will be assigned, by default, to the Main Route Table.
 1. If your Main Route Table is internet accessible, that means your subnets if not set, will default to the MRT and become internet accessible. Not ideal.
+1. Linux uses SSH on Port 22, Windows uses RDP on Port 3389, HTTP uses Port 80, HTTP uses 443.
+1. By default, Security Groups block everything.
+1. `0.0.0.0/0`
+1. If you send a request _from_ your instance, response traffic is _allowed_ to flow back in **regardless of inbound security rules.** In short, if it is allowed for inbound your outbound rules can't block it.
 
 ---
 
@@ -225,13 +233,14 @@ instances in private subnets can connect to other VPCs or on-premise networks th
 
 ### NAT Gateway
 
-A managed NAT device offered by AWS.
+A managed NAT device offered by AWS that allows you to **enable instances in a private subnet** to connect to the internet or other AWS services while preventing the internet from _initiating_ a connection with those instances.
 
 - The alternate, "NAT instance", is a personally create NAT device, AWS recommends using the NAT Gateway.
 - NAT devices are not supported for IPv6 traffic.
-- Redundant inside of the AZ.
 - Starts at 5 GB/s scales up to 45 GB/s.
-- No need to patch.
+- Provisioned in the same AZ as your public subnet.
+- NAT Gateway is a bunch of EC2 instances AWS handles for you behind the scenes.
+- No need to patch (AWS handles it for you).
 - Not Associated with Security Groups.
 - Automatically assigned public IP address.
 - **High Availability with NAT Gateways**: if you have resources in multiple AZs and they share a NAT gateway, in the event that the NAT Gateways AZ goes don, resources in other AZs (using that NAT Gateway) will lose internet access. To create AZ-independent architecture, create A NAT gateway in _each_ AZ and configure routing to ensure resources in each AZ use their own NAT gateway.
