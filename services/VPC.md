@@ -187,6 +187,7 @@ A Network Access Control List (ACL) is an optional layer of security for your VP
 
 ### Network ACL basics:
 
+- First line of firewall defense.
 - Your default VPC automatically comes with a modifiable Network ACL. This default nACL allows _all_ outbound and inbound traffic.
 - You can create custom nACLs. By default, each _custom_ nACL denies **all** inbound and outbound traffic until you add rules.
 - Each subnet on your VPC _must be_ associated with a nACL. If you don't explicitly associate a subnet with a nACL, then the subnet is automatically associated with the default network ACL.
@@ -196,6 +197,7 @@ A Network Access Control List (ACL) is an optional layer of security for your VP
 - nACLs have **separate** inbound and outbound rules, and each rule can either allow or deny traffic.
 - nACLs are **stateless**, responses to allowed inbound traffic are subject to the rules for outbound traffic (and vice versa).
 - There are quotas (limits) for the number of network ACLs per VPC, and the number of rules per network ACL.
+- Default nACLs _allow_ all inbound and outbound traffic while custom nACLs _block_ all traffic.
 
 ### Questions:
 
@@ -212,6 +214,9 @@ A Network Access Control List (ACL) is an optional layer of security for your VP
 - Are nACLs stateless? What does this mean?
 - Are there limits for the amount of ACLs on a VPC?
 - Are there limits for the number of rules per network ACL?
+- Can multiple subnets be protected by the same nACL?
+- Why is a nACL considered the first line of defense?
+- What are the initial outbound / inbound traffic rules for default and custom nACLs?
 
 ## NAT Devices
 
@@ -287,6 +292,7 @@ A managed NAT device offered by AWS that allows you to **enable instances in a p
 
 - Security Groups are stateful. If you send a request from your instance, the _response traffic_ for that request **is allowed to flow in regardless of inbound security group rules.** In other words, if you send something out from a resource, Security Group rules will _not_ block response inbound traffic.
 - Responses to allowed inbound traffic are allowed to flow out, regardless of outbound rules.
+- last line of defense.
 
 ## Elastic IPs
 
