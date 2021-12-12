@@ -103,6 +103,7 @@ f. [Review Section](#review-section)
 - Roles are much easier to manage than having EC2 instances holding keys.
 - Roles can be assigned to an EC2 instance after it's created using both the console and command line.
 - Roles are universal, you can use them in any region.
+- **Roles can allow cross-account access.**
 
 #### Hands on
 
@@ -319,11 +320,54 @@ f. [Review Section](#review-section)
 
 - Instance Metadata and User Data can be retrieved from within the instance via a special URL. Similar information can be extracted by using the API via the CLI or an SDK.
 
+- To get meta-data or user-data simply curl in the EC2 resource the following command: `curl http://<ip-address>/latest/meta-data` or `curl http://<ip-address>/latest/user-data`
+
 - EBS, EFS, and FSx are all storage services based on **block storage**.
 
 - Individual instances are provisioned in AZs.
 
+### Networking with EC2
+
+- 3 Different types of **Virtual Networking Cards:** ENI, EN, EFA.
+- **Elastic Network Interface**: For basic, day-to-day networking.
+- **Enhanced Networking**: Uses single root I/O virtualization (SR-IOV) to provide high performance.
+- **Elastic Fabric Adapter**: Accelerates High Performance Computing (HPC) and machine learning applications.
+
+#### ENI (Elastic Network Interface - EC2 default)
+
+> An ENI is simply a virtual network card that allows:
+
+- Private IPv4 Addresses.
+- Public IPv4 Address.
+- Many IPv6 Addresses.
+- MAC Address.
+- 1 or More Security Groups.
+
+**Common ENI use cases:**
+
+- Create a management network.
+- Use network and security appliances in your VPC.
+- Create dual-homed instances with workloads/roles for distinct subnets.
+- Create low-budget, high-availability solutions.
+
+#### EN (Enhanced Networking)
+
+> For High-Performance Networking.
+
+- Range of 10Gbps - 100Gbps.
+- Single Root I/O Virtualization (SR-IOV), SR-IOV provides higher I/O performance and lower CPU utilization.
+- Performance, provides higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies.
+- **Depending on your instances type, EN can be enabled using:** ENA (Elastic Network Adapter), which supports networks
+
+---
+
 ### EC2 Total Lessons Summary
+
+#### EC2 Metadata
+
+- User data is your bootstrap scripts/
+- Meta data is data about your EC2 instances.
+- You can use bootstrap scripts to access your meta data.
 
 #### SUMMARY: EBS
 
@@ -437,7 +481,10 @@ f. [Review Section](#review-section)
 
 #### Reserved Pricing
 
-> Ideal for:
+- **Note:** Reserved pricing can also apply to serverless solutions like Fargate and Lambda.
+- Reserved Instances operate a **Regional Level.** You can't reserve instances in one region and migrate them to another.
+
+  > Ideal for:
 
 - Applications with steady state or predictable usage.
 - Applications that require reserved capacity.
@@ -453,8 +500,8 @@ f. [Review Section](#review-section)
 
 > Ideal for:
 
-- Applications that have flexible start and end times
-- Applications that are only feasible at very low compute prices
+- Applications that have flexible start and end times.
+- Applications that are only feasible at very low compute prices.
 - Users with urgent computing needs for large amounts of additional capacity.
 - If your spot instance is terminated by EC2, you will not be charged for partial hour usage. If you terminate the instance yourself, you will be charged for any hour which the instance ran.
 
@@ -462,7 +509,7 @@ f. [Review Section](#review-section)
 
 - Useful for regulatory requirements that may not support multi-tenant virtualization.
 - Great for licensing which does not support multi-tenancy or cloud deployments (like Oracle licensing).
-- Can be purchased On-demand
+- Can be purchased on-demand.
 - Can be purchased as a Reservation for up to 70% off the on-demand price.
 
 ### EC2 Instance Types
