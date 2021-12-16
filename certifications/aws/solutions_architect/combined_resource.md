@@ -158,6 +158,8 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 
 1. What is an **event** in CloudTrail?
 1. What are the two types of events that can be logged in CloudTrail?
+1. XX What is a CloudTrail management event?
+1. XX What is a CloudTrail data event?
 1. Can a trail be applied to one region or all regions? What the best practice regarding this?
 1. Where are events logged, where are events logged for global services?
 1. CloudTrail, with multi-region trail enabled, only enables the tracking of regional services (EC2, S3, RDS, etc.) and not global services like IAM, CloudFront, WAF, R53, and so on. What do you need ot to to track global services with multi-region CloudTrail?
@@ -166,6 +168,8 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 
 1. An event in CloudTrail is the record of an activity in an AWS account. This activity can be an action taken by a user, role, or service that is monitorable by CloudTrail.
 1. Management events and data events. By default, trails log management events, but not data events.
+1. XX
+1. XX
 1. A trail can be applied to all regions or a single region. As a best practice, create a trail that applies to all regions in the AWS partition in which you are working. This is the default setting when you create a trail in the CloudTrail console.
 1. For most services, events are recorded in the region where the action occurred. For global services such as AWS Identity and Access Management (IAM), AWS STS, Amazon CloudFront, and Route 53, events are delivered to any trail that includes global services, and are logged as occurring in US East (N. Virginia) Region.
 1. In order to satisfy the requirement, you have to add the `--include-global-service-events` parameter in your AWS CLI command.
@@ -175,9 +179,9 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 # KMS / SSE-C - Encryption related
 
 - **Client-side encryption** is the act of encrypting data _before_ sending it to S3. 
-- There are two options to enable client-side encryption: **AWS-managed customer key or use a client-side master key.**
+- There are two options to enable client-side encryption: **AWS-managed customer key** or use a **client-side master key.**
 - When you use an AWS KMS-managed customer master key to enable client-side data encryption, _you provide an AWS KMS customer master key ID (CMK ID) to AWS._
-- When you use a client-side master key, for client-side data encryption, your client-side master keys and your encrypted data are **_never_** sent to AWS.
+- When you use a client-side master key, **for client-side data encryption**, your client-side master keys and your encrypted data are **_never_** sent to AWS.
 - When you provide a client-side master key to the **Amazon S3 encryption client**. **The S3 encryption client uses the master key only to encrypt the data encryption key** that it generates randomly.
 
 ### S3 Encryption Client Steps
@@ -203,6 +207,27 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 
 - encrypted object is downloaded from S3, local customer-key is used to decrypt data-key, then the decrypted data-key is used to decrypt the object.
 
+### Questions
+1. Explain how client-side encryption and server-side encryption handled in relation to AWS.
+1. What are the **two** options for to enabling client-side encryption for AWS?
+1. If you use AWS-KMS does AWS gain access to your master-key?
+1. If you use SSE-C does AWS gain access to your master-key?
+1. If you provide your client-side master key to S3 encryption client does AWS gain access to your key?
+1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?\
+1. What is the AWS S3 encryption upload flow?
+1. What is the encrypted data-key's metadata key on the s3 object?
+1. What is the AWS encrypted S3 download flow?
+
+### Answers
+1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
+1. You can either let aws manage your keys using AWS-KMS, or you can manage the keys completely (*depending on the pattern you use*) locally using client-side encryption.
+1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
+1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
+1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
+1. You can encrypt your data locally using AWS S3 encryption client. It will send the encrypted object to AWS S3 only with the metadata pointing back to which local master-key to use to decipher the encrypted data-key.
+1. Generate a random data-key per object, use data-key to encrypt object, encrypt data-key with local master-key, upload encrypted object to S3 with the encrypted data-key as object metadata.
+1. `x-amz-meta-x-amz-key`.
+1. Download the object from S3, reference the object's metadata to determine which local master-key is used to decipher the encrypted data-key, decipher the data-key, use the deciphered data-key to decrypt the object data.
 
 --- 
 
