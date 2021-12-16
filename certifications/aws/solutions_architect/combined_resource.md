@@ -170,23 +170,30 @@
 - Unlike the Amazon S3 encryption clients in the language-specific AWS SDKs, the AWS Encryption SDK is not tied to Amazon S3 and can be used to encrypt or decrypt data to be stored anywhere.
 
 ### Questions
-1. Explain how client-side encryption and server-side encryption handled in relation to AWS.
+1. Explain how client-side encryption and server-side encryption is handled in relation to AWS.
 1. What are the **two** options for to enabling client-side encryption for AWS?
 1. If you use AWS-KMS does AWS gain access to your master-key?
 1. If you use SSE-C does AWS gain access to your master-key?
 1. If you provide your client-side master key to S3 encryption client does AWS gain access to your key?
-1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?\
+1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?
 1. What is the AWS S3 encryption upload flow?
-1. What is the encrypted data-key's metadata key on the s3 object?
+1. What is the encrypted data-key's metadata key on the S3 object?
 1. What is the AWS encrypted S3 download flow?
-1. XX What is SSL?
-1. XX What is TLS?
-1. XX What three ways can you protect data in-transit to AWS?
-1. XX What is in-transit and at-rest data?
+1. What is SSL?
+1. What is an SSL certificate?
+1. What is TLS?
+1. What is the recommended port to use SSL/TLS over?
+1. What is the most common well-known use of SSL/TLS related to secure web browsing?
+1. Users visiting an HTTPS website can be assured of what 3 things?
+1. Describe HTTPS Authenticity.
+1. Describe HTTPS Integrity.
+1. Describe HTTPS Encryption.
+1. Using just the HTTP protocol, how is data sent?
+1. What three ways can you protect data in-transit to AWS?
 
 ### Answers
 1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
-1. You can either let aws manage your keys using AWS-KMS, or you can manage the keys completely (*depending on the pattern you use*) locally using client-side encryption.
+1. You can either let AWS manage your keys using AWS-KMS, or you can manage the keys (*depending on the pattern you use*) locally using client-side encryption.
 1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
 1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
 1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
@@ -194,10 +201,17 @@
 1. Generate a random data-key per object, use data-key to encrypt object, encrypt data-key with local master-key, upload encrypted object to S3 with the encrypted data-key as object metadata.
 1. `x-amz-meta-x-amz-key`.
 1. Download the object from S3, reference the object's metadata to determine which local master-key is used to decipher the encrypted data-key, decipher the data-key, use the deciphered data-key to decrypt the object data.
-1. XX What is SSL?
-1. XX What is TLS?
-1. XX You can send data securely through SSL/TLS/encrypted on client 
-1. XX What is in-transit and at-rest data?
+1. SSL, or **Secure Sockets Layer**, (the predecessor of TLS) is a protocol for establishing authenticated and encrypted links between networked computers.
+1. An SSL certificate is a digital document that binds the identity of a website to a cryptographic key-pair consisting of a public and private key.
+1. TLS, or **Transport Security Layer**, released in 1999 is the successor to SSL. It is also a protocol for authentication and encryption between computers.
+1. SSL/TLS uses port `443` as the standard, and recommended, port.
+1. The most common usage for secure web-browsing that uses the SSL/TLS protocol is the **HTTPS** protocol.
+1. Authenticity, Integrity, and Encryption. 
+1. **Authenticity:** The server presenting the certificate is in possession of the private key that matches the public key in the certificate.
+1. **Integrity:** Documents signed by the certificate (e.g. web pages) have not been altered in transit by a man in the middle.
+1. **Encryption:** Communications between the client and server are encrypted.
+1. HTTP websites send and receive data in plain text and is readily readily available to any eavesdropper with access to the data stream. 
+1. You can send data securely using SSL/TLS (HTTPS) protocols or encrypt it on client before sending it out.
 
 ---
 
