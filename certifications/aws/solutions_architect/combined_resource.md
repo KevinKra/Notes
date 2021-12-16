@@ -157,30 +157,6 @@
 
 - encrypted object is downloaded from S3, local customer-key is used to decrypt data-key, then the decrypted data-key is used to decrypt the object.
 
-### Questions
-1. Explain how client-side encryption and server-side encryption handled in relation to AWS.
-1. What are the **two** options for to enabling client-side encryption for AWS?
-1. If you use AWS-KMS does AWS gain access to your master-key?
-1. If you use SSE-C does AWS gain access to your master-key?
-1. If you provide your client-side master key to S3 encryption client does AWS gain access to your key?
-1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?\
-1. What is the AWS S3 encryption upload flow?
-1. What is the encrypted data-key's metadata key on the s3 object?
-1. What is the AWS encrypted S3 download flow?
-
-### Answers
-1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
-1. You can either let aws manage your keys using AWS-KMS, or you can manage the keys completely (*depending on the pattern you use*) locally using client-side encryption.
-1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
-1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
-1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
-1. You can encrypt your data locally using AWS S3 encryption client. It will send the encrypted object to AWS S3 only with the metadata pointing back to which local master-key to use to decipher the encrypted data-key.
-1. Generate a random data-key per object, use data-key to encrypt object, encrypt data-key with local master-key, upload encrypted object to S3 with the encrypted data-key as object metadata.
-1. `x-amz-meta-x-amz-key`.
-1. Download the object from S3, reference the object's metadata to determine which local master-key is used to decipher the encrypted data-key, decipher the data-key, use the deciphered data-key to decrypt the object data.
-
---- 
-
 - SSE: Request Amazon S3 to encrypt your object before saving it on disks in its data centers and then decrypt it when you download the objects.
 - CSE: encrypting your data locally to ensure its security as it passes to the Amazon S3 service. The Amazon S3 service receives your encrypted data; it does not play a role in encrypting or decrypting it.
 - Client-side encryption with a KMS-managed customer master key, you provide an AWS KMS customer master key ID (CMK ID) to AWS. AWS now has the master-key.
@@ -192,6 +168,36 @@
 
 - The AWS Encryption SDK is a client-side encryption library that is separate from the language-specific SDKs. You can use this encryption library to more easily implement encryption best practices in Amazon S3.
 - Unlike the Amazon S3 encryption clients in the language-specific AWS SDKs, the AWS Encryption SDK is not tied to Amazon S3 and can be used to encrypt or decrypt data to be stored anywhere.
+
+### Questions
+1. Explain how client-side encryption and server-side encryption handled in relation to AWS.
+1. What are the **two** options for to enabling client-side encryption for AWS?
+1. If you use AWS-KMS does AWS gain access to your master-key?
+1. If you use SSE-C does AWS gain access to your master-key?
+1. If you provide your client-side master key to S3 encryption client does AWS gain access to your key?
+1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?\
+1. What is the AWS S3 encryption upload flow?
+1. What is the encrypted data-key's metadata key on the s3 object?
+1. What is the AWS encrypted S3 download flow?
+1. XX What is SSL?
+1. XX What is TLS?
+1. XX What three ways can you protect data in-transit to AWS?
+1. XX What is in-transit and at-rest data?
+
+### Answers
+1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
+1. You can either let aws manage your keys using AWS-KMS, or you can manage the keys completely (*depending on the pattern you use*) locally using client-side encryption.
+1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
+1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
+1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
+1. You can encrypt your data locally using AWS S3 encryption client. It will send the encrypted object to AWS S3 only with the metadata pointing back to which local master-key to use to decipher the encrypted data-key.
+1. Generate a random data-key per object, use data-key to encrypt object, encrypt data-key with local master-key, upload encrypted object to S3 with the encrypted data-key as object metadata.
+1. `x-amz-meta-x-amz-key`.
+1. Download the object from S3, reference the object's metadata to determine which local master-key is used to decipher the encrypted data-key, decipher the data-key, use the deciphered data-key to decrypt the object data.
+1. XX What is SSL?
+1. XX What is TLS?
+1. XX You can send data securely through SSL/TLS/encrypted on client 
+1. XX What is in-transit and at-rest data?
 
 ---
 
