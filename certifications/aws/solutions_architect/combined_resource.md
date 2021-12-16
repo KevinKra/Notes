@@ -1,10 +1,7 @@
-# AWS SA Architect Guide
+# Disaster Recovery
 
 ### Questions
 
-#### Best Practices when Architecting in the Cloud
-
-1. What is a **Data Lake?**
 1. For data storage, what is the difference between Synchronous, Asynchronous, and Quorum-based replication?
 1. What is RTO?
 1. What is RPO?
@@ -16,11 +13,7 @@
 
 ### Answers
 
-#### Best Practices when Architecting in the Cloud
-
-1. A **Data Lake** is an architectural approach that allows you to store massive amounts of data in a central location so that it's readily available to be categorized, processed, analyzed, and consumed by diverse groups within your organization.
 1. **Synchronous replication** only acknowledges a transaction after it has been durably stored in both the primary storage and its replicas. It is ideal for protecting the integrity of data from the event of a failure of the primary node. **Asynchronous replication** decouples the primary node from its replicas at the expense of introducing replication lag. This means that changes on the primary node are not immediately reflected on its replicas. **Quorum-based replication** combines synchronous and asynchronous replication by defining a minimum number of nodes that must participate in a successful write operation.
-
 1. RTO, or **Recovery Time Objective**, is _the time it takes_ after a disruption to restore a business process to its service level.
 1. RPO, or **Recovery Point Objective**, is _the acceptable amount of data loss_ measured in time.
 1. **Backup and Restore** involves taking frequent backups of your most critical systems. Once disaster strikes you simply restore these backups to recover data and quickly. B&R usually has the longest RTO and your RPO will depend on how frequently you backup your data.
@@ -31,29 +24,7 @@
 
 ---
 
-# EC2 / Application Auto Scaling Group
-
-https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
-
-1. What is an **Auto Scaling Group?**
-
-- An Auto Scaling group contains a collection of Amazon EC2 instances treated as a logical grouping for the purposes of automatic scaling and management. n Auto Scaling group also enables you to use Amazon EC2 Auto Scaling features such as health check replacements and scaling policies. Both maintaining the number of instances in an Auto Scaling group and automatic scaling are the core functionality of the Amazon EC2 Auto Scaling service. The size of an Auto Scaling group depends on the number of instances that you set as the desired capacity. You can adjust its size to meet demand, either manually or by using automatic scaling.
-
-2. What are the two policies for an Auto Scaling Group? Describe their similarities and differences.
-
-- **Step Scaling policies** and **Simple Scaling policies**. Both require CloudWatch alarms for the scaling policies and both require high and low thresholds for the alarms. Additionally, both require you to define whether to add or remove instances, how many, or set the group to an exact size.
-
-- **The main difference between the policy types is the step adjustments that you get with step scaling policies.** When step adjustments are applied, and they increase or decrease the current capacity of your Auto Scaling group, the adjustments vary based on the size of the alarm breach.
-
-#### Target Tracking Scaling
-
-- With a target tracking scaling policy, you can increase or decrease the current capacity of the group **based on a target value for a specific metric.** This policy will help resolve the _over-provisioning_ of your resource. **The scaling policy adds or removes capacity as required to keep the metric at, or close to, the specified target value.** In addition to keeping the metric close to the target value, a target tracking scaling policy also adjusts to changes in the metric due to a changing load pattern.
-
-#### Simple Scaling
-
-- **Simple scaling requires you to wait for the cooldown period to complete before initiating additional scaling activities.** Target tracking or Step Scaling policies can trigger scaling activity immediately without waiting for the cooldown period to expire.
-
-## EC2 Auto Scaling Group
+# EC2 Auto Scaling Group
 
 ### Questions
 
@@ -113,8 +84,6 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 1. Scheduled Scaling uses dates/time to determine scaling.
 1. Yes, you can have multiple target tracking policies for a scalable target, provided they each use different metrics.
 
----
-
 ## Monitoring
 
 ### Questions
@@ -127,9 +96,11 @@ https://tutorialsdojo.com/aws-auto-scaling/?src=udemy#features
 1. Nope. Standby state can be used for performing updates/changes/troubleshooting without health checks being performed or replacement instances being launched.
 1. CloudWatch metrics enable you to retrieve statistics about Auto Scaling-published data points as an ordered set of time-series data, known as metrics. You can use these metrics to verify that your system is performing as expected.
 
+---
+
 # CloudTrail
 
-### Qquestions
+### Questions
 
 1. What is an **event** in CloudTrail?
 1. What are the two types of events that can be logged in CloudTrail?
@@ -520,7 +491,7 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 
 ---
 
-# VPC Guide
+# VPC
 
 ## VPC Basics
 
@@ -804,5 +775,3 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 - VPN CloudHub
 - Direct Connect
 - Transit Gateway
-
----
