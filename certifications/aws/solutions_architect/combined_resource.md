@@ -2,7 +2,9 @@
 
 ### Questions
 
-1. For data storage, what is the difference between Synchronous, Asynchronous, and Quorum-based replication?
+1. For data storage, what is synchronous replication?
+1. For data storage, what is asynchronous replication?
+1. For data storage, what is quorum-based replication?
 1. What is RTO?
 1. What is RPO?
 1. Describe Backup and Restore.
@@ -13,7 +15,9 @@
 
 ### Answers
 
-1. **Synchronous replication** only acknowledges a transaction after it has been durably stored in both the primary storage and its replicas. It is ideal for protecting the integrity of data from the event of a failure of the primary node. **Asynchronous replication** decouples the primary node from its replicas at the expense of introducing replication lag. This means that changes on the primary node are not immediately reflected on its replicas. **Quorum-based replication** combines synchronous and asynchronous replication by defining a minimum number of nodes that must participate in a successful write operation.
+1. **Synchronous replication** only acknowledges a transaction after it has been durably stored in both the primary storage and its replicas. It is ideal for protecting the integrity of data from the event of a failure of the primary node.
+1. **Asynchronous replication** decouples the primary node from its replicas at the expense of introducing replication lag. This means that changes on the primary node are not immediately reflected on its replicas.
+1. **Quorum-based replication** combines synchronous and asynchronous replication by defining a minimum number of nodes that must participate in a successful write operation.
 1. RTO, or **Recovery Time Objective**, is _the time it takes_ after a disruption to restore a business process to its service level.
 1. RPO, or **Recovery Point Objective**, is _the acceptable amount of data loss_ measured in time.
 1. **Backup and Restore** involves taking frequent backups of your most critical systems. Once disaster strikes you simply restore these backups to recover data and quickly. B&R usually has the longest RTO and your RPO will depend on how frequently you backup your data.
