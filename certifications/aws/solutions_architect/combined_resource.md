@@ -825,3 +825,58 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 - VPN CloudHub
 - Direct Connect
 - Transit Gateway
+
+---
+
+# CloudWatch
+
+### Questions
+1. What is CloudWatch?
+1. What kind of features can CloudWatch provide?
+1. What are System Metrics?
+1. What are Application Metrics?
+1. What are Alarms?
+1. What are the two types of metrics Cloudwatch provides?
+1. Describe **Default Metrics**.
+1. Describe **Custom Metrics**.
+1. Is EC2 Memory Utilization a custom or default metric provided by AWS?
+1. Are there default alarms in AWS?
+1. Can AWS see past the hypervisor level for EC2 instances?
+1. What is the standard reporting interval?
+1. What tool does AWS provide that helps you monitor, store, and access log files from a variety of different sources?
+1. What is a **Log Event?**
+1. What is a **Log Stream?**
+1. What are **Filter Patterns?**
+1. What are **CloudWatch Logs Insights?**
+1. What command do you enter in your EC2 instance to install the cloudwatch agent? Is this the unified agent for streaming logs and custom metrics?
+1. Where can we store CloudWatch logs?
+1. Whats the "go to" tool for looking at CloudWatch Logs?
+1. What would we use for _real-time_ log monitoring?
+1. Would you use CloudWatch to track that your instances are being setup with the right AMI?
+1. If your metrics come in every 5-minutes, but your alarm is set to look for data every 1-minute, what will happen?
+
+### Answers
+1. CloudWatch is a monitoring and observability platform.
+1. System Metrics, Application Metrics, Alarms.
+1. **System Metrics** provides metrics that you get out of the box, the more managed the service the more information you will receive.
+1. **Application Metrics** by installing the CloudWatch agent, you can get information from _inside_ your EC2 instances.
+1. Alarms provide warnings based on metrics it tracks.
+1. Default metrics and Custom metrics.
+1. Default metrics are provided out of the box by AWS and no not require any additional work on your part to configure.
+1. Custom metrics need to be provided by using the CloudWatch agent installed on the host.
+1. Tracking your EC2 instance memory utilization is _actually_ a custom metric you define.
+1. Any alarm you want needs to be created, AWS doesn't give you default alarms.
+1. AWS cannot see past the hypervisor in your EC2 instances.
+1. Standard interval is 5-minutes, detailed is every 1-minute. There is a small cost for detailed metrics.
+1. Cloudwatch Logs.
+1. A **Log Event** is a record of an event that provides a timestamp and the data.
+1. A **Log Stream** is a collection of **log events** from the same source (the _same_ EC2 instance for example.
+1. A **Log Group** is a collection of **log steams**. For example, you could group all of your Apache web server logs across hosts together.
+1. You can look for specific terms in your logs using Filter Patterns. Think 400 errors in your web server logs.
+1.  **CloudWatch Logs Insights?** allows you to query all your logs using a _SQL-like_ interactive solution.
+1. `sudo yum install amazon-cloudwatch-agent -y`. Yes, amazon-cloud-watch-agent is the unified agent for all AWS metrics and logs.
+1. S3 can store CloudWatch logs.
+1. CloudWatch Logs is considered the _go-to_ tool for referencing logs.
+1. AWS Kinesis provides real-time log details.
+1. No. CloudWatch is not the ideal tool to track appropriate AMIs or similar configurations, use **AWS Config** for that.
+1. You will never receive data with that mismatch. You need to match the intervals.
