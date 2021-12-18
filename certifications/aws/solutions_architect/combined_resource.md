@@ -108,6 +108,8 @@
 
 1. What is an **event** in CloudTrail?
 1. What are the two types of events that can be logged in CloudTrail?
+1. XX What is a CloudTrail management event?
+1. XX What is a CloudTrail data event?
 1. Can a trail be applied to one region or all regions? What the best practice regarding this?
 1. Where are events logged, where are events logged for global services?
 1. CloudTrail, with multi-region trail enabled, only enables the tracking of regional services (EC2, S3, RDS, etc.) and not global services like IAM, CloudFront, WAF, R53, and so on. What do you need to do to track global services with multi-region CloudTrail?
@@ -116,6 +118,8 @@
 
 1. An event in CloudTrail is the record of activity in an AWS account. This activity can be an action taken by a user, role, or service that is monitorable by CloudTrail.
 1. Management events and data events. By default, trails log management events, but not data events.
+1. XX
+1. XX
 1. A trail can be applied to all regions or a single region. As a best practice, create a trail that applies to all regions in the AWS partition in which you are working. This is the default setting when you create a trail in the CloudTrail console.
 1. For most services, events are recorded in the region where the action occurred. For global services such as AWS Identity and Access Management (IAM), AWS STS, Amazon CloudFront, and Route 53, events are delivered to any trail that includes global services, and are logged as occurring in US East (N. Virginia) Region.
 1. In order to satisfy the requirement, you have to add the `--include-global-service-events` parameter in your AWS CLI command.
@@ -124,10 +128,10 @@
 
 # KMS / SSE-C - Encryption related
 
-- **Client-side encryption** is the act of encrypting data _before_ sending it to S3.
-- There are two options to enable client-side encryption: **AWS-managed customer key or use a client-side master key.**
+- **Client-side encryption** is the act of encrypting data _before_ sending it to S3. 
+- There are two options to enable client-side encryption: **AWS-managed customer key** or use a **client-side master key.**
 - When you use an AWS KMS-managed customer master key to enable client-side data encryption, _you provide an AWS KMS customer master key ID (CMK ID) to AWS._
-- When you use a client-side master key, for client-side data encryption, your client-side master keys and your encrypted data are **_never_** sent to AWS.
+- When you use a client-side master key, **for client-side data encryption**, your client-side master keys and your encrypted data are **_never_** sent to AWS.
 - When you provide a client-side master key to the **Amazon S3 encryption client**. **The S3 encryption client uses the master key only to encrypt the data encryption key** that it generates randomly.
 
 ### S3 Encryption Client Steps
@@ -153,8 +157,6 @@
 
 - encrypted object is downloaded from S3, local customer-key is used to decrypt data-key, then the decrypted data-key is used to decrypt the object.
 
----
-
 - SSE: Request Amazon S3 to encrypt your object before saving it on disks in its data centers and then decrypt it when you download the objects.
 - CSE: encrypting your data locally to ensure its security as it passes to the Amazon S3 service. The Amazon S3 service receives your encrypted data; it does not play a role in encrypting or decrypting it.
 - Client-side encryption with a KMS-managed customer master key, you provide an AWS KMS customer master key ID (CMK ID) to AWS. AWS now has the master-key.
@@ -166,6 +168,50 @@
 
 - The AWS Encryption SDK is a client-side encryption library that is separate from the language-specific SDKs. You can use this encryption library to more easily implement encryption best practices in Amazon S3.
 - Unlike the Amazon S3 encryption clients in the language-specific AWS SDKs, the AWS Encryption SDK is not tied to Amazon S3 and can be used to encrypt or decrypt data to be stored anywhere.
+
+### Questions
+1. Explain how client-side encryption and server-side encryption is handled in relation to AWS.
+1. What are the **two** options for to enabling client-side encryption for AWS?
+1. If you use AWS-KMS does AWS gain access to your master-key?
+1. If you use SSE-C does AWS gain access to your master-key?
+1. If you provide your client-side master key to S3 encryption client does AWS gain access to your key?
+1. A client requires that you never store your master-key on AWS or have unencrypted data within AWS S3, how can you accomplish this?
+1. What is the AWS S3 encryption upload flow?
+1. What is the encrypted data-key's metadata key on the S3 object?
+1. What is the AWS encrypted S3 download flow?
+1. What is SSL?
+1. What is an SSL certificate?
+1. What is TLS?
+1. What is the recommended port to use SSL/TLS over?
+1. What is the most common well-known use of SSL/TLS related to secure web browsing?
+1. Users visiting an HTTPS website can be assured of what 3 things?
+1. Describe HTTPS Authenticity.
+1. Describe HTTPS Integrity.
+1. Describe HTTPS Encryption.
+1. Using just the HTTP protocol, how is data sent?
+1. What three ways can you protect data in-transit to AWS?
+
+### Answers
+1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
+1. You can either let AWS manage your keys using AWS-KMS, or you can manage the keys (*depending on the pattern you use*) locally using client-side encryption.
+1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
+1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
+1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
+1. You can encrypt your data locally using AWS S3 encryption client. It will send the encrypted object to AWS S3 only with the metadata pointing back to which local master-key to use to decipher the encrypted data-key.
+1. Generate a random data-key per object, use data-key to encrypt object, encrypt data-key with local master-key, upload encrypted object to S3 with the encrypted data-key as object metadata.
+1. `x-amz-meta-x-amz-key`.
+1. Download the object from S3, reference the object's metadata to determine which local master-key is used to decipher the encrypted data-key, decipher the data-key, use the deciphered data-key to decrypt the object data.
+1. SSL, or **Secure Sockets Layer**, (the predecessor of TLS) is a protocol for establishing authenticated and encrypted links between networked computers.
+1. An SSL certificate is a digital document that binds the identity of a website to a cryptographic key-pair consisting of a public and private key.
+1. TLS, or **Transport Security Layer**, released in 1999 is the successor to SSL. It is also a protocol for authentication and encryption between computers.
+1. SSL/TLS uses port `443` as the standard, and recommended, port.
+1. The most common usage for secure web-browsing that uses the SSL/TLS protocol is the **HTTPS** protocol.
+1. Authenticity, Integrity, and Encryption. 
+1. **Authenticity:** The server presenting the certificate is in possession of the private key that matches the public key in the certificate.
+1. **Integrity:** Documents signed by the certificate (e.g. web pages) have not been altered in transit by a man in the middle.
+1. **Encryption:** Communications between the client and server are encrypted.
+1. HTTP websites send and receive data in plain text and is readily readily available to any eavesdropper with access to the data stream. 
+1. You can send data securely using SSL/TLS (HTTPS) protocols or encrypt it on client before sending it out.
 
 ---
 
@@ -779,3 +825,58 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 - VPN CloudHub
 - Direct Connect
 - Transit Gateway
+
+---
+
+# CloudWatch
+
+### Questions
+1. What is CloudWatch?
+1. What kind of features can CloudWatch provide?
+1. What are System Metrics?
+1. What are Application Metrics?
+1. What are Alarms?
+1. What are the two types of metrics Cloudwatch provides?
+1. Describe **Default Metrics**.
+1. Describe **Custom Metrics**.
+1. Is EC2 Memory Utilization a custom or default metric provided by AWS?
+1. Are there default alarms in AWS?
+1. Can AWS see past the hypervisor level for EC2 instances?
+1. What is the standard reporting interval?
+1. What tool does AWS provide that helps you monitor, store, and access log files from a variety of different sources?
+1. What is a **Log Event?**
+1. What is a **Log Stream?**
+1. What are **Filter Patterns?**
+1. What are **CloudWatch Logs Insights?**
+1. What command do you enter in your EC2 instance to install the cloudwatch agent? Is this the unified agent for streaming logs and custom metrics?
+1. Where can we store CloudWatch logs?
+1. Whats the "go to" tool for looking at CloudWatch Logs?
+1. What would we use for _real-time_ log monitoring?
+1. Would you use CloudWatch to track that your instances are being setup with the right AMI?
+1. If your metrics come in every 5-minutes, but your alarm is set to look for data every 1-minute, what will happen?
+
+### Answers
+1. CloudWatch is a monitoring and observability platform.
+1. System Metrics, Application Metrics, Alarms.
+1. **System Metrics** provides metrics that you get out of the box, the more managed the service the more information you will receive.
+1. **Application Metrics** by installing the CloudWatch agent, you can get information from _inside_ your EC2 instances.
+1. Alarms provide warnings based on metrics it tracks.
+1. Default metrics and Custom metrics.
+1. Default metrics are provided out of the box by AWS and no not require any additional work on your part to configure.
+1. Custom metrics need to be provided by using the CloudWatch agent installed on the host.
+1. Tracking your EC2 instance memory utilization is _actually_ a custom metric you define.
+1. Any alarm you want needs to be created, AWS doesn't give you default alarms.
+1. AWS cannot see past the hypervisor in your EC2 instances.
+1. Standard interval is 5-minutes, detailed is every 1-minute. There is a small cost for detailed metrics.
+1. Cloudwatch Logs.
+1. A **Log Event** is a record of an event that provides a timestamp and the data.
+1. A **Log Stream** is a collection of **log events** from the same source (the _same_ EC2 instance for example.
+1. A **Log Group** is a collection of **log steams**. For example, you could group all of your Apache web server logs across hosts together.
+1. You can look for specific terms in your logs using Filter Patterns. Think 400 errors in your web server logs.
+1.  **CloudWatch Logs Insights?** allows you to query all your logs using a _SQL-like_ interactive solution.
+1. `sudo yum install amazon-cloudwatch-agent -y`. Yes, amazon-cloud-watch-agent is the unified agent for all AWS metrics and logs.
+1. S3 can store CloudWatch logs.
+1. CloudWatch Logs is considered the _go-to_ tool for referencing logs.
+1. AWS Kinesis provides real-time log details.
+1. No. CloudWatch is not the ideal tool to track appropriate AMIs or similar configurations, use **AWS Config** for that.
+1. You will never receive data with that mismatch. You need to match the intervals.
