@@ -4,12 +4,9 @@
 
 - Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response
 
-### Q
+### Questions
 
-1. API Gateway can set rate limits for your endpoints,
-1. What status code do requests get when they're over the Gateway throttling limit?
-
-### A
+- What status code do requests get when they're over the Gateway throttling limit?
 
 ---
 
@@ -17,7 +14,10 @@
 
 - Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on.
 
-- You can view the metrics for your DB instance using the console, or consume the Enhanced Monitoring JSON output from CloudWatch Logs in a monitoring system of your choice.
+- You can view the metrics for your DB instance using the **console**, or consume the **Enhanced Monitoring JSON output from CloudWatch Logs** in a monitoring system of your choice.
+
+- Enhanced Monitoring requires permission to act on your behalf to send OS metric information to CloudWatch Logs.
+
 - By default, Enhanced Monitoring metrics are stored in the CloudWatch Logs for 30 days.
 
 - Take note that there are certain differences between CloudWatch and Enhanced Monitoring Metrics. CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work.
@@ -28,11 +28,20 @@
 
 - Using Amazon CloudWatch to monitor the CPU Utilization of your database is incorrect because although you can use this to monitor the CPU Utilization of your database instance, it does not provide the percentage of the CPU bandwidth and total memory consumed by each database process in your RDS instance.
 
-- Take note that CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance while RDS Enhanced Monitoring gathers its metrics from an agent on the instance.
-
-- When you create or modify your DB instance to run as a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a synchronous **standby** replica in a different Availability Zone.
+- When you create or modify your DB instance to run as a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a **synchronous standby** replica in a different Availability Zone.
 
 - **Read Replicas provides an asynchronous replication** instead of synchronous.
+
+### Questions
+
+- Where are the logs from RDS Enhanced Monitoring stored?
+- What are two ways you can view data from RDS Enhanced Monitoring?
+- What is the default amount of time EM logs are stored in CloudWatch?
+- CloudWatch and Enhanced Monitoring collect metrics from two different levels of an RDS instance, what are they and what is the result?
+- Can you install the CloudWatch agent on RDS instances for custom metrics?
+- Are CPU% and MEM% metrics readily available on the RDS console?
+- When using Multi-AZ deployment, are standby replicas synchronous or asynchronous?
+- Is RDS read replicas data storage synchronous or asynchronous?
 
 ---
 
@@ -48,15 +57,25 @@
 
 - Although an **Instance Store** is a block storage volume, it is not persistent and the data will be gone if the instance is restarted from the stopped state. (note that this is different from the OS-level reboot. In OS-level reboot, data still persists in the instance store).
 
-- An **instance store** only provides temporary block-level storage for your instance. It means that the data in the instance store can be lost if the underlying disk drive fails, if the instance stops, and if the instance terminates.
+- An **instance store** only provides temporary block-level storage for your instance. It means that the **data in the instance store can be lost if the underlying disk drive fails, if the instance stops, or if the instance terminates.**
 
-- Although **Amazon EFS** can provide over 64,000 IOPS, this solution uses a file system and not a block storage volume
+- Although **Amazon EFS** can provide over 64,000 IOPS, this solution uses a file system and not a block storage volume.
+
+### Questions
+
+- What storage-type is EBS?
+- What is the AWS Nitro System?
+- Can EBS persist independently from an EC2 instance?
+- Can Instance Store persist independently from an EC2 instance?
+- If you want an EBS volume with up to 64,000 IOPS, what type of EC2 instance do you have to launch to guarantee that?
+- Data in the an instance store is lost under what three circumstances?
+- What is Amazon EFS, what type of volume is it, can it provide 64,000 IOPS?
 
 ---
 
 ## Microsoft Active Directory
 
-- Microsoft Active Directory implements Security Assertion Markup Language (SAML), you can set up a SAML-Based Federation for API Access to your AWS cloud. In this way, you can easily connect to AWS using the login credentials of your on-premises network.
+- Microsoft Active Directory implements **Security Assertion Markup Language (SAML)**, you can set up a SAML-Based Federation for API Access to your AWS cloud. In this way, you can easily connect to AWS using the login credentials of your on-premises network.
 
 - AWS supports identity federation with SAML 2.0, an open standard that many identity providers (IdPs) use. This feature enables federated single sign-on (SSO), so users can log into the AWS Management Console or call the AWS APIs without you having to create an IAM user for everyone in your organization.
 
@@ -64,7 +83,15 @@
 
 - Implement SAML 2.0-Based Federation by using a **Microsoft Active Directory Federation Service (AD FS)**. Before you can use SAML 2.0-based federation, you must configure your organization's IdP and your AWS account to trust each other. The general process for configuring this trust is described in the following steps. Inside your organization, you must have an IdP that supports SAML 2.0, like Microsoft Active Directory Federation Service (AD FS, part of Windows Server), Shibboleth, or another compatible SAML 2.0 provider.
 
-- Setting up SAML 2.0-Based Federation by using a Web Identity Federation is primarily used to let users sign in via a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google. It does not utilize Active Directory.
+- Setting up SAML 2.0-Based Federation by using a **Web Identity Federation** is primarily used to let users sign in via a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google. It does not utilize Active Directory.
+
+### Questions
+
+- What is Microsoft Active Directory, what language is it implemented in?
+- What does SAML stand for?
+- What identity federation does AWS support that many idPs use?
+- What do you need to implement SAML 2.0-Based Federation in AWS?
+- What does SAML 2.0-Based Federation by using Web Identity Federation use as federated services?
 
 ---
 
@@ -94,6 +121,16 @@ _**Use signed cookies for the following cases:**_
 
 - CloudFront **Field-Level Encryption** only allows you to securely upload user-submitted sensitive information to your web servers. It does not provide access to download multiple private files.
 
+### Questions
+
+- What two features can you use within CloudFront to control access to content?
+- If your users are using a client that doesn't support cookies, which access control should you use?
+- If you want to restrict access to individual files, which access control should you use?
+- If you want to provide access to multiple restricted files, which access control should you use?
+- If you don't want to change your current URLs in order modify access rights, which access control should you use?
+- What is CloudFront Match Viewer?
+- What is CloudFront Field-Level Encryption?
+
 ---
 
 ## Lambda
@@ -108,9 +145,9 @@ _**Use signed cookies for the following cases:**_
 
 - As more events come in, Lambda routes them to available instances and creates new instances as needed. When the number of requests decreases, Lambda stops unused instances to free up the scaling capacity for other functions.
 
-- Your functions' concurrency is the number of instances that serve requests at a given time.
+- Your function's concurrency is the number of instances that serve requests at a given time.
 
-- For an initial burst of traffic, your functions' cumulative concurrency in a Region can reach an initial level of between 500 and 3000, which varies per Region.
+- For an initial burst of traffic, your function's cumulative concurrency in a Region can reach an initial level of between 500 and 3000, which varies per Region.
 
 - The first requirement (to handle the bursts of traffic to the example website) is to create a solution that will allow the users to access the data using an API. To implement this solution, you can use Amazon API Gateway. The second requirement is to handle the burst of traffic within seconds. You should use AWS Lambda in this scenario because Lambda functions can absorb reasonable bursts of traffic for approximately 15-30 minutes.
 
@@ -118,7 +155,16 @@ _**Use signed cookies for the following cases:**_
 
 - Under the hood, Lambda can run your code to thousands of available AWS-managed EC2 instances (that could already be running) within seconds to accommodate traffic. This is faster than the Auto Scaling process of launching new EC2 instances that could take a few minutes or so.
 
-- Whether using API Gateway with ECS, Elastic Beanstalk and Auto Scaling, or Auto Scaling EC2 instances, all of the options take minutes to spin up resources to handle demand. Lambdas take seconds.
+- Whether using API Gateway with ECS, Elastic Beanstalk, or Auto Scaling EC2 instances, all of the options take minutes to spin up resources to handle demand. Lambdas take seconds.
+
+### Questions
+
+- Does Lambda require you to provision or manage servers?
+- Do you need to manage the scaling and availability of lambda?
+- Can you call lambda functions directly from a web or mobile app?
+- What is a function's concurrency? \*\*
+- Can lambda be used to accommodate the handling of high-burst traffic?
+- API Gateway with ECS, Elastic Beanstalk, Autoscaling EC2 instances, can all take minutes to spin up resources. How fast is lambda?
 
 ---
 
@@ -140,6 +186,15 @@ _**Use signed cookies for the following cases:**_
 
 - Creating a **Network File System (NFS)** file share using AWS Storage Gateway is incorrect because **NFS file share is mainly used for Linux systems.** Remember that the requirement in the scenario is to use a Windows shared file storage. Therefore, you must use an SMB file share instead, which supports Windows OS and Active Directory configuration.
 
+### Questions
+
+- What is Amazon FSx?
+- What protocol does Amazon FSx use?
+- Which computer operating systems is Amazon FSx compatible with?
+- Does Amazon FSx worth with Microsoft Active Directory?
+- After you create an active directory configuration, can you change the configuration? What solution can you use to get around this?
+- Does Amazon EFS support Windows systems?
+
 ---
 
 ## EBS volumes
@@ -152,11 +207,20 @@ _**Use signed cookies for the following cases:**_
 
 - Provisioned IOPS SSD volumes are much more suitable, than general purpose SSDs (gp2), in meeting the needs of I/O-intensive database workloads such as MongoDB, Oracle, MySQL, and many others.
 
+### Questions
+
+- SSD-backed volumes are ideal for what kind of operations?
+- HDD-backed volumes are ideal for what kind of operations?
+- Which volume can be used as a bootable volume: SSD or HDD?
+- Which type of SSD is more suitable for workloads on databases like MongoDB, Oracle, MySQL, etc?
+
 ---
 
 ## Storage Gateway
 
 > A file gateway supports a file interface into Amazon Simple Storage Service (Amazon S3) and combines a service and a virtual software appliance. By using this combination, you can store and retrieve objects in Amazon S3 using industry-standard file protocols such as Network File System (NFS) and Server Message Block (SMB). The software appliance, or gateway, is deployed into your on-premises environment as a virtual machine (VM) running on VMware ESXi, Microsoft Hyper-V, or Linux Kernel-based Virtual Machine (KVM) hypervisor.
+
+- AWS Storage Gateway is a hybrid cloud storage solution that allows companies to take advantage of cloud services and migrate their on-prem applications to the cloud as appropriate per performance, compliance, or IT reasons.
 
 - A file gateway supports a file interface into Amazon Simple Storage Service (Amazon S3) and combines a service and a virtual software appliance. By using this combination, you can store and retrieve objects in Amazon S3 using industry-standard file protocols such as Network File System (NFS) and Server Message Block (SMB).
 
@@ -166,7 +230,7 @@ _**Use signed cookies for the following cases:**_
 
 - When you create or update a file share, you have the option to select a storage class for your objects.
 
-- Although you can write objects directly from a file share to the S3-Standard-IA or S3-One Zone-IA storage class, it is recommended that you use a Lifecycle Policy to transition your objects rather than write directly from the file share, especially if you're expecting to update or delete the object within 30 days of archiving it.
+- Although you can write objects directly from a file share to the S3-Standard-IA or S3-One Zone-IA storage class, **it is recommended that you use a Lifecycle Policy to transition your objects rather than write directly from the file share,** especially if you're expecting to update or delete the object within 30 days of archiving it.
 
 - Launch a new file gateway that connects to your on-premises data center using AWS Storage Gateway. Upload the documents to the file gateway and set up a lifecycle policy to move the data into Glacier for data archival.
 
@@ -177,6 +241,14 @@ _**Use signed cookies for the following cases:**_
 - You can use AWS Direct Connect with AWS Storage Gateway to create a connection for high-throughput workload needs, providing a dedicated network connection between your on-premises file gateway and AWS.
 
 - **Snowmobile** is mainly used to migrate the _entire data of an on-premises data center to AWS_. This is not a suitable approach as the company still has a hybrid cloud architecture which means that they will still use their on-premises data center along with their AWS cloud infrastructure.
+
+### Questions
+
+- What is Storage Gateway, what does it help solve?
+- Where and how is the Storage Gateway deployed?
+- What is a tape gateway?
+- Can you use direct connect with AWS storage gateway?
+- What is AWS Snowmobile? Is it suitable for creating hybrid architecture?
 
 ---
 
