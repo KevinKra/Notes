@@ -16,6 +16,7 @@
 ## Amazon RDS
 
 - Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on.
+
 - You can view the metrics for your DB instance using the console, or consume the Enhanced Monitoring JSON output from CloudWatch Logs in a monitoring system of your choice.
 - By default, Enhanced Monitoring metrics are stored in the CloudWatch Logs for 30 days.
 
@@ -61,7 +62,7 @@
 
 - By using SAML, you can simplify the process of configuring federation with AWS, because you can use the IdP's service instead of writing custom identity proxy code.
 
-- SAML 2.0-Based Federation by using a **Microsoft Active Directory Federation Service (AD FS)**. Before you can use SAML 2.0-based federation, you must configure your organization's IdP and your AWS account to trust each other. The general process for configuring this trust is described in the following steps. Inside your organization, you must have an IdP that supports SAML 2.0, like Microsoft Active Directory Federation Service (AD FS, part of Windows Server), Shibboleth, or another compatible SAML 2.0 provider.
+- Implement SAML 2.0-Based Federation by using a **Microsoft Active Directory Federation Service (AD FS)**. Before you can use SAML 2.0-based federation, you must configure your organization's IdP and your AWS account to trust each other. The general process for configuring this trust is described in the following steps. Inside your organization, you must have an IdP that supports SAML 2.0, like Microsoft Active Directory Federation Service (AD FS, part of Windows Server), Shibboleth, or another compatible SAML 2.0 provider.
 
 - Setting up SAML 2.0-Based Federation by using a Web Identity Federation is primarily used to let users sign in via a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google. It does not utilize Active Directory.
 
