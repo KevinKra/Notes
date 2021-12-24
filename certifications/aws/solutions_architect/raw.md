@@ -189,11 +189,11 @@ _**Use signed cookies for the following cases:**_
 ### Questions
 
 - What is Amazon FSx?
-- What protocol does Amazon FSx use?
-- Which computer operating systems is Amazon FSx compatible with?
-- Does Amazon FSx worth with Microsoft Active Directory?
-- After you create an active directory configuration, can you change the configuration? What solution can you use to get around this?
-- Does Amazon EFS support Windows systems?
+- Amazon FSx for Windows supports what industry standard protocol?
+- What computer systems is Amazon FSx compatible with?
+- What two options can you use to provide user auth and access control to your Microsoft file system?
+- Can you change your AD configuration after creating it? What is the work around?
+- Is Amazon EFS compatible with windows?
 
 ---
 
@@ -268,8 +268,18 @@ _**Use signed cookies for the following cases:**_
 
 - AWS WAF web ACL. There are two types of rules in creating your own web ACL rule: **regular** and **rate-based rules**.
 
-- A regular rule only matches the statement defined in the rule. If you need to add a rate limit to your rule, you should create a rate-based rule.
+- A **regular rule** only matches the statement defined in the rule. If you need to add a rate limit to your rule, you should create a rate-based rule.
 
 - Although NACLs can help you block incoming traffic, they wouldn't be able to limit the number of requests from a _single IP address that is dynamically changing._
 
 - **A security group can only allow incoming traffic.** You can't **deny traffic using security groups**. In addition, it is not capable of limiting the rate of traffic to your application unlike AWS WAF.
+
+### Questions
+
+- What are some AWS services that AWS WAF is tightly integrated with? Name 4.
+- When you use AWS WAF with CloudFront, are your rules distributed globally to all edge locations?
+- What are the two types of rules for the WAF web ACL?
+- What is a rate-based rule and what, what is their time span?
+- How is a regular rule different from a rate-based rule?
+- Are NACLs able to block incoming requests from a single IP that is dynamically changing?
+- Can security groups deny traffic?
