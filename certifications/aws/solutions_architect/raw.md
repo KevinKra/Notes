@@ -2,11 +2,20 @@
 
 - API Gateway provides throttling at multiple levels. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure Amazon API Gateway to handle a burst of 2,000 requests per second for a few seconds.
 
-- Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response
+- API Gateway lets you run multiple versions of the same API simultaneously with **API Lifecycle**.
+
+- Amazon API Gateway tracks the number of requests per second. Any requests over the limit will receive a 429 HTTP response.
+
+- API Gateway helps you manage traffic to your backend systems by allowing you to set throttling rules based on the number of requests per second for each HTTP method in your APIs.
+
+- All of the APIs created expose HTTPS endpoints only. API Gateway does not support unencrypted (HTTP) endpoints.
 
 ### Questions
 
 - What status code do requests get when they're over the Gateway throttling limit?
+- Can you run multiple version of the same API simultaneously?
+- Generally, how does the throttling work for API Gateway to limit requests to backend systems?
+- Are API endpoints HTTPS or HTTP?
 
 ---
 
@@ -22,9 +31,9 @@
 
 - Take note that there are certain differences between CloudWatch and Enhanced Monitoring Metrics. CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work.
 
-- CPU% and MEM% metrics are not readily available in the Amazon RDS console
+- `CPU%` and `MEM%` metrics are not readily available in the Amazon RDS console
 
-- The data provided by CloudWatch is not as detailed as compared with the Enhanced Monitoring feature in RDS. Take note as well that you do not have direct access to the instances/servers of your RDS database instance, unlike with your EC2 instances where you can install a CloudWatch agent or a custom script to get CPU and memory utilization of your instance.
+- The data provided by CloudWatch is not as detailed as compared with the Enhanced Monitoring feature in RDS. **Take note as well that you do not have direct access to the instances/servers of your RDS database instance**, unlike with your EC2 instances where you can install a CloudWatch agent or a custom script to get CPU and memory utilization of your instance.
 
 - Using Amazon CloudWatch to monitor the CPU Utilization of your database is incorrect because although you can use this to monitor the CPU Utilization of your database instance, it does not provide the percentage of the CPU bandwidth and total memory consumed by each database process in your RDS instance.
 
@@ -39,9 +48,9 @@
 - What is the default amount of time EM logs are stored in CloudWatch?
 - CloudWatch and Enhanced Monitoring collect metrics from two different levels of an RDS instance, what are they and what is the result?
 - Can you install the CloudWatch agent on RDS instances for custom metrics?
-- Are CPU% and MEM% metrics readily available on the RDS console?
+- Are `CPU%` and `MEM%` metrics readily available on the RDS console?
 - When using Multi-AZ deployment, are standby replicas synchronous or asynchronous?
-- Is RDS read replicas data storage synchronous or asynchronous?
+- Are RDS read replicas synchronous or asynchronous?
 
 ---
 
@@ -51,7 +60,7 @@
 
 - The AWS Nitro System is the underlying platform for the latest generation of EC2 instances that enables AWS to innovate faster, further reduce the cost of the customers, and deliver added benefits like increased security and new instance types.
 
-- **Amazon EBS** is a persistent block storage volume. It can persist independently from the life of an instance.
+- **Amazon EBS** can persist independently from the life of an EC2 instance.
 
 - Since the scenario requires you to have an EBS volume with up to 64,000 IOPS, you have to launch a Nitro-based EC2 instance, since the maximum IOPS and throughput (64,000 IOPS) is **only** guaranteed on instances built with the Nitro system provisioned with more than 32k IOPS. Other instances guarantee up to 32,000 IOPS only.
 
@@ -76,10 +85,14 @@
 - What storage-type is EBS?
 - What is the AWS Nitro System?
 - Can EBS persist independently from an EC2 instance?
-- Can Instance Store persist independently from an EC2 instance?
+- Can an EC2 Instance Store persist independently from an EC2 instance?
 - If you want an EBS volume with up to 64,000 IOPS, what type of EC2 instance do you have to launch to guarantee that?
 - Data in the an instance store is lost under what three circumstances?
 - What is Amazon EFS, what type of volume is it, can it provide 64,000 IOPS?
+- What is the initial level scale-in policy?
+- What is the AZ level scale-in policy?
+- If there are multiple valid instances in an AZ, what is the next scale-in criteria?
+- If there are multiple unprotected instances close to the next billing hour, which is deleted?
 
 ---
 
@@ -101,7 +114,7 @@
 - What does SAML stand for?
 - What identity federation does AWS support that many idPs use?
 - What do you need to implement SAML 2.0-Based Federation in AWS?
-- What does SAML 2.0-Based Federation by using Web Identity Federation use as federated services?
+- What does "SAML 2.0-Based Federation by using Web Identity Federation" use as federated services?
 
 ---
 
