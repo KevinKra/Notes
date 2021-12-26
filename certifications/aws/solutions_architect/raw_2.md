@@ -118,13 +118,18 @@ _Use the AWS Systems Manager Parameter Store to keep the database credentials an
 
 > A car dealership website hosted in Amazon EC2 stores car listings in an Amazon Aurora database managed by Amazon RDS. Once a vehicle has been sold, its data must be removed from the current listings and forwarded to a distributed processing system.
 
-- You can invoke an AWS Lambda function from an Amazon Aurora MySQL-Compatible Edition DB cluster with a native function or a stored procedure. This approach can be useful when you want to integrate your database running on Aurora MySQL with other AWS services.
+_Create a native function or a stored procedure that invokes a Lambda function. Configure the Lambda function to send event notifications to an Amazon SQS queue for the processing system to consume._
+
+- You can invoke an AWS Lambda function from an Amazon Aurora database with a native function or a stored procedure. This approach can be useful when you want to integrate your database running on Aurora MySQL with other AWS services.
 
 - You can trigger a Lambda function whenever a listing is deleted from the database. You can then write the logic of the function to send the listing data to an SQS queue and have different processes consume it.
 
-- Create a native function or a stored procedure that invokes a Lambda function. Configure the Lambda function to send event notifications to an Amazon SQS queue for the processing system to consume.
-
 - **RDS events only provide operational events** such as DB instance events, DB parameter group events, DB security group events, and DB snapshot events. What we need in the scenario is to capture data-modifying events (INSERT, DELETE, UPDATE) which can be achieved thru native functions or stored procedures.
+
+### Questions
+
+- Can RDS events be used to track and trigger other events when a data-modifying event occurs on it?
+- What needs to be used to trigger a lambda function?
 
 ---
 
@@ -140,6 +145,10 @@ _Use the AWS Systems Manager Parameter Store to keep the database credentials an
 
 ### Questions
 
+- What does Lambda@Edge allow you to do?
+- Can Lambda@Edge be used to execute auth processes closer to users?
+- What can you use, through CloudFront, to alleviate the 504 errors users are experiencing?
+
 ---
 
 ## SNS + SQS
@@ -150,9 +159,9 @@ _Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to 
 
 - If you are building brand new applications in the cloud, then it is highly recommended that you consider Amazon SQS and Amazon SNS. Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, and serverless applications, and improve reliability.
 
-- If you're using messaging with existing applications and want to move your messaging service to the cloud quickly and easily, it is recommended that you consider Amazon MQ.
+- **If you're using messaging with existing applications** and want to move your messaging service to the cloud quickly and easily, it is recommended that you consider Amazon MQ.
 
-- Amazon SWF is incorrect because this is a fully-managed state tracker and task coordinator service and not a messaging service, unlike Amazon MQ, AmazonSQS and Amazon SNS.
+- Amazon SWF is incorrect because this is a fully-managed state tracker and task coordinator service and not a messaging service, unlike Amazon MQ, AmazonSQS, and Amazon SNS.
 
 - Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to the topic. Grant Amazon S3 permission to send notifications to Amazon SNS and update the bucket to use the new SNS topic.
 
@@ -182,19 +191,27 @@ _Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to 
 
 ### Questions
 
+- What are SQS and SNS?
+- What is Amazon MQ recommended for?
+- What 3 destinations can S3 publish events to?
+- Describe the _fanout scenario_.
+- How many destinations can an S3 event notification be sent out to? How can this be alleviated with the SNS fanout solution?
+
 ---
 
 ### AWS Directory Service
 
 > A telecommunications company is planning to give AWS Console access to developers. Company policy mandates the use of identity federation and role-based access control. Currently, the roles are already assigned using groups in the corporate Active Directory.
 
-- Considering that the company is using a corporate Active Directory, it is best to use AWS Directory Service AD Connector for easier integration. In addition, since the roles are already assigned using groups in the corporate Active Directory, it would be better to also use IAM Roles. Take note that you can assign an IAM Role to the users or groups from your Active Directory once it is integrated with your VPC via the AWS Directory Service AD Connector.
+_Considering that the company is using a corporate Active Directory, it is best to use AWS Directory Service AD Connector for easier integration. In addition, since the roles are already assigned using groups in the corporate Active Directory, it would be better to also use IAM Roles. Take note that you can assign an IAM Role to the users or groups from your Active Directory once it is integrated with your VPC via the AWS Directory Service AD Connector._
 
 - AWS Directory Service provides multiple ways to use Amazon Cloud Directory and Microsoft Active Directory (AD) with other AWS services. Directories store information about users, groups, and devices, and administrators use them to manage access to information and resources.
 
 - AWS Directory Service provides multiple directory choices for customers who want to use existing Microsoft AD or Lightweight Directory Access Protocol (LDAP)–aware applications in the cloud. It also offers those same choices to developers who need a directory to manage users, groups, devices, and access.
 
 ### Questions
+
+- Not really much to ask about this. Just read the bullet points.
 
 ---
 
@@ -220,6 +237,12 @@ _Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM rol
 
 ### Questions
 
+- What is a DynamoDB stream?
+- When are events on a table captured, and what does the stream record capture?
+- Can you configure the stream record to capture more information than just the primary key attribute(s) of the modified record?
+- Describe the concept of "triggers".
+- Is the DynamoDB Stream feature enabled by default?
+
 ---
 
 ## Kinesis
@@ -235,3 +258,10 @@ _Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM rol
 - Amazon Kinesis is fully managed and runs your streaming applications without requiring you to manage any infrastructure.
 
 - Amazon Kinesis can handle any amount of streaming data and process data from hundreds of thousands of sources with very low latencies.
+
+### Questions
+
+- What is Kinesis?
+- What types of data can you inject in real-time with Kinesis?
+- Does Kinesis need to wait for all data to be collected before responding?
+- Is Kinesis fully managed?
