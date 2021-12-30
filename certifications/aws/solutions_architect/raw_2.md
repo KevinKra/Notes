@@ -144,37 +144,50 @@ _Create a native function or a stored procedure that invokes a Lambda function. 
 
 ## CloudFront + Lambda@Edge
 
+### Questions
+
+- What service is Lambda@Edge like?
+- Can Lambda@Edge be used to execute auth processes closer to users?
+- What can you use, through CloudFront, to alleviate the 504 errors users are experiencing?
+
+#### Notes
+
 > A popular social media website uses a CloudFront web distribution to serve their static contents to their millions of users around the globe. They are receiving a number of complaints recently that their users take a lot of time to log into their website. There are also occasions when their users are getting HTTP 504 errors. You are instructed by your manager to significantly reduce the user's login time to further optimize the system.
 
 - Lambda@Edge lets you run Lambda functions to customize the content that CloudFront delivers, executing the functions in AWS locations closer to the viewer.
 
 - In the given scenario, you can use Lambda@Edge to allow your Lambda functions to customize the content that CloudFront delivers and to execute the authentication process in AWS locations closer to the users.
 
-- In addition, you can set up an origin failover by creating an origin group with two origins with one as the primary origin and the other as the second origin which CloudFront automatically switches to when the primary origin fails. This will alleviate the occasional HTTP 504 errors that users are experiencing.
-
-### Questions
-
-- What does Lambda@Edge allow you to do?
-- Can Lambda@Edge be used to execute auth processes closer to users?
-- What can you use, through CloudFront, to alleviate the 504 errors users are experiencing?
+- **You can set up an origin failover by creating an origin group with two origins with one as the primary origin and the other as the second origin which CloudFront automatically switches to when the primary origin fails.** This will alleviate the occasional HTTP 504 errors that users are experiencing.
 
 ---
 
 ## SNS + SQS
 
+### Questions
+
+- What are SQS and SNS?
+- What is Amazon MQ recommended for?
+- What 3 destinations can S3 publish events to?
+- Can S3 send out notifications if certain events happen in your bucket?
+- Describe the _fanout scenario_.
+- How many destinations can an S3 event notification be sent out to? How can this be alleviated with the SNS fanout solution?
+
+#### Notes
+
 > A company is using Amazon S3 to store frequently accessed data. When an object is created or deleted, the S3 bucket will send an event notification to the Amazon SQS queue. A solutions architect needs to create a solution that will notify the development and operations team about the created or deleted objects.
 
 _Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to the topic. Grant Amazon S3 permission to send notifications to Amazon SNS and update the bucket to use the new SNS topic._
 
-- If you are building brand new applications in the cloud, then it is highly recommended that you consider Amazon SQS and Amazon SNS. Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, and serverless applications, and improve reliability.
+- **If you are building brand new applications in the cloud, then it is highly recommended that you consider Amazon SQS and Amazon SNS.** Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, and serverless applications, and improve reliability.
 
-- **If you're using messaging with existing applications** and want to move your messaging service to the cloud quickly and easily, it is recommended that you consider Amazon MQ.
+- **If you're using messaging with existing applications and want to move your messaging service to the cloud quickly and easily, it is recommended that you consider Amazon MQ.**
 
-- Amazon SWF is incorrect because this is a fully-managed state tracker and task coordinator service and not a messaging service, unlike Amazon MQ, AmazonSQS, and Amazon SNS.
+- Amazon SWF is a fully-managed state tracker and task coordinator service and not a messaging service, unlike Amazon MQ, AmazonSQS, and Amazon SNS.
 
 - Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to the topic. Grant Amazon S3 permission to send notifications to Amazon SNS and update the bucket to use the new SNS topic.
 
-- The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket. To enable notifications, you must first add a notification configuration that identifies the events you want Amazon S3 to publish and the destinations where you want Amazon S3 to send the notifications.
+- **The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket.** To enable notifications, you must first add a notification configuration that identifies the events you want Amazon S3 to publish and the destinations where you want Amazon S3 to send the notifications.
 
 - You store the above configuration in the notification subresource that is associated with a bucket.
 
@@ -198,17 +211,15 @@ _Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to 
 
 - The FIFO capabilities of each of these services (SQS | SNS) work together to act as a fully managed service to integrate distributed applications that require data consistency in near-real-time.
 
-### Questions
-
-- What are SQS and SNS?
-- What is Amazon MQ recommended for?
-- What 3 destinations can S3 publish events to?
-- Describe the _fanout scenario_.
-- How many destinations can an S3 event notification be sent out to? How can this be alleviated with the SNS fanout solution?
-
 ---
 
 ### AWS Directory Service
+
+### Questions
+
+- Not really much to ask about this. Just read the bullet points.
+
+#### Notes
 
 > A telecommunications company is planning to give AWS Console access to developers. Company policy mandates the use of identity federation and role-based access control. Currently, the roles are already assigned using groups in the corporate Active Directory.
 
@@ -218,13 +229,19 @@ _Considering that the company is using a corporate Active Directory, it is best 
 
 - AWS Directory Service provides multiple directory choices for customers who want to use existing Microsoft AD or Lightweight Directory Access Protocol (LDAP)–aware applications in the cloud. It also offers those same choices to developers who need a directory to manage users, groups, devices, and access.
 
-### Questions
-
-- Not really much to ask about this. Just read the bullet points.
-
 ---
 
 ## DynamoDB
+
+### Questions
+
+- What is a DynamoDB stream?
+- When are events on a table captured, and what does the stream record capture?
+- Can you configure the stream record to capture more information than just the primary key attribute(s) of the modified record?
+- Describe the concept of "triggers".
+- Is the DynamoDB Stream feature enabled by default?
+
+#### Notes
 
 > A popular social network is hosted in AWS and is using a DynamoDB table as its database. There is a requirement to implement a 'follow' feature where users can subscribe to certain updates made by a particular user and be notified via email. Which of the following is the most suitable solution that you should implement to meet the requirement?
 
@@ -243,14 +260,6 @@ _Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM rol
 - Immediately after an item in the table is modified, a new record appears in the table's stream. AWS Lambda polls the stream and invokes your Lambda function synchronously when it detects new stream records. The Lambda function can perform any actions you specify, such as sending a notification or initiating a workflow.
 
 - Remember that the DynamoDB Stream feature is not enabled by default.
-
-### Questions
-
-- What is a DynamoDB stream?
-- When are events on a table captured, and what does the stream record capture?
-- Can you configure the stream record to capture more information than just the primary key attribute(s) of the modified record?
-- Describe the concept of "triggers".
-- Is the DynamoDB Stream feature enabled by default?
 
 ---
 
