@@ -1,26 +1,9 @@
 ## EFS
 
-- An Amazon EFS file system provides a standard file system interface and file system access semantics, allowing you to seamlessly integrate Amazon EFS with your existing applications and tools. EFS can be used with AWS services like EC2, ECS, and others.
-
-- Multiple Amazon EC2 instances can access an Amazon EFS file system at the same time, allowing Amazon EFS to provide a common data source for workloads and applications running on more than one Amazon EC2 instance.
-
-- Amazon Elastic File System (Amazon EFS) automatically grows and shrinks as you add and remove files with no need for management or provisioning.
-
-- With support for inter-region VPC peering, you can connect EC2 instances in one region to EFS file systems in another.
-
-- It is not possible to share a single EBS volume between multiple EC2 instances
-
-- EFS is high-available storage that can span multiple availability zones.
-
-- EBS volume is a storage area network (SAN) storage and _not_ a POSIX-compliant shared file system (life EFS).
-
-- You can schedule automatic incremental backups of your EFS file system using the EFS-to-EFS Backup solution.
-
-- Amazon EFS is not supported on Windows instances, it is only useable for Linux-based systems.
-
 ### Questions
 
-- What is EFS and how is it different from EBS and S3?
+- Describe the key differences between EBS, EFS, and S3.
+- Describe block storage, file storage, and object storage.
 - Does EFS automatically scale up and down with your infrastructure?
 - Is it possible to share an **EBS instance** with multiple EC2 instances?
 - Can you connect EC2s in one region to an EFS file system in another region?
@@ -28,36 +11,70 @@
 - How can you back up your EFS?
 - Can EFS be used on Windows machines?
 
+#### Notes
+
+- EBS is block storage, with managed encryption, and can only be attached to one EC2 instance. EFS is file storage and shared amongst multiple EC2 instances with automatic scaling. S3 is object storage, it's scalable and can be accessed by multiple EC2 instances and other cloud services.
+
+- Block storage means all data is stored in equal sized blocks, this systems allows for some performance advantages over traditional storage. File storage is the common directory-based storage found on computers, it follows a hierarchical pattern but doesn't provide the increased potential for complex queries. Object storage is similar to file storage, however the files are stored in the same _flat_ plane with comprehensive metadata to make it more accessible. The flatness of object storage plus the extensive metadata (provided by S3), makes it easier to run complex queries against the storage system.
+
+- An Amazon EFS file system provides a standard file system interface allowing you to seamlessly integrate Amazon EFS with your existing applications and tools. EFS can be used with AWS services like EC2, ECS, and others.
+
+- Multiple EC2 instances can access an Amazon EFS file system at the same time, this allows EFS to provide a common data source for workloads and applications running on more than one EC2 instance.
+
+- Amazon Elastic File System (Amazon EFS) automatically grows and shrinks as you add and remove files with no need for management or provisioning.
+
+- With support for inter-region VPC peering, you can connect EC2 instances in one region to EFS file systems in another.
+
+- It is not possible to share a single EBS volume between multiple EC2 instances
+
+- EFS is highly-available storage that can span multiple availability zones.
+
+- You can schedule automatic incremental backups of your EFS file system using the EFS-to-EFS Backup solution.
+
+- Amazon EFS is not supported on Windows instances, **it is only useable for Linux-based systems.**
+
 ---
 
 ## CloudWatch Events
+
+### Questions
+
+- What are CloudWatch Events, Rules, and Targets?
+- Can a single Rule route to multiple targets?
+- Does a target have to be in the same region as a rule?
+- What is Amazon EventBridge, does it use the same underlying infrastructure as CloudWatch Events?
+- What are some key differences between CW-Alarms and CW-Events?
+
+#### Notes
 
 > An application is hosted in an AWS Fargate cluster that runs a batch job whenever an object is loaded on an Amazon S3 bucket. The minimum number of ECS Tasks is initially set to 1 to save on costs, and it will only increase the task count based on the new objects uploaded on the S3 bucket. Once processing is done, the bucket becomes empty and the ECS Task count should be back to 1.
 
 _Set up a CloudWatch Event rule to detect S3 object PUT operations and set the target to the ECS cluster with the increased number of tasks. Create another rule to detect S3 DELETE operations and set the target to the ECS Cluster with 1 as the Task count._
 
-- You can use CloudWatch Events to run Amazon ECS tasks when certain AWS events occur.
+- **Events** – An event indicates a change in your AWS environment.
 
-- You can create a CloudWatch Events rule for an S3 service that will watch for object-level operations – PUT and DELETE objects. **For object-level operations, it is required to create a CloudTrail trail first.** On the Targets section, select the “ECS task” and input the needed values such as the cluster name, task definition, and the task count. You need two rules – one for the scale-up and another for the scale-down of the ECS task count.
+- **Rules** – A rule matches incoming events and routes them to targets for processing. **A single rule can route to multiple targets**, all of which are processed in parallel.
 
-- Creating your own Lambda function for this scenario is not really necessary. It is much simpler to **control ECS task directly as target for the CloudWatch Event rule.** CloudWatch Events can directly target an ECS task on the Targets section when you create a new rule.
+- **Targets** – A target processes events, targets can include EC2, Lambda, Kinesis, ECS, etc. **A rule's targets must be in the same Region as the rule.**
 
 - CloudWatch Alarms deliver near real-time stream of system events that describe changes in AWS resources. Events respond to these operational changes and take corrective action as necessary, by sending messages to respond to the environment, activating functions, making changes, and capturing state information.
 
 - Amazon EventBridge is a service that builds upon the CloudWatch Events service API. Both Amazon EventBridge and CloudWatch Events use the same underlying infrastructure. You can still continue managing events through CloudWatch Events but the preferred way is to manage events via Amazon EventBridge.
 
-### Questions
-
-- Can you use CloudWatch Events to trigger ECS tasks when events occur?
-- Can you create a CloudWatch events rule for S3 services to watch for _object-level_ operations?
-- What are S3 object-level operations?
-- For object-level operations in S3, what do you first need to create to track the events?
-- Describe CloudWatch Events.
-- What is Amazon EventBridge, does it use the same underlying infrastructure as CloudWatch Events?
+- CW-Alarms **watch a single metric** and respond to changes for that metric. CW-Events response to **actions**, such as a lambda being created or a change in the AWS environment.
 
 ---
 
 ## ECS Cluster
+
+### Questions
+
+- With ECS, what two locations can you store your sensitive data for injection into your containers?
+- Docker Secrets is only usable for what service?
+- What is the AWS recommended way to secure sensitive data for containers?
+- Should you store sensitive credentials in S3? What is a better alternative?
+
+#### Notes
 
 > prompt: A media company has an Amazon ECS Cluster, which uses the Fargate launch type, to host its news website. The database credentials should be supplied using environment variables, to comply with strict security compliance. As the Solutions Architect, you have to ensure that the credentials are secure and that they cannot be viewed in plaintext on the cluster itself.
 
@@ -65,32 +82,31 @@ _Use the AWS Systems Manager Parameter Store to keep the database credentials an
 
 - Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in either **AWS Secrets Manager** secrets or **AWS Systems Manager Parameter Store** parameters and then referencing them in your container definition.
 
-**Secrets can be exposed to a container in the following ways:**
-
-1. To inject sensitive data into your containers as environment variables, use the `secrets` container definition parameter.
-
-1. To reference sensitive information in the log configuration of a container, use the `secretOptions` container definition parameter.
-
 - Although you can use Docker Secrets to secure the sensitive database credentials, this feature is only applicable in Docker Swarm. In AWS, the recommended way to secure sensitive data is either through the use of **Secrets Manager or Systems Manager Parameter Store.**
 
-- It is not recommended to store sensitive credentials in S3. This entails a lot of overhead and manual configuration steps which can be simplified by simply using the Secrets Manager or Systems Manager Parameter Store.
-
-### Questions
-
-- With ECS, what two locations can you store your sensitive data for injection into your containers?
-- What container definition parameter would you use to inject sensitive data into your containers as **environment variables?**
-- What container definition parameter would you use to reference sensitive data in your container's **log configuration**?
-- Docker Secrets is only usable for what service?
-- What is the AWS recommended way to secure sensitive data for containers?
-- Should you store sensitive credentials in S3? What is a better alternative?
+- It is not recommended to store sensitive credentials in S3. This entails a lot of overhead and manual configuration steps which can be simplified by simply using the **Secrets Manager** or **Systems Manager Parameter Store**.
 
 ---
 
 ## Amazon FSx for Windows
 
-- Amazon FSx for Windows File Server provides fully managed Microsoft Windows file servers, backed by a fully native Windows file system. Amazon FSx for Windows File Server has the features, performance, and compatibility to easily lift and shift enterprise applications to the AWS Cloud.
+### Questions
 
-- Amazon EFS is a managed NAS filer for EC2 instances based on **Network File System (NFS)** version 4. FSx for Windows, on the other hand, is a managed Windows Server that runs **Windows Server Message Block (SMB)**-based file services.
+- What is FSx for Windows?
+- What does EFS run as its file sharing protocol?
+- What does FSx run as its file sharing protocol?
+- What does NFS stand for?
+- What does SMB stand for?
+- What Operating systems can FSx run on?
+- What Operating systems can EFS run on?
+
+#### Notes
+
+- Amazon FSx for Windows File Server provides fully managed Microsoft Windows file servers. Amazon FSx for Windows File Server has the features, performance, and compatibility to easily lift and shift enterprise applications to the AWS Cloud.
+
+- Amazon EFS is a managed NAS filer for EC2 instances based on **Network File System (NFS)** version 4.
+
+- FSx for Windows, on the other hand, is a managed Windows Server that runs **Windows Server Message Block (SMB)**-based file services.
 
 - NFS is one of the first network file sharing protocols native to Unix and Linux.
 
@@ -102,19 +118,17 @@ _Use the AWS Systems Manager Parameter Store to keep the database credentials an
 
 - **Amazon EFS only supports Linux workloads.**
 
-### Questions
-
-- What is FSx for Windows?
-- What does FSx run as its file sharing protocol?
-- What does EFS run as its file sharing protocol?
-- What does SMB stand for?
-- What does NFS stand for?
-- What Operating systems can FSx run on?
-- What Operating systems can EFS run on?
-
 ---
 
 ## Lambda + RDS
+
+### Questions
+
+- What type of events can RDS detect?
+- Native functions and stored procedures can be used to capture data-modifying events?
+- When working with RDSs' what kind of procedure, or event, is capable of triggering a lambda function?
+
+#### Notes
 
 > A car dealership website hosted in Amazon EC2 stores car listings in an Amazon Aurora database managed by Amazon RDS. Once a vehicle has been sold, its data must be removed from the current listings and forwarded to a distributed processing system.
 
@@ -124,12 +138,7 @@ _Create a native function or a stored procedure that invokes a Lambda function. 
 
 - You can trigger a Lambda function whenever a listing is deleted from the database. You can then write the logic of the function to send the listing data to an SQS queue and have different processes consume it.
 
-- **RDS events only provide operational events** such as DB instance events, DB parameter group events, DB security group events, and DB snapshot events. What we need in the scenario is to capture data-modifying events (INSERT, DELETE, UPDATE) which can be achieved thru native functions or stored procedures.
-
-### Questions
-
-- Can RDS events be used to track and trigger other events when a data-modifying event occurs on it?
-- What needs to be used to trigger a lambda function?
+- **RDS events only provide operational events** such as DB instance events, DB parameter group events, DB security group events, and DB snapshot events. **What we need in the scenario is to capture data-modifying events (INSERT, DELETE, UPDATE) which can be achieved thru native functions or stored procedures.**
 
 ---
 
@@ -265,3 +274,51 @@ _Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM rol
 - What types of data can you inject in real-time with Kinesis?
 - Does Kinesis need to wait for all data to be collected before responding?
 - Is Kinesis fully managed?
+
+---
+
+## AWS Organizations + AWS Resource Access Manager (RAM)
+
+> A global IT company with offices around the world has multiple AWS accounts. To improve efficiency and drive costs down, the Chief Information Officer (CIO) wants to set up a solution that centrally manages their AWS resources. This will allow them to procure AWS resources centrally and share resources such as AWS Transit Gateways, AWS License Manager configurations, or Amazon Route 53 Resolver rules across their various accounts.
+
+AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
+
+Many organizations use multiple accounts to create administrative or billing isolation, and limit the impact of errors. RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts. RAM is available to you at no additional charge.
+
+You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.
+
+AWS Organizations is an account management service that lets you consolidate multiple AWS accounts into an organization that you create and centrally manage. With Organizations, you can create member accounts and invite existing accounts to join your organization. You can organize those accounts into groups and attach policy-based controls.
+
+Hence, the correct combination of options in this scenario is:
+
+- Consolidate all of the company's accounts using AWS Organizations.
+
+- Use the AWS Resource Access Manager (RAM) service to easily and securely share your resources with your AWS accounts.
+
+The option that says: Use the AWS Identity and Access Management service to set up cross-account access that will easily and securely share your resources with your AWS accounts is incorrect because although you can delegate access to resources that are in different AWS accounts using IAM, this process is extremely tedious and entails a lot of operational overhead since you have to manually set up cross-account access to each and every AWS account of the company. A better solution is to use AWS Resources Access Manager instead.
+
+The option that says: Use AWS Control Tower to easily and securely share your resources with your AWS accounts is incorrect because AWS Control Tower simply offers the easiest way to set up and govern a new, secure, multi-account AWS environment. This is not the most suitable service to use to securely share your resources across AWS accounts or within your Organization. You have to use AWS Resources Access Manager (RAM) instead.
+
+The option that says: Consolidate all of the company's accounts using AWS ParallelCluster is incorrect because AWS ParallelCluster is simply an AWS-supported open-source cluster management tool that makes it easy for you to deploy and manage High-Performance Computing (HPC) clusters on AWS. In this particular scenario, it is more appropriate to use AWS Organizations to consolidate all of your AWS accounts.
+
+---
+
+## Amazon Macie
+
+> A government entity is conducting a population and housing census in the city. Each household information uploaded on their online portal is stored in encrypted files in Amazon S3. The government assigned its Solutions Architect to set compliance policies that verify sensitive data in a manner that meets their compliance standards. They should also be alerted if there are compromised files detected containing personally identifiable information (PII), protected health information (PHI) or intellectual properties (IP).
+
+Amazon Macie is an ML-powered security service that helps you prevent data loss by automatically discovering, classifying, and protecting sensitive data stored in Amazon S3. Amazon Macie uses machine learning to recognize sensitive data such as personally identifiable information (PII) or intellectual property, assigns a business value, and provides visibility into where this data is stored and how it is being used in your organization.
+
+Amazon Macie continuously monitors data access activity for anomalies, and delivers alerts when it detects risk of unauthorized access or inadvertent data leaks. Amazon Macie has ability to detect global access permissions inadvertently being set on sensitive data, detect uploading of API keys inside source code, and verify sensitive customer data is being stored and accessed in a manner that meets their compliance standards.
+
+Hence, the correct answer is: Set up and configure Amazon Macie to monitor and detect usage patterns on their Amazon S3 data.
+
+The option that says: Set up and configure Amazon Rekognition to monitor and recognize patterns on their Amazon S3 data is incorrect because Rekognition is simply a service that can identify the objects, people, text, scenes, and activities, as well as detect any inappropriate content on your images or videos.
+
+The option that says: Set up and configure Amazon GuardDuty to monitor malicious activity on their Amazon S3 data is incorrect because GuardDuty is just a threat detection service that continuously monitors for malicious activity and unauthorized behavior to protect your AWS accounts and workloads.
+
+The option that says: Set up and configure Amazon Inspector to send out alert notifications whenever a security violation is detected on their Amazon S3 data is incorrect because Inspector is basically an automated security assessment service that helps improve the security and compliance of applications deployed on AWS.
+
+---
+
+AWS DataSync, SES, API Gateway, SES, Redshift, SWF, AWS Glue, EMR, GuardDuty, MQ, Kinesis, AppStream, SnowMobile, Snowball Edge, Route 53, A-N-C Gateways, STS
