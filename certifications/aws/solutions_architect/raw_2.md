@@ -259,7 +259,7 @@ _Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM rol
 
 - Immediately after an item in the table is modified, a new record appears in the table's stream. AWS Lambda polls the stream and invokes your Lambda function synchronously when it detects new stream records. The Lambda function can perform any actions you specify, such as sending a notification or initiating a workflow.
 
-- Remember that the DynamoDB Stream feature is not enabled by default.
+- **the DynamoDB Stream feature is not enabled by default.**
 
 ---
 
@@ -330,4 +330,161 @@ The option that says: Set up and configure Amazon Inspector to send out alert no
 
 ---
 
-AWS DataSync, SES, API Gateway, SES, Redshift, SWF, AWS Glue, EMR, GuardDuty, MQ, Kinesis, AppStream, SnowMobile, Snowball Edge, Route 53, A-N-C Gateways, STS
+AWS DataSync, Redshift, SWF, AWS Glue, EMR, GuardDuty, MQ, Kinesis, AppStream, SnowMobile, Snowball Edge, Route 53, A-N-C Gateways, STS
+
+## AWS DataSync
+
+### Questions
+
+- What two ways can DataSync move data traffic between services?
+- Is DataSync suitable for hybrid on-prem/cloud architectures? What's a better alternative?
+- What is used to transfer data from your on-prem environment to AWS?
+
+#### Notes
+
+- AWS DataSync is an **online data transfer service**. It is primarily used to move data from on-prem solutions to the cloud.
+
+- **If you want hybrid on-prem / AWS storage capabilities use AWS Storage gateway instead of DataSync.**
+
+- AWS DataSync simplifies, automates, and accelerates the process of copying large amounts of data to and from on-prem storage systems and/or AWS storage services over the Internet or over AWS Direct Connect.
+
+- Allows you to **copy large amounts of data over the internet, or via direct connect,** to and from AWS storage services.
+
+- Can copy data between shared file servers, self-managed object storage, AWS SnowCone, S3, EFS, and FSx for Windows.
+
+- Transfers your data from your on-prem data center to AWS through the use of a **DataSync Agent.** An Agent is a virtual machine used to read data from or write data to an on-premises location.
+
+---
+
+## AWS SES
+
+### Questions
+
+- What is SES what does it provide?
+- How is SES different than SNS?
+- Is SES regional or global?
+
+#### Notes
+
+- **SES provides a bulk and transactional email-sending service.** Amazon SES eliminates the complexity and expense of building an in-house email solution or licensing, installing, and operating a third-party email service. The service integrates with other AWS services, making it easy to send emails from applications being hosted on services such as Amazon EC2.
+
+- SNS however is a fully managed push messaging service. **Amazon Simple Notification Service makes it simple and cost-effective to push to mobile devices such as iPhone, iPad, Android, Kindle Fire, and internet connected smart devices, as well as pushing to other distributed services.** Besides pushing cloud notifications directly to mobile devices, **SNS can also deliver notifications by SMS text message or email, to Simple Queue Service (SQS) queues, or to any HTTP endpoint.**
+
+- SES is a regional service.
+
+- Common use cases: transactional emails and marketing emails.
+
+---
+
+## AWS SWF
+
+### Questions
+
+- What is SWF?
+
+- Does SWF organize and process sequential events, what is a more popular alternative to SWF?
+
+#### Notes
+
+- SWF helps developers build, run, and scale background jobs that have parallel or sequential steps. You can think of Amazon SWF as a fully-managed state tracker and task coordinator in the Cloud. If your app’s steps take more than 500 milliseconds to complete, you need to track the state of processing, and you need to recover or retry if a task fails, Amazon SWF can help you.
+
+- SWF is used to help organize and process a sequential order of events. It can be used to track and manage the workflow of your processes.
+
+- SWF is awkward to work with, step-functions are the more modern approach to setting workflow steps in AWS.
+
+---
+
+## Redshift
+
+### Questions
+
+- What is AWS Redshift?
+- What querying language does Redshift use?
+- How many concurrent users can interface with Redshift?
+- Does Redshift automatically back up your data?
+
+#### Notes
+
+- A fully managed, **petabyte-scale data warehouse service.** Redshift extends data warehouse queries to your data lake. You can run analytic queries against petabytes of data stored locally in Redshift, and directly against exabytes of data stored in S3.
+
+- Allows you to **analyze all your data using standard SQL** or through your existing business intelligence tools.
+
+- Offers concurrency scaling feature that supports unlimited concurrent users and concurrent queries.
+
+- Redshift automatically and continuously backs up your data to S3. It can asynchronously replicate your snapshots to S3 in another region for disaster recovery.
+
+---
+
+## AWS Glue
+
+### Questions
+
+- What does AWS Glue do?
+
+#### Notes
+
+- AWS Glue is a fully managed ETL (extract, transform, and load) service that makes it simple and cost-effective to categorize your data, clean it, enrich it, and move it reliably between various data stores and data streams. AWS Glue is a serverless data integration service that makes it easy to discover, prepare, and combine data for analytics, machine learning, and application development. AWS Glue provides all the capabilities needed for data integration, so you can start analyzing your data and putting it to use in minutes instead of months.
+
+- You can use AWS Glue to organize, cleanse, validate, and format data for storage in a data warehouse or data lake.
+
+---
+
+## AWS EMR
+
+### Questions
+
+- What is EMR?
+
+#### Notes
+
+- **A managed cluster platform that simplifies running big data frameworks**, such as Apache Hadoop and Apache Spark, on AWS to process and analyze vast amounts of data.
+
+- You can process data for analytics purposes and business intelligence workloads using EMR together with Apache Hive and Apache Pig.
+
+- You can use EMR to transform and move large amounts of data into and out of other AWS data stores and databases.
+
+---
+
+## AWS GuardDuty
+
+### Questions
+
+- What does AWS GuardDuty provide?
+
+- Describe the three severity events that GuardDuty provides.
+
+#### Notes
+
+- Amazon GuardDuty is a threat detection service that continuously monitors for malicious activity and unauthorized behavior to protect your Amazon Web Services accounts, workloads, and data stored in Amazon S3.
+
+- Amazon GuardDuty offers CloudWatch Events, CLI tools, and HTTPS APIs to assist you in creating your own custom automated functions to handle all alerted threats.
+
+- To help you to determine the action you want to take for each alert, GuardDuty provides three levels of severity which we will take a deeper look at in just a moment:
+
+1. **Low severity:** indicates threats that have already been removed or blocked before compromising any resource.
+1. **Medium severity:** indicates suspicious activity, such as an increase in traffic specifically directed to, for example, bitcoin related domains, indicating cryptocurrency mining.
+1. **High severity:** indicates a resource that is fully compromised and is constantly being used for unintended purposes.
+
+---
+
+## AWS MQ
+
+### Questions
+
+#### Notes
+
+- AWS MQ is a managed Apache ActiveMQ(or RabbitMQ) broker service.
+
+- This provides you a fully managed Apache ActiveMQ system in the cloud, with support for a variety of industry-standard queue and broadcast protocols like AMQP, JMS etc. It is useful when you have complicated delivery rules - or when you're migrating an existing system from outside AWS into AWS, and your systems happen to talk to one another with a standard queueing protocol.
+
+---
+
+---
+
+## AWS Glue
+
+### Questions
+
+#### Notes
+
+---

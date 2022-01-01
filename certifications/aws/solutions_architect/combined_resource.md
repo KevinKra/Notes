@@ -128,7 +128,7 @@
 
 # KMS / SSE-C - Encryption related
 
-- **Client-side encryption** is the act of encrypting data _before_ sending it to S3. 
+- **Client-side encryption** is the act of encrypting data _before_ sending it to S3.
 - There are two options to enable client-side encryption: **AWS-managed customer key** or use a **client-side master key.**
 - When you use an AWS KMS-managed customer master key to enable client-side data encryption, _you provide an AWS KMS customer master key ID (CMK ID) to AWS._
 - When you use a client-side master key, **for client-side data encryption**, your client-side master keys and your encrypted data are **_never_** sent to AWS.
@@ -170,6 +170,7 @@
 - Unlike the Amazon S3 encryption clients in the language-specific AWS SDKs, the AWS Encryption SDK is not tied to Amazon S3 and can be used to encrypt or decrypt data to be stored anywhere.
 
 ### Questions
+
 1. Explain how client-side encryption and server-side encryption is handled in relation to AWS.
 1. What are the **two** options for to enabling client-side encryption for AWS?
 1. If you use AWS-KMS does AWS gain access to your master-key?
@@ -192,8 +193,9 @@
 1. What three ways can you protect data in-transit to AWS?
 
 ### Answers
+
 1. With client-side encryption, data is encrypted locally on the client and then sent in an _encrypted_ manner to AWS. At no point does AWS ever have unencrypted versions of the data. With server-side encryption, your data is sent in a secure manner (most likely) over SSL or TLS, but then arrives in AWS in an unencrypted manner and AWS _then_ encrypts it before saving it to a disk.
-1. You can either let AWS manage your keys using AWS-KMS, or you can manage the keys (*depending on the pattern you use*) locally using client-side encryption.
+1. You can either let AWS manage your keys using AWS-KMS, or you can manage the keys (_depending on the pattern you use_) locally using client-side encryption.
 1. Yes. If you use KMS you would provide your master-key to AWS for them to include in their management solution (KMS).
 1. Yes. If you use SSE-C, you provide your master-key to AWS so it can encrypt and decrypt your data for you in AWS.
 1. No. S3 encryption client will _only_ use your master-key to encrypt the data-key/symmetric-key it generated to encrypt your object.
@@ -206,11 +208,11 @@
 1. TLS, or **Transport Security Layer**, released in 1999 is the successor to SSL. It is also a protocol for authentication and encryption between computers.
 1. SSL/TLS uses port `443` as the standard, and recommended, port.
 1. The most common usage for secure web-browsing that uses the SSL/TLS protocol is the **HTTPS** protocol.
-1. Authenticity, Integrity, and Encryption. 
+1. Authenticity, Integrity, and Encryption.
 1. **Authenticity:** The server presenting the certificate is in possession of the private key that matches the public key in the certificate.
 1. **Integrity:** Documents signed by the certificate (e.g. web pages) have not been altered in transit by a man in the middle.
 1. **Encryption:** Communications between the client and server are encrypted.
-1. HTTP websites send and receive data in plain text and is readily readily available to any eavesdropper with access to the data stream. 
+1. HTTP websites send and receive data in plain text and is readily readily available to any eavesdropper with access to the data stream.
 1. You can send data securely using SSL/TLS (HTTPS) protocols or encrypt it on client before sending it out.
 
 ---
@@ -831,6 +833,7 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 # CloudWatch
 
 ### Questions
+
 1. What is CloudWatch?
 1. What kind of features can CloudWatch provide?
 1. What are System Metrics?
@@ -856,6 +859,7 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 1. If your metrics come in every 5-minutes, but your alarm is set to look for data every 1-minute, what will happen?
 
 ### Answers
+
 1. CloudWatch is a monitoring and observability platform.
 1. System Metrics, Application Metrics, Alarms.
 1. **System Metrics** provides metrics that you get out of the box, the more managed the service the more information you will receive.
@@ -873,10 +877,663 @@ if a file is to be encrypted at **upload time** the `x-amz-server-side-encryptio
 1. A **Log Stream** is a collection of **log events** from the same source (the _same_ EC2 instance for example.
 1. A **Log Group** is a collection of **log steams**. For example, you could group all of your Apache web server logs across hosts together.
 1. You can look for specific terms in your logs using Filter Patterns. Think 400 errors in your web server logs.
-1.  **CloudWatch Logs Insights?** allows you to query all your logs using a _SQL-like_ interactive solution.
+1. **CloudWatch Logs Insights?** allows you to query all your logs using a _SQL-like_ interactive solution.
 1. `sudo yum install amazon-cloudwatch-agent -y`. Yes, amazon-cloud-watch-agent is the unified agent for all AWS metrics and logs.
 1. S3 can store CloudWatch logs.
 1. CloudWatch Logs is considered the _go-to_ tool for referencing logs.
 1. AWS Kinesis provides real-time log details.
 1. No. CloudWatch is not the ideal tool to track appropriate AMIs or similar configurations, use **AWS Config** for that.
 1. You will never receive data with that mismatch. You need to match the intervals.
+
+---
+
+## API Gateway
+
+### Questions
+
+- What status code do requests get when they're over the Gateway throttling limit?
+- Can you run multiple version of the same API simultaneously?
+- Generally, how does the throttling work for API Gateway to limit requests to backend systems?
+- Are API endpoints HTTPS or HTTP?
+
+#### Notes
+
+- API Gateway provides throttling at multiple levels. For example, API owners can set a rate limit of 1,000 requests per second for a specific method in their REST APIs, and also configure Amazon API Gateway to handle a burst of 2,000 requests per second for a few seconds.
+
+- API Gateway lets you run multiple versions of the same API simultaneously with **API Lifecycle**.
+
+- API Gateway helps you manage traffic to your backend systems by allowing you to set throttling rules based on the number of requests per second for each HTTP method in your APIs.
+
+- **All of the APIs created expose HTTPS endpoints only. API Gateway does not support unencrypted (HTTP) endpoints.**
+
+---
+
+## Amazon RDS
+
+### Questions
+
+- Where are the logs from RDS Enhanced Monitoring stored?
+- What are two ways you can view data from RDS Enhanced Monitoring?
+- What is the default amount of time EM logs are stored in CloudWatch?
+- CloudWatch and Enhanced Monitoring collect metrics from two different levels of an RDS instance, what are they and what is the result?
+- Can you install the CloudWatch agent on RDS instances for custom metrics?
+- Are `CPU%` and `MEM%` metrics readily available on the RDS console?
+- When using Multi-AZ deployment, are standby replicas synchronous or asynchronous?
+- Are RDS read replicas synchronous or asynchronous?
+
+#### Notes
+
+- Amazon RDS provides metrics in real time for the operating system (OS) that your DB instance runs on.
+
+- You can view the metrics for your DB instance using the **console**, or consume the **Enhanced Monitoring JSON output from CloudWatch Logs** in a monitoring system of your choice.
+
+- Enhanced Monitoring requires permission to act on your behalf to send OS metric information to CloudWatch Logs.
+
+- By default, Enhanced Monitoring metrics are **stored in the CloudWatch Logs for 30 days.**
+
+- Take note that there are certain differences between CloudWatch and Enhanced Monitoring Metrics. CloudWatch gathers metrics about CPU utilization from the hypervisor for a DB instance, and Enhanced Monitoring gathers its metrics from an agent on the instance. As a result, you might find differences between the measurements, because the hypervisor layer performs a small amount of work.
+
+- `CPU%` and `MEM%` metrics are not readily available in the Amazon RDS console
+
+- The data provided by CloudWatch is not as detailed as compared with the Enhanced Monitoring feature in RDS. **Take note as well that you do not have direct access to the instances/servers of your RDS database instance**, unlike with your EC2 instances where you can install a CloudWatch agent or a custom script to get CPU and memory utilization of your instance.
+
+- Using Amazon CloudWatch to monitor the CPU Utilization of your database is incorrect because although you can use this to monitor the CPU Utilization of your database instance, it does not provide the percentage of the CPU bandwidth and total memory consumed by each database process in your RDS instance.
+
+- When you create or modify your DB instance to run as a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a **synchronous standby** replica in a different Availability Zone.
+
+- **Read Replicas provides an asynchronous replication** instead of synchronous.
+
+---
+
+## EC2
+
+### Questions
+
+- What is the AWS Nitro System?
+- Can EBS persist independently from an EC2 instance?
+- Can an EC2 Instance Store persist independently from an EC2 instance?
+- If you want an EBS volume with up to 64,000 IOPS, what type of EC2 instance do you have to launch to guarantee that?
+- Data in the an instance store is lost under what three circumstances?
+- What is Amazon EFS, what type of volume is it, can it provide 64,000 IOPS?
+- What is the initial level scale-in policy?
+- What is the AZ level scale-in policy?
+- If there are multiple valid instances in an AZ, what is the next scale-in criteria?
+- If there are multiple unprotected instances close to the next billing hour, which is deleted?
+
+#### Notes
+
+- The AWS Nitro System is the underlying platform for the latest generation of EC2 instances that enables AWS to innovate faster, further reduce the cost of the customers, and deliver added benefits like increased security and new instance types.
+
+- **Amazon EBS** can persist independently from the life of an EC2 instance.
+
+- Since the scenario requires you to have an EBS volume with up to 64,000 IOPS, you have to launch a Nitro-based EC2 instance, since the maximum IOPS and throughput (64,000 IOPS) is **only** guaranteed on instances built with the Nitro system provisioned with more than 32k IOPS. Other instances guarantee up to 32,000 IOPS only.
+
+- Although an **Instance Store** is a block storage volume, it is not persistent and the data will be gone if the instance is restarted from the stopped state. (note that this is different from the OS-level reboot. In OS-level reboot, data still persists in the instance store).
+
+- An **instance store** only provides temporary block-level storage for your instance. It means that the **data in the instance store can be lost if the underlying disk drive fails, if the instance stops, or if the instance terminates.**
+
+- Although **Amazon EFS** can provide over 64,000 IOPS, this solution uses a file system and not a block storage volume.
+
+**With the default termination policy, the behavior of the Auto Scaling group is as follows:**
+
+1. If there are instances in multiple Availability Zones, choose the Availability Zone with the most instances and at least one instance that is not protected from scale in. If there is more than one Availability Zone with this number of instances, choose the Availability Zone with the instances that use the oldest launch configuration.
+
+2. Determine which unprotected instances in the selected Availability Zone use the oldest launch configuration. If there is one such instance, terminate it.
+
+3. If there are multiple instances to terminate based on the above criteria, determine which unprotected instances are closest to the next billing hour. (This helps you maximize the use of your EC2 instances and manage your Amazon EC2 usage costs.) If there is one such instance, terminate it.
+
+4. If there is more than one unprotected instance closest to the next billing hour, choose one of these instances at random.
+
+---
+
+## Microsoft Active Directory
+
+### Questions
+
+- What is Microsoft Active Directory, what language is it implemented in?
+- What does SAML stand for?
+- What identity federation does AWS support that many idPs use?
+- What do you need to implement SAML 2.0-Based Federation in AWS?
+- What is the benefit of using SAML with AWS, what process does it simplify?
+
+#### Notes
+
+- Microsoft Active Directory implements **Security Assertion Markup Language (SAML)**, you can set up a SAML-Based Federation for API Access to your AWS cloud. In this way, you can easily connect to AWS using the login credentials of your on-premises network.
+
+- **AWS supports identity federation with SAML 2.0, an open standard that many identity providers (IdPs) use.** This feature enables federated single sign-on (SSO), so users can log into the AWS Management Console or call the AWS APIs without you having to create an IAM user for everyone in your organization.
+
+- By using SAML, you can simplify the process of configuring federation with AWS, because you can use the IdP's service instead of writing custom identity proxy code.
+
+- Implement SAML 2.0-Based Federation by using a **Microsoft Active Directory Federation Service (AD FS)**. Before you can use SAML 2.0-based federation, you must configure your organization's IdP and your AWS account to trust each other. The general process for configuring this trust is described in the following steps. Inside your organization, you must have an IdP that supports SAML 2.0, like Microsoft Active Directory Federation Service (AD FS, part of Windows Server), Shibboleth, or another compatible SAML 2.0 provider.
+
+- Setting up SAML 2.0-Based Federation by using a **Web Identity Federation** is primarily used to let users sign in via a well-known external identity provider (IdP), such as Login with Amazon, Facebook, Google. It does not utilize Active Directory.
+
+---
+
+## CloudFront
+
+### Questions
+
+- What can you use (2) to control access to content via CloudFront?
+- If your users are using a client that doesn't support cookies, which access control should you use?
+- If you want to restrict access to individual files, which access control should you use?
+- If you want to provide access to multiple restricted files, which access control should you use?
+- If you don't want to change your current URLs in order modify access rights, which access control should you use?
+- What is CloudFront Match Viewer user for?
+- What is CloudFront Field-Level Encryption user for?
+
+#### Notes
+
+- CloudFront **signed URLs** and **signed cookies** provide the same basic functionality: they allow you to control who can access your content.
+
+_**Use signed URLs for the following cases:**_
+
+1. You want to use an RTMP distribution. Signed cookies aren't supported for RTMP distributions.
+
+1. **You want to restrict access to individual files**, for example, an installation download for your application.
+
+1. Your users are using a client (for example, a custom HTTP client) that doesn't support cookies.
+
+_**Use signed cookies for the following cases:**_
+
+1. **You want to provide access to multiple restricted files,** for example, all of the files for a video in HLS format or all of the files in the subscribers' area of a website.
+
+1. You don't want to change your current URLs.
+
+- Use Signed Cookies to control who can access the private files in your CloudFront distribution by modifying your application to determine whether a user should have access to your content. For members, send the required _Set-Cookie_ headers to the viewer which will unlock the content only to them.
+
+- CloudFront **Signed URLs** are primarily used for providing access to individual files.
+
+- The scenario explicitly says that they don't want to change their current URLs which is why implementing Signed Cookies is more suitable than Signed URL.
+
+- CloudFront **Match Viewer** is an Origin Protocol Policy which configures CloudFront to communicate with your origin using HTTP or HTTPS, depending on the protocol of the viewer request. CloudFront caches the object only once even if viewers make requests using both HTTP and HTTPS protocols.
+
+- CloudFront **Field-Level Encryption** only allows you to securely upload user-submitted sensitive information to your web servers. It does not provide access to download multiple private files.
+
+---
+
+## Lambda
+
+### Questions
+
+- What type of events can RDS detect?
+- Native functions and stored procedures can be used to capture data-modifying events?
+- When working with RDSs' what kind of procedure, or event, is capable of triggering a lambda function?
+- What service is Lambda@Edge like?
+- Can Lambda@Edge be used to execute auth processes closer to users?
+- What can you use, through CloudFront, to alleviate the 504 errors users are experiencing?
+- Does Lambda require you to provision or manage servers, what do you pay for?
+- Do you need to manage the scaling and availability of lambda?
+- Can you call lambda functions directly from a web or mobile app?
+- What is a function's concurrency?
+- Can lambda be used to accommodate the handling of high-burst traffic for a limited time?
+- API Gateway with ECS, Elastic Beanstalk, Autoscaling EC2 instances, can all take minutes to spin up resources. How fast is lambda?
+
+#### Notes
+
+> A car dealership website hosted in Amazon EC2 stores car listings in an Amazon Aurora database managed by Amazon RDS. Once a vehicle has been sold, its data must be removed from the current listings and forwarded to a distributed processing system.
+
+_Create a native function or a stored procedure that invokes a Lambda function. Configure the Lambda function to send event notifications to an Amazon SQS queue for the processing system to consume._
+
+- You can invoke an AWS Lambda function from an Amazon Aurora database with a native function or a stored procedure. This approach can be useful when you want to integrate your database running on Aurora MySQL with other AWS services.
+
+- You can trigger a Lambda function whenever a listing is deleted from the database. You can then write the logic of the function to send the listing data to an SQS queue and have different processes consume it.
+
+- **RDS events only provide operational events** such as DB instance events, DB parameter group events, DB security group events, and DB snapshot events. **What we need in the scenario is to capture data-modifying events (INSERT, DELETE, UPDATE) which can be achieved thru native functions or stored procedures.**
+
+- Lambda@Edge lets you run Lambda functions to customize the content that CloudFront delivers, executing the functions in AWS locations closer to the viewer.
+
+- In the given scenario, you can use Lambda@Edge to allow your Lambda functions to customize the content that CloudFront delivers and to execute the authentication process in AWS locations closer to the users.
+
+- **You can set up an origin failover by creating an origin group with two origins with one as the primary origin and the other as the second origin which CloudFront automatically switches to when the primary origin fails.** This will alleviate the occasional HTTP 504 errors that users are experiencing.
+
+- AWS Lambda lets you run code without provisioning or managing servers. **You pay only for the compute time you consume.** With Lambda, you can run code for virtually any type of application or backend service - all with zero administration.
+
+- Just upload your code, and Lambda takes care of everything required to run and scale your code with high availability.
+
+- You can set up your code to automatically trigger from other AWS services or call it directly from any web or mobile app.
+
+- The first time you invoke your function, AWS Lambda creates an instance of the function and runs its handler method to process the event. When the function returns a response, it stays active and waits to process additional events. If you invoke the function again while the first event is being processed, Lambda initializes another instance, and the function processes the two events concurrently.
+
+- As more events come in, Lambda routes them to available instances and creates new instances as needed. When the number of requests decreases, Lambda stops unused instances to free up the scaling capacity for other functions.
+
+- **Your function's concurrency is the number of instances that serve requests at a given time.**
+
+- For an initial burst of traffic, your function's cumulative concurrency in a Region can reach an initial level of between 500 and 3000, which varies per Region.
+
+- The first requirement (to handle the bursts of traffic to the example website) is to create a solution that will allow the users to access the data using an API. To implement this solution, you can use Amazon API Gateway. The second requirement is to handle the burst of traffic within seconds. **You should use AWS Lambda in this scenario because Lambda functions can absorb reasonable bursts of traffic for approximately 15-30 minutes.**
+
+- Under the hood, Lambda can run your code to thousands of available AWS-managed EC2 instances (that are already running) within seconds to accommodate traffic. This is faster than the Auto Scaling process of launching new EC2 instances that could take a few minutes or so.
+
+---
+
+## Amazon FSx for Windows File Server
+
+### Questions
+
+- What is Amazon FSx for Windows File Server?
+- What does EFS run as its file sharing protocol?
+- What does FSx run as its file sharing protocol?
+- What does NFS stand for?
+- What does SMB stand for?
+- What Operating systems can FSx run on?
+- What Operating systems can EFS run on?
+- Can thousands of compute systems access FSx concurrently?
+- Can you change your AD configuration after creating it? What is the work around?
+- Is Amazon EFS compatible with windows?
+
+#### Notes
+
+- **Amazon FSx for Windows File Server provides fully managed, highly reliable, and scalable file storage that is accessible over the industry-standard Service Message Block (SMB) protocol.** It is built on Windows Server, delivering a wide range of administrative features such as user quotas, end-user file restore, and Microsoft Active Directory (AD) integration
+
+- Amazon FSx works with Microsoft Active Directory to integrate with your existing Microsoft Windows environments.
+
+- Take note that after you create an Active Directory configuration for a file system, you can't change that configuration. However, you can create a new file system from a backup and change the Active Directory integration configuration for that file system.
+
+- These configurations allow the users in your domain to use their existing identity to access the Amazon FSx file system and to control access to individual files and folders.
+
+- **Amazon EFS does not support Windows systems, only Linux OS.** You should use Amazon FSx for Windows File Server instead to satisfy the requirement in the scenario (scenario being a company plans to migrate its on-premises workload to AWS. The current architecture is composed of a Microsoft SharePoint server that uses a Windows shared file storage.)
+
+- Using a **Network File System (NFS)** file share using AWS Storage Gateway is incorrect because **NFS file share is mainly used for Linux systems.** Remember that the requirement in the scenario is to use a Windows shared file storage. Therefore, you must use an SMB file share instead, which supports Windows OS and Active Directory configuration.
+
+- Amazon EFS is a managed NAS filer for EC2 instances based on **Network File System (NFS)** version 4.
+
+- FSx for Windows, on the other hand, is a managed Windows Server that runs Windows **Server Message Block (SMB)**-based file services.
+
+- NFS is one of the first network file sharing protocols native to Unix and Linux.
+
+- Some Windows applications might not work on EFS or be feature-complete without access to a native Windows SMB file share.
+
+**- FSx It is accessible from Windows, Linux, and macOS compute instances and devices that support the SMB protocol.**
+
+- Thousands of compute instances and devices can access a file system concurrently.
+
+- **Amazon EFS only supports Linux workloads.**
+
+---
+
+## EBS volumes
+
+### Questions
+
+- SSD-backed volumes are ideal for what kind of operations?
+- HDD-backed volumes are ideal for what kind of operations?
+- Which volume can be used as a bootable volume: SSD or HDD?
+- Which type of SSD is more suitable for workloads on databases like MongoDB, Oracle, MySQL, etc?
+
+#### Notes
+
+- SSD-backed volumes, such as General Purpose SSD (gp2) and Provisioned IOPS SSD (io1), **deliver consistent performance whether an I/O operation is random or sequential.**
+
+- HDD-backed volumes like Throughput Optimized HDD (st1) and Cold HDD (sc1) deliver optimal performance only when **I/O operations are large and sequential.**
+
+- **SSD can be used as a bootable volume, HDD cannot.**
+
+- **Provisioned IOPS SSD volumes are much more suitable, than general purpose SSDs (gp2), in meeting the needs of I/O-intensive database workloads such as MongoDB, Oracle, MySQL, and many others.**
+
+---
+
+## Storage Gateway
+
+### Questions
+
+- What is Storage Gateway, what does it help solve?
+- Does Storage Gateway support NFS and SMB protocols?
+- Where and how is the Storage Gateway deployed?
+- What is a tape gateway?
+- Can you use direct connect with AWS storage gateway?
+- What is AWS Snowmobile? Is it suitable for creating hybrid architecture?
+
+#### Notes
+
+> A file gateway supports a file interface into Amazon Simple Storage Service (Amazon S3) and combines a service and a virtual software appliance. By using this combination, you can store and retrieve objects in Amazon S3 using industry-standard file protocols such as **Network File System (NFS) and Server Message Block (SMB)**. The software appliance, or gateway, is deployed into your on-premises environment as a virtual machine (VM) running on VMware ESXi, Microsoft Hyper-V, or Linux Kernel-based Virtual Machine (KVM) hypervisor.
+
+- **AWS Storage Gateway is a hybrid cloud storage solution that allows companies to take advantage of cloud services and migrate their on-prem applications to the cloud as appropriate per performance, compliance, or IT reasons.**
+
+- A file gateway supports a file interface into S3 and combines a service and a virtual software appliance. **By using this combination, you can store and retrieve objects in Amazon S3 using industry-standard file protocols such as Network File System (NFS) and Server Message Block (SMB).**
+
+- The software appliance, or gateway, is deployed into your on-premises environment as a virtual machine (VM).
+
+- **tape gateways** provide cost-effective and durable archive backup data in Amazon Glacier, it does not meet the criteria of being retrievable immediately within minutes. It also doesn't maintain a local cache that provides low latency access to the recently accessed data and reduce data egress charges.
+
+- **You can use AWS Direct Connect with AWS Storage Gateway to create a connection for high-throughput workload needs, providing a dedicated network connection between your on-premises file gateway and AWS.**
+
+- **Snowmobile** is mainly used to migrate the _entire data of an on-premises data center to AWS_. This is not a suitable approach as the company still has a hybrid cloud architecture which means that they will still use their on-premises data center along with their AWS cloud infrastructure.
+
+---
+
+## AWS WAF
+
+### Questions
+
+- What does WAF stand for?
+- What are some AWS services that AWS WAF is tightly integrated with? Name 4.
+- When you use AWS WAF with CloudFront, are your rules distributed globally to all edge locations?
+- What are the two types of rules for the WAF web ACL?
+- What is a rate-based rule and what, what is their time span?
+- How is a regular rule different from a rate-based rule?
+- Are NACLs able to block incoming requests from a single IP that is dynamically changing?
+- Can security groups deny traffic?
+
+#### Notes
+
+> The website is receiving a large number of illegitimate external requests from multiple systems with IP addresses that constantly change. To resolve the performance issues, the Solutions Architect must implement a solution that would block the illegitimate requests with minimal impact on legitimate traffic.
+
+- **AWS WAF**, or **Web Application Firewall**, is tightly integrated with Amazon CloudFront, the Application Load Balancer (ALB), Amazon API Gateway, and AWS AppSync – services that AWS customers commonly use to deliver content for their websites and applications.
+
+- **When you use AWS WAF on Amazon CloudFront, your rules run in all AWS Edge Locations,** located around the world close to your end-users. This means security doesn’t come at the expense of performance.
+
+- Blocked requests are stopped before they reach your web servers.
+
+- When you use AWS WAF on regional services, such as Application Load Balancer, Amazon API Gateway, and AWS AppSync, your rules run in the region and can be used to protect Internet-facing resources as well as internal resources.
+
+- A **rate-based rule** tracks the rate of requests for each originating IP address and triggers the rule action on IPs with rates that go over a limit. You set the limit as the number of requests per 5-minute time span.
+
+- AWS WAF web ACL. **There are two types of rules in creating your own web ACL rule:** **regular** and **rate-based rules**.
+
+- A **regular rule** only matches the statement defined in the rule. If you need to add a rate limit to your rule, you should create a rate-based rule.
+
+- Although NACLs can help you block incoming traffic, they wouldn't be able to limit the number of requests from a _single IP address that is dynamically changing._
+
+- **A security group can only allow incoming traffic.** You can't **deny traffic using security groups**. In addition, it is not capable of limiting the rate of traffic to your application unlike AWS WAF.
+
+---
+
+## SNS + SQS
+
+### Questions
+
+- What are SQS and SNS?
+- What is Amazon MQ recommended for?
+- What 3 destinations can S3 publish events to?
+- Can S3 send out notifications if certain events happen in your bucket?
+- Describe the _fanout scenario_.
+- How many destinations can an S3 event notification be sent out to? How can this be alleviated with the SNS fanout solution?
+
+#### Notes
+
+> A company is using Amazon S3 to store frequently accessed data. When an object is created or deleted, the S3 bucket will send an event notification to the Amazon SQS queue. A solutions architect needs to create a solution that will notify the development and operations team about the created or deleted objects.
+
+_Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to the topic. Grant Amazon S3 permission to send notifications to Amazon SNS and update the bucket to use the new SNS topic._
+
+- **If you are building brand new applications in the cloud, then it is highly recommended that you consider Amazon SQS and Amazon SNS.** Amazon SQS and SNS are lightweight, fully managed message queue and topic services that scale almost infinitely and provide simple, easy-to-use APIs. You can use Amazon SQS and SNS to decouple and scale microservices, distributed systems, and serverless applications, and improve reliability.
+
+- **If you're using messaging with existing applications and want to move your messaging service to the cloud quickly and easily, it is recommended that you consider Amazon MQ.**
+
+- Amazon SWF is a fully-managed state tracker and task coordinator service and not a messaging service, unlike Amazon MQ, AmazonSQS, and Amazon SNS.
+
+- Create an Amazon SNS topic and configure two Amazon SQS queues to subscribe to the topic. Grant Amazon S3 permission to send notifications to Amazon SNS and update the bucket to use the new SNS topic.
+
+- **The Amazon S3 notification feature enables you to receive notifications when certain events happen in your bucket.** To enable notifications, you must first add a notification configuration that identifies the events you want Amazon S3 to publish and the destinations where you want Amazon S3 to send the notifications.
+
+- You store the above configuration in the notification subresource that is associated with a bucket.
+
+**Amazon S3 supports the following destinations where it can publish events:**
+
+- Amazon Simple Notification Service (Amazon SNS) topic
+- Amazon Simple Queue Service (Amazon SQS) queue
+- AWS Lambda
+
+- In Amazon SNS, the **fanout scenario** is when a message published to an SNS topic is replicated and pushed to multiple endpoints, such as Amazon SQS queues, HTTP(S) endpoints, and Lambda functions. This allows for parallel asynchronous processing.
+
+- By using the message fanout pattern, you can create a topic and use two Amazon SQS queues to subscribe to the topic. If Amazon SNS receives an event notification, it will publish the message to both subscribers.
+
+- Take note that Amazon S3 event notifications are designed to be delivered at least once and to one destination only. **You cannot attach two or more SNS topics or SQS queues for S3 event notification.** Therefore, you must send the event notification to Amazon SNS.
+
+- For example, you can develop an application that publishes a message to an SNS topic whenever an order is placed for a product. Then, SQS queues that are subscribed to the SNS topic receive identical notifications for the new order. An Amazon Elastic Compute Cloud (Amazon EC2) server instance attached to one of the SQS queues can handle the processing or fulfillment of the order. And you can attach another Amazon EC2 server instance to a data warehouse for analysis of all orders received.
+
+- You can only add 1 SQS or SNS at a time for Amazon S3 events notification.
+
+- If you need to send the events to multiple subscribers, you should implement a message fanout pattern with Amazon SNS and Amazon SQS.
+
+- The FIFO capabilities of each of these services (SQS | SNS) work together to act as a fully managed service to integrate distributed applications that require data consistency in near-real-time.
+
+---
+
+## DynamoDB
+
+### Questions
+
+- What is a DynamoDB stream?
+- When are events on a table captured, and what does the stream record capture?
+- Can you configure the stream record to capture more information than just the primary key attribute(s) of the modified record?
+- Describe the concept of "triggers".
+- Is the DynamoDB Stream feature enabled by default?
+
+#### Notes
+
+> A popular social network is hosted in AWS and is using a DynamoDB table as its database. There is a requirement to implement a 'follow' feature where users can subscribe to certain updates made by a particular user and be notified via email. Which of the following is the most suitable solution that you should implement to meet the requirement?
+
+_Enable DynamoDB Stream and create an AWS Lambda trigger, as well as the IAM role which contains all of the permissions that the Lambda function will need at runtime. The data from the stream record will be processed by the Lambda function which will then publish a message to SNS Topic that will notify the subscribers via email._
+
+- A DynamoDB stream is an ordered flow of information about changes to items in an Amazon DynamoDB table. When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
+
+- Whenever an application creates, updates, or deletes items in the table, DynamoDB Streams writes a stream record with the primary key attribute(s) of the items that were modified.
+
+- A stream record contains information about a data modification to a single item in a DynamoDB table. You can configure the stream so that the stream records capture additional information, such as the "before" and "after" images of modified items.
+
+- Amazon DynamoDB is integrated with AWS Lambda so that you can create _triggers_ —pieces of code that automatically respond to events in DynamoDB Streams. With triggers, you can build applications that react to data modifications in DynamoDB tables.
+
+- If you enable DynamoDB Streams on a table, you can associate the stream ARN with a Lambda function that you write.
+
+- Immediately after an item in the table is modified, a new record appears in the table's stream. AWS Lambda polls the stream and invokes your Lambda function synchronously when it detects new stream records. The Lambda function can perform any actions you specify, such as sending a notification or initiating a workflow.
+
+- **the DynamoDB Stream feature is not enabled by default.**
+
+---
+
+## Kinesis
+
+- Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information.
+
+- With Amazon Kinesis, you can ingest real-time data such as video, audio, application logs, website clickstreams, and IoT telemetry data for machine learning, analytics, and other applications.
+
+- Amazon Kinesis enables you to process and analyze data as it arrives and respond instantly instead of having to wait until all your data is collected before the processing can begin.
+
+- Amazon Kinesis enables you to ingest, buffer, and process streaming data in real-time, so you can derive insights in seconds or minutes instead of hours or days.
+
+- Amazon Kinesis is fully managed and runs your streaming applications without requiring you to manage any infrastructure.
+
+- Amazon Kinesis can handle any amount of streaming data and process data from hundreds of thousands of sources with very low latencies.
+
+### Questions
+
+- What is Kinesis?
+- What types of data can you inject in real-time with Kinesis?
+- Does Kinesis need to wait for all data to be collected before responding?
+- Is Kinesis fully managed?
+
+---
+
+## AWS Organizations + AWS Resource Access Manager (RAM)
+
+> A global IT company with offices around the world has multiple AWS accounts. To improve efficiency and drive costs down, the Chief Information Officer (CIO) wants to set up a solution that centrally manages their AWS resources. This will allow them to procure AWS resources centrally and share resources such as AWS Transit Gateways, AWS License Manager configurations, or Amazon Route 53 Resolver rules across their various accounts.
+
+AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. You can share AWS Transit Gateways, Subnets, AWS License Manager configurations, and Amazon Route 53 Resolver rules resources with RAM.
+
+Many organizations use multiple accounts to create administrative or billing isolation, and limit the impact of errors. RAM eliminates the need to create duplicate resources in multiple accounts, reducing the operational overhead of managing those resources in every single account you own. You can create resources centrally in a multi-account environment, and use RAM to share those resources across accounts in three simple steps: create a Resource Share, specify resources, and specify accounts. RAM is available to you at no additional charge.
+
+You can procure AWS resources centrally, and use RAM to share resources such as subnets or License Manager configurations with other accounts. This eliminates the need to provision duplicate resources in every account in a multi-account environment, reducing the operational overhead of managing those resources in every account.
+
+AWS Organizations is an account management service that lets you consolidate multiple AWS accounts into an organization that you create and centrally manage. With Organizations, you can create member accounts and invite existing accounts to join your organization. You can organize those accounts into groups and attach policy-based controls.
+
+Hence, the correct combination of options in this scenario is:
+
+- Consolidate all of the company's accounts using AWS Organizations.
+
+- Use the AWS Resource Access Manager (RAM) service to easily and securely share your resources with your AWS accounts.
+
+The option that says: Use the AWS Identity and Access Management service to set up cross-account access that will easily and securely share your resources with your AWS accounts is incorrect because although you can delegate access to resources that are in different AWS accounts using IAM, this process is extremely tedious and entails a lot of operational overhead since you have to manually set up cross-account access to each and every AWS account of the company. A better solution is to use AWS Resources Access Manager instead.
+
+The option that says: Use AWS Control Tower to easily and securely share your resources with your AWS accounts is incorrect because AWS Control Tower simply offers the easiest way to set up and govern a new, secure, multi-account AWS environment. This is not the most suitable service to use to securely share your resources across AWS accounts or within your Organization. You have to use AWS Resources Access Manager (RAM) instead.
+
+The option that says: Consolidate all of the company's accounts using AWS ParallelCluster is incorrect because AWS ParallelCluster is simply an AWS-supported open-source cluster management tool that makes it easy for you to deploy and manage High-Performance Computing (HPC) clusters on AWS. In this particular scenario, it is more appropriate to use AWS Organizations to consolidate all of your AWS accounts.
+
+---
+
+## Amazon Macie
+
+> A government entity is conducting a population and housing census in the city. Each household information uploaded on their online portal is stored in encrypted files in Amazon S3. The government assigned its Solutions Architect to set compliance policies that verify sensitive data in a manner that meets their compliance standards. They should also be alerted if there are compromised files detected containing personally identifiable information (PII), protected health information (PHI) or intellectual properties (IP).
+
+Amazon Macie is an ML-powered security service that helps you prevent data loss by automatically discovering, classifying, and protecting sensitive data stored in Amazon S3. Amazon Macie uses machine learning to recognize sensitive data such as personally identifiable information (PII) or intellectual property, assigns a business value, and provides visibility into where this data is stored and how it is being used in your organization.
+
+Amazon Macie continuously monitors data access activity for anomalies, and delivers alerts when it detects risk of unauthorized access or inadvertent data leaks. Amazon Macie has ability to detect global access permissions inadvertently being set on sensitive data, detect uploading of API keys inside source code, and verify sensitive customer data is being stored and accessed in a manner that meets their compliance standards.
+
+Hence, the correct answer is: Set up and configure Amazon Macie to monitor and detect usage patterns on their Amazon S3 data.
+
+The option that says: Set up and configure Amazon Rekognition to monitor and recognize patterns on their Amazon S3 data is incorrect because Rekognition is simply a service that can identify the objects, people, text, scenes, and activities, as well as detect any inappropriate content on your images or videos.
+
+The option that says: Set up and configure Amazon GuardDuty to monitor malicious activity on their Amazon S3 data is incorrect because GuardDuty is just a threat detection service that continuously monitors for malicious activity and unauthorized behavior to protect your AWS accounts and workloads.
+
+The option that says: Set up and configure Amazon Inspector to send out alert notifications whenever a security violation is detected on their Amazon S3 data is incorrect because Inspector is basically an automated security assessment service that helps improve the security and compliance of applications deployed on AWS.
+
+---
+
+AWS DataSync, Redshift, SWF, AWS Glue, EMR, GuardDuty, MQ, Kinesis, AppStream, SnowMobile, Snowball Edge, Route 53, A-N-C Gateways, STS
+
+## AWS DataSync
+
+### Questions
+
+- What two ways can DataSync move data traffic between services?
+- Is DataSync suitable for hybrid on-prem/cloud architectures? What's a better alternative?
+- What is used to transfer data from your on-prem environment to AWS?
+
+#### Notes
+
+- AWS DataSync is an **online data transfer service**. It is primarily used to move data from on-prem solutions to the cloud.
+
+- **If you want hybrid on-prem / AWS storage capabilities use AWS Storage gateway instead of DataSync.**
+
+- AWS DataSync simplifies, automates, and accelerates the process of copying large amounts of data to and from on-prem storage systems and/or AWS storage services over the Internet or over AWS Direct Connect.
+
+- Allows you to **copy large amounts of data over the internet, or via direct connect,** to and from AWS storage services.
+
+- Can copy data between shared file servers, self-managed object storage, AWS SnowCone, S3, EFS, and FSx for Windows.
+
+- Transfers your data from your on-prem data center to AWS through the use of a **DataSync Agent.** An Agent is a virtual machine used to read data from or write data to an on-premises location.
+
+---
+
+## AWS SES
+
+### Questions
+
+- What is SES what does it provide?
+- How is SES different than SNS?
+- Is SES regional or global?
+
+#### Notes
+
+- **SES provides a bulk and transactional email-sending service.** Amazon SES eliminates the complexity and expense of building an in-house email solution or licensing, installing, and operating a third-party email service. The service integrates with other AWS services, making it easy to send emails from applications being hosted on services such as Amazon EC2.
+
+- SNS however is a fully managed push messaging service. **Amazon Simple Notification Service makes it simple and cost-effective to push to mobile devices such as iPhone, iPad, Android, Kindle Fire, and internet connected smart devices, as well as pushing to other distributed services.** Besides pushing cloud notifications directly to mobile devices, **SNS can also deliver notifications by SMS text message or email, to Simple Queue Service (SQS) queues, or to any HTTP endpoint.**
+
+- SES is a regional service.
+
+- Common use cases: transactional emails and marketing emails.
+
+---
+
+## AWS SWF
+
+### Questions
+
+- What is SWF?
+
+- Does SWF organize and process sequential events, what is a more popular alternative to SWF?
+
+#### Notes
+
+- SWF helps developers build, run, and scale background jobs that have parallel or sequential steps. You can think of Amazon SWF as a fully-managed state tracker and task coordinator in the Cloud. If your app’s steps take more than 500 milliseconds to complete, you need to track the state of processing, and you need to recover or retry if a task fails, Amazon SWF can help you.
+
+- SWF is used to help organize and process a sequential order of events. It can be used to track and manage the workflow of your processes.
+
+- SWF is awkward to work with, step-functions are the more modern approach to setting workflow steps in AWS.
+
+---
+
+## Redshift
+
+### Questions
+
+- What is AWS Redshift?
+- What querying language does Redshift use?
+- How many concurrent users can interface with Redshift?
+- Does Redshift automatically back up your data?
+
+#### Notes
+
+- A fully managed, **petabyte-scale data warehouse service.** Redshift extends data warehouse queries to your data lake. You can run analytic queries against petabytes of data stored locally in Redshift, and directly against exabytes of data stored in S3.
+
+- Allows you to **analyze all your data using standard SQL** or through your existing business intelligence tools.
+
+- Offers concurrency scaling feature that supports unlimited concurrent users and concurrent queries.
+
+- Redshift automatically and continuously backs up your data to S3. It can asynchronously replicate your snapshots to S3 in another region for disaster recovery.
+
+---
+
+## AWS Glue
+
+### Questions
+
+- What does AWS Glue do?
+
+#### Notes
+
+- AWS Glue is a fully managed ETL (extract, transform, and load) service that makes it simple and cost-effective to categorize your data, clean it, enrich it, and move it reliably between various data stores and data streams. AWS Glue is a serverless data integration service that makes it easy to discover, prepare, and combine data for analytics, machine learning, and application development. AWS Glue provides all the capabilities needed for data integration, so you can start analyzing your data and putting it to use in minutes instead of months.
+
+- You can use AWS Glue to organize, cleanse, validate, and format data for storage in a data warehouse or data lake.
+
+---
+
+## AWS EMR
+
+### Questions
+
+- What is EMR?
+
+#### Notes
+
+- **A managed cluster platform that simplifies running big data frameworks**, such as Apache Hadoop and Apache Spark, on AWS to process and analyze vast amounts of data.
+
+- You can process data for analytics purposes and business intelligence workloads using EMR together with Apache Hive and Apache Pig.
+
+- You can use EMR to transform and move large amounts of data into and out of other AWS data stores and databases.
+
+---
+
+## AWS GuardDuty
+
+### Questions
+
+- What does AWS GuardDuty provide?
+
+- Describe the three severity events that GuardDuty provides.
+
+#### Notes
+
+- Amazon GuardDuty is a threat detection service that continuously monitors for malicious activity and unauthorized behavior to protect your Amazon Web Services accounts, workloads, and data stored in Amazon S3.
+
+- Amazon GuardDuty offers CloudWatch Events, CLI tools, and HTTPS APIs to assist you in creating your own custom automated functions to handle all alerted threats.
+
+- To help you to determine the action you want to take for each alert, GuardDuty provides three levels of severity which we will take a deeper look at in just a moment:
+
+1. **Low severity:** indicates threats that have already been removed or blocked before compromising any resource.
+1. **Medium severity:** indicates suspicious activity, such as an increase in traffic specifically directed to, for example, bitcoin related domains, indicating cryptocurrency mining.
+1. **High severity:** indicates a resource that is fully compromised and is constantly being used for unintended purposes.
+
+---
+
+## AWS MQ
+
+### Questions
+
+#### Notes
+
+- AWS MQ is a managed Apache ActiveMQ(or RabbitMQ) broker service.
+
+- This provides you a fully managed Apache ActiveMQ system in the cloud, with support for a variety of industry-standard queue and broadcast protocols like AMQP, JMS etc. It is useful when you have complicated delivery rules - or when you're migrating an existing system from outside AWS into AWS, and your systems happen to talk to one another with a standard queueing protocol.
+
+---

@@ -185,7 +185,7 @@ _**Use signed cookies for the following cases:**_
 - Does Lambda require you to provision or manage servers?
 - Do you need to manage the scaling and availability of lambda?
 - Can you call lambda functions directly from a web or mobile app?
-- What is a function's concurrency? \*\*
+- What is a function's concurrency?
 - Can lambda be used to accommodate the handling of high-burst traffic?
 - API Gateway with ECS, Elastic Beanstalk, Autoscaling EC2 instances, can all take minutes to spin up resources. How fast is lambda?
 
