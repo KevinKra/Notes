@@ -53,7 +53,7 @@ The Amazon Simple Workflow Service (Amazon SWF) makes it easier to develop async
 
 The mechanism by which both the _activity workers_ and the _decider_ receive their tasks _(activity tasks and decision tasks respectively)_ **is by polling the Amazon SWF service.**
 
-**Amazon SWF informs the decider of the state of the workflow by including, with each decision task, a copy of the current workflow execution history.** T**he workflow execution history is composed of events, where an _event_ represents a significant change in the state of the workflow execution.**
+**Amazon SWF informs the decider of the state of the workflow by including, with each decision task, a copy of the current workflow execution history.** **The workflow execution history is composed of events, where an _event_ represents a significant change in the state of the workflow execution.**
 
 Examples of events would be the: completion of a task, notification that a task has timed out, or the expiration of a timer that was set earlier in the workflow execution. The history is a complete, consistent, and authoritative record of the workflow's progress.
 
@@ -117,3 +117,34 @@ decider -decisions-> SWF
 1. The decider directs the workflow after receiving decision tasks from SWF.
 1. A _decision_ represents an action or set of actions which are the next steps in the workflow.
 1. A typical decision would be to schedule an activity task. Decisions can also be used to set timers to delay the execution of an activity task, to request cancellation of activity tasks already in progress, and to complete or close the workflow.
+1. Amazon SWF informs the decider of the state of the workflow by including, with each decision task, a copy of the current workflow execution history.
+1. The workflow execution history is composed of events, where an _event_ represents a significant change in the state of the workflow execution.
+1. An _event_ represents a significant change in the state of the workflow execution.
+1. Examples of events would be the: completion of a task, notification that a task has timed out, or the expiration of a timer that was set earlier in the workflow execution.
+1. Amazon SWF access control uses AWS Identity and Access Management (IAM), which allows you to provide access to AWS resources in a controlled and limited way that doesn't expose your access keys. For example, you can allow a user to access your account, but only to run certain workflows in a particular domain.
+
+## Workflow Execution
+
+> Bringing together the ideas discussed in the preceding sections, here is an overview of the steps to develop and run a workflow in Amazon SWF:
+
+1. Write activity workers that implement the processing steps in your workflow.
+
+2. Write a decider to implement the coordination logic of your workflow.
+
+3. Register your activities and workflow with Amazon SWF.
+
+> You can do this step programmatically or by using the AWS Management Console.
+
+4. Start your activity workers and decider.
+
+> These actors can run on any computing device that can access an Amazon SWF endpoint. For example, you could use compute instances in the cloud, such as Amazon Elastic Compute Cloud (Amazon EC2); servers in your data center; or even a mobile device, to host a decider or activity worker. Once started, the decider and activity workers should start polling Amazon SWF for tasks.
+
+5. Start one or more executions of your workflow.
+
+> Executions can be initiated either programmatically or via the AWS Management Console.
+
+> Each execution runs independently and you can provide each with its own set of input data. When an execution is started, Amazon SWF schedules the initial decision task. In response, your decider begins generating decisions which initiate activity tasks. Execution continues until your decider makes a decision to close the execution.
+
+6. View workflow executions using the AWS Management Console.
+
+> You can filter and view complete details of running as well as completed executions. For example, you can select an open execution to see which tasks have completed and what their results were.
