@@ -1,8 +1,9 @@
 # IAM
 
-- You can use an IAM role to delegate access to resources that are in _different AWS accounts_ that you own. By setting up cross-account access in this way, you don't need to create individual IAM users in each account. In addition, users don't have to sign out of one account and sign into another in order to access resources that are in different AWS accounts.
+- You can use an **IAM Role** to delegate access to resources that are in _different AWS accounts_ that you own. By setting up cross-account access in this way, you don't need to create individual IAM users in each account. In addition, users don't have to sign out of one account and sign into another in order to access resources that are in different AWS accounts.
 - It is not possible to create a common IAM policy for multiple AWS accounts.
 - Although you can set up cross-account access to each department, this entails a lot of configuration compared with using AWS Organizations and Service Control Policies (SCPs). **Cross-account access would be a more suitable choice if you only have two accounts to manage, but not for multiple accounts** (use organizations in that case).
+- Cross-Account Access delegate access across AWS accounts using IAM roles
 - By default, a brand new IAM user created using the AWS CLI or AWS API has no credentials of any kind. You must create the type of credentials for an IAM user based on the needs of your user. You must choose to at least include a console password or access keys when creating a new IAM user.
 
 ### Advanced IAM Policy Documents
@@ -15,12 +16,13 @@
 
 ### IAM Questions
 
+- Can you create a role that allows users to access resources in other AWS accounts?
 - Can you create a policy that exists across multiple AWS accounts?
 - Describe IAM cross-account access.
 - Is cross-account access suitable for situations where there are more than 2 accounts to manage? What is a better alternative?
 - By default, do brand new IAM users have credentials of any kind?
 
-#### IAM Advanced Policies
+#### IAM Advanced Policies Questions
 
 - What is the structure of an IAM policy ARN?
 - What segment of the ARN is omitted if the service is global?
@@ -32,8 +34,9 @@
 # AWS Certificate Manager
 
 - Allows you to create, manage, and deploy public and private SSL certificates for use with other AWS services.
-- Don't have to pay for SSL certificates. Public and private certificates are free.
-- Automates the renewals and deployment of your certificates.
+- Don't have to pay for SSL certificates.
+- **Public and private certificates are free.**
+- **Automates the renewals and deployment of your certificates.**
 - Integrates with ELB, CloudFront, and API Gateway.
 
 ### AWS Certificate Manager Questions
@@ -91,19 +94,20 @@
 - Organizations are composed of **OUs or Organizational Units.**
 - Organizations enables you to centrally manage policies across multiple accounts, without requiring custom scripts and manual processes.
 - It allows you to create **Service Control Policies (SCPs)** that centrally control AWS service use across multiple AWS accounts.
-- AWS Organizations SCPs don't replace associating IAM policies within an AWS account.
-- You can use SCPs to allow or deny access to AWS services for individual AWS accounts within AWS Organizations member accounts, or for groups of accounts within an organizational unit (OU). The specified actions from an attached SCP affect all IAM identities including the root user of the member account.
+- AWS Organizations SCPs _don't_ replace associating IAM policies within an AWS account.
+- **You can use SCPs to allow or deny access to AWS services for individual AWS accounts within AWS Organizations member accounts, or for groups of accounts within an organizational unit (OU). The specified actions from an attached SCP affect all IAM identities including the root user of the member account.**
 
 ### AWS Organizations Questions
 
-- What kind of management does Organizations provide?
+- What kind of management do Organizations provide?
+- **What is Policy-Based Management?**
 - Can you create groups of accounts with Organizations?
 - Can you automate the account creation process with Organizations?
 - Can you apply and manage policies for groups of accounts with Organizations?
 - What feature in AWS Organizations can you use to get a consolidate report of all the expenses of the accounts within your Organization?
 - What are Organizations composed of?
 - Does AWS Organizations allow you to centrally manage policies across multiple accounts without requiring custom scripts and manual processes?
-- What are SCPs, what do they stand for, and what do they do?
+- What are SCPs?
 - Do SCPs replace IAM policies within an AWS account?
 - Do the actions from an SCP attached to an OU account, or collection of accounts, affect all IAM identities within -- including the root users of each member account?
 
