@@ -153,36 +153,6 @@
 
 ---
 
-# AWS Global Accelerator
-
-- A networking service that sits in front of our applications and sends your users' traffic through AWS's global network infrastructure where it can increase performance and help deal with IP caching.
-- Global Accelerator provides 2 static IP addresses.
-- Masks complex architecture. As your application grows and and change, your users wont notice. They will see the same IPs no matter what.
-- Global Accelerator speeds things up since **traffic is routed through AWS's global network infrastructure.**
-- By creating **Weighted Pools** you can create weighted groups behind the IPs to test our new features or handle failures in your environment.
-- AWS Global Accelerator is a service that improves the availability and performance of your applications with local or global users.
-- **It provides static IP addresses that act as a fixed entry point to your application endpoints in a single or multiple AWS Regions, such as your Application Load Balancers, Network Load Balancers, or Amazon EC2 instances.**
-- When the application usage grows, the number of IP addresses and endpoints that you need to manage also increase. AWS Global Accelerator allows you to scale your network up or down.
-- AWS Global Accelerator lets you associate regional resources, such as load balancers and EC2 instances, to **two static IP addresses**. You only whitelist these addresses once in your client applications, firewalls, and DNS records.
-- If you have multiple resources in multiple regions, you can use AWS Global Accelerator to reduce the number of IP addresses.
-- By creating an **endpoint group, you can add all of your EC2 instances from a single region in that group.** You can add additional endpoint groups for instances in other regions. After that, you can then associate the appropriate ELB endpoints to each of your endpoint groups.
-- Global Accelerator has two static IP addresses that you can use to create a security rule in your firewall device. Instead of regularly adding the Amazon EC2 IP addresses in your firewall, you can use the static IP addresses of AWS Global Accelerator to automate the process and eliminate this repetitive task.
-- It is better to create one endpoint group instead of multiple endpoints. Moreover, you should to associate the ALBs to AWS Global Accelerator and not the underlying EC2 instances.
-
-### AWS Global Accelerator Questions
-
-- What is AWS Global Accelerator?
-- How many static IP addresses does Global Accelerator provide?
-- Global Accelerator provides static IP addresses for the applications it masks, how does this help reduce architectural complexity as the underlying application grows and changes?
-- Does traffic routed through the Global Accelerator travel through AWS's global infrastructure? Does this speed things up?
-- What are Weighted Pools, what purpose do they provide?
-- Do Global Accelerator's static IP addresses provide a fixed entry point for ELB/EC2 instances across multiple regions?
-- What are Global Accelerator **endpoint groups**, how are they useful?
-- How can the static IP addresses provided by Global Accelerator simplify firewall policies?
-- Should you aim to create on endpoint group or multiple and is it better to have ALBs in front of the EC2 resources point to the endpoint?
-
----
-
 # Elastic Load Balancer (ELB)
 
 - Elastic Load Balancing offers three types of load balancers that all feature the **high availability, automatic scaling, and robust security necessary to make your applications fault-tolerant**. They are: **Application Load Balancer, Network Load Balancer, and Classic Load Balancer.**
@@ -461,6 +431,39 @@
 - What is internal caching, what service is used for this?
 - What is external caching, what service is used for this?
 - In addition to Elasticache and Cloudfront, what are two other caching systems that exist in AWS?
+
+---
+
+# AWS Global Accelerator
+
+- A networking service that sits in front of our applications and sends your users' traffic through AWS's global network infrastructure where it can increase performance and help deal with IP caching.
+- Global Accelerator helps your infrastructure by providing **IP caching.**
+- A endpoint group is a collection of resources, or endpoints, grouped together and served to the Global Accelerated. Think, ELBs and their subsequent resources within a given region being attached to GA.
+- Global Accelerator provides 2 static IP addresses.
+- Masks complex architecture. As your application grows and and change, your users wont notice. They will see the same IPs no matter what.
+- Global Accelerator speeds things up since **traffic is routed through AWS's global network infrastructure.**
+- By creating **Weighted Pools** you can create weighted groups behind the IPs to test our new features or handle failures in your environment.
+- AWS Global Accelerator is a service that improves the availability and performance of your applications with local or global users.
+- **It provides static IP addresses that act as a fixed entry point to your application endpoints in a single or multiple AWS Regions, such as your Application Load Balancers, Network Load Balancers, or Amazon EC2 instances.**
+- When the application usage grows, the number of IP addresses and endpoints that you need to manage also increase. AWS Global Accelerator allows you to scale your network up or down.
+- AWS Global Accelerator lets you associate regional resources, such as load balancers and EC2 instances, to **two static IP addresses**. You only whitelist these addresses once in your client applications, firewalls, and DNS records.
+- If you have multiple resources in multiple regions, you can use AWS Global Accelerator to reduce the number of IP addresses.
+- By creating an **endpoint group, you can add all of your EC2 instances from a single region in that group.** You can add additional endpoint groups for instances in other regions. After that, you can then associate the appropriate ELB endpoints to each of your endpoint groups.
+- Global Accelerator has two static IP addresses that you can use to create a security rule in your firewall device. Instead of regularly adding the Amazon EC2 IP addresses in your firewall, you can use the static IP addresses of AWS Global Accelerator to automate the process and eliminate this repetitive task.
+- It is better to create one endpoint group instead of multiple endpoints. Moreover, you should to associate the ALBs to AWS Global Accelerator and not the underlying EC2 instances.
+
+### AWS Global Accelerator Questions
+
+- What is AWS Global Accelerator?
+- What kind of caching does AWS global accelerator provide?
+- How many static IP addresses does Global Accelerator provide?
+- Global Accelerator provides static IP addresses for the applications it masks, how does this help reduce architectural complexity as the underlying application grows and changes?
+- Does traffic routed through the Global Accelerator travel through AWS's global infrastructure? Does this speed things up?
+- What are Weighted Pools, what purpose do they provide?
+- Do Global Accelerator's static IP addresses provide a fixed entry point for ELB/EC2 instances across multiple regions?
+- What are Global Accelerator **endpoint groups**, how are they useful?
+- How can the static IP addresses provided by Global Accelerator simplify firewall policies?
+- Should you aim to create on endpoint group or multiple and is it better to have ALBs in front of the EC2 resources point to the endpoint?
 
 ---
 
