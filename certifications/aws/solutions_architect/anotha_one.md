@@ -55,6 +55,12 @@
 - You can create a VPC peering connection between your own VPCs, with a VPC in another AWS account, or with a VPC in a different AWS Region.
 - A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them privately.
 
+### Egress-only Internet Gateway
+
+- EO Internet Gateway is a horizontally scaled, redundant, and highly available VPC component that allows outbound communication over IPv6 from instances in your VPC to the Internet and prevents the internet from initiating an IPv6 connection to your instance.
+- **Egress-Only Internet Gateway is for use with _IPv6 traffic only_.**
+- To enable outbound-only Internet communications **over IPv4** use a NAT gateway.
+
 ### NAT Gateways
 
 - NAT devices allow resources in private subnets to communicate over the internet while restricting unsolicited inbound traffic.
@@ -67,7 +73,7 @@
 - Can you peer VPCs across regions?
 - Is traffic routed privately between peered VPCs?
 
-#### NAT Gateways
+#### NAT Gateways Questions
 
 - What are they two types of NAT devices? Which variant does AWS recommend and why?
 - Which NAT variant is managed and which is launched from a NAT AMI?
@@ -386,7 +392,7 @@
 
 ### ECS Auto Scaling
 
-- The following metrics are available for ECS:
+- The following metrics are available for **ECS Service**:
   `ECSServiceAverageCPUUtilization`—Average CPU utilization of the service.
   `ECSServiceAverageMemoryUtilization`—Average memory utilization of the service.
   `ALBRequestCountPerTarget`—Number of requests completed per target in an Application Load Balancer target group.
@@ -682,6 +688,25 @@
 
 ---
 
+# API Gateway
+
+- Supports RESTful APIs and Websocket APIs.
+- API Gateway provides a _single endpoint_ for all client traffic interacting with the backend of your application.
+- Allows you to connect to applications running on Lambda, EC2, Elastic Beanstalk, and services like DynamoDB, Kinesis, and more.
+- Supports multiple endpoints and targets.
+- Allows you to maintain multiple versions of your API.
+- API Gateway is serverless.
+- API Gateway integrates with CloudWatch. It logs API calls, latencies, and error rates to CloudWatch.
+- API Gateway supports throttling. This allows backend services to withstand traffic spikes and denial of service attacks.
+
+#### Restful APIs
+
+- **Re**presentational **S**tate **T**ransfer.
+- Optimized for serverless and web applications.
+- Stateless
+
+---
+
 # Lambda
 
 - Lambda functions can’t process long-running processes.
@@ -692,6 +717,37 @@
 - **By setting a concurrency limit on a function, Lambda guarantees that allocation will be applied specifically to that function, regardless of the amount of traffic processing the remaining functions. If that limit is exceeded, the function will be throttled but not terminated.**
 - Having a recursive code in your Lambda function does not directly result to an abrupt termination of the function execution. This could lead to an unintended volume of function invocations and escalated costs, but not an abrupt termination because Lambda will throttle all invocations to the function.
 - It is unlikely to have several `ServiceException` errors throughout the day unless there is an outage or disruption in AWS.
+
+#### Lambda Versions
+
+- When you create a lambda function, there is only one version: `$LATEST`
+- You can create multiple versions of your function code and use aliases to reference the version you want to use as part of the ARN.
+- An **lambda alias** is like a pointer to a specific version of the function code. Example: Version 2 $LATEST Alias: Test seen in an ARN `...arn:function:mylambda:Test || $LATEST`
+
+#### Concurrent Lambda Executions Limit
+
+- Lambda has a concurrent execution limit, or a limit to the number of concurrent executions across _all_ functions in a given region per account.
+- Default limit is 1,000 concurrent executions per region.
+- Results in a HTTP 429 error.
+- **Reserved Concurrency**: guarantees that a set number of executions that will always sbe available for your critical functions. Also serves as a limit.
+
+#### Lambda and VPC
+
+- By default, lambdas cannot connect to private subnets.
+- Lambda needs the following VPC Configuration information so it can connect to a VPC: **Private Subnet ID and Security Group ID (with req'd access).** Lambda uses this information to set up ENIs using an available IP address from your private subnet.
+- You can use the `vpc-config` parameter to add VPC information to your Lambda function config.
+
+#### Step Functions
+
+- Allows you to build and run serverless applications as a series of steps.
+- Step functions log the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.
+- Step functions are a great way to visualize your serverless application.
+- Step functions log the state of each step, so if something goes wrong you can you can track what went wrong.
+- The output of one step function is often the input of the next.
+- Step functions are composed of a **State Machine** made up of **Tasks**, where the State Machine is the workflow with a Task being a unit of work in the workflow.
+- State Machines are defined using **Amazon States Language.**
+- **Parallel Workflow** is when tasks are done together and then combined as an output to the next step.
+- **Branching Workflow** is when there are branches for the State Machine can follow. For example, if all tests passed do one next step and if tests fail, do another step.
 
 ### Lambda@Edge
 
@@ -830,7 +886,7 @@
 
 ### Kinesis Data Firehose
 
-- Firehose only supports Amazon S3, Amazon Redshift, Amazon Elasticsearch, and an HTTP endpoint as the destination.
+- **Firehose only supports Amazon S3, Amazon Redshift, Amazon Elasticsearch, and an HTTP endpoint as the destination.**
 - the throughput of Kinesis Firehose is not exceptionally higher than Kinesis Data Streams. In fact, the throughput of an Amazon Kinesis data stream is designed to scale without limits via increasing the number of shards within a data stream.
 - There is no Step Scaling feature for Kinesis Data Streams. This is only applicable for EC2.
 
@@ -842,8 +898,13 @@
 - IAM database authentication is only supported in MySQL and PostgreSQL database engines.
 - With IAM database authentication, you don't need to use a password when you connect to a DB instance but instead, you use an authentication token.
 - You can force all connections to your DB instance to use SSL, or you can encrypt connections from specific client computers only.
-- If you want to force SSL, use the `rds.force_ssl` parameter. By default, the `rds.force_ssl` parameter is set to false. Set the `rds.force_ssl` parameter to true to force connections to use SSL.
+
+#### RDS in-transit security
+
+- If you want to force SSL, use the `rds.force_ssl` parameter.
+- By default, the `rds.force_ssl` parameter is set to false. Set the `rds.force_ssl` parameter to `true` to force connections to use SSL.
 - The `rds.force_ssl` parameter is static, so after you change the value, you must reboot your DB instance for the change to take effect.
+- To use SSL from a specific client, you must obtain the certs for the client computer, import certs on the client computer, and then encrypt the connections from the client computer.
 
 ### Microsoft SQL Server
 
