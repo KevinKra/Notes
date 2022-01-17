@@ -5,7 +5,7 @@
 > **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
 
 - Amazon ECS supports the following task placement strategies:
-  - **binpack**: place tasks based on the _least_ available amount of CPU or memory. This minimizes the number of instances in use.
+  - **binpack**: tasks are placed on container instances so as to leave the least amount of unused CPU or memory. This strategy minimizes the number of container instances in use.
   - **random**: place tasks randomly.
   - **spread**: place tasks evenly based on the specified value. _Accepted values are attribute key-value pairs, instanceId, or host._
 
@@ -35,9 +35,9 @@
 
 - **Rolling with additional batch** – Deploy the new version in batches, but first launch a new batch of instances to ensure full capacity during the deployment process.
 
-- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. First, Elastic Beanstalk launches a single instance with the new configuration in the new group. This instance serves traffic alongside all of the instances in the original Auto Scaling group that are running the previous configuration.
+- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. If the new instances don’t pass health checks, Elastic Beanstalk terminates them, leaving the original instances untouched. **If an immutable environment update fails, the rollback process requires only terminating an Auto Scaling group. A failed _rolling update_, on the other hand, requires performing an additional rolling update to roll back the changes.**
 
-- **Blue/Green** – Deploy the new version to a separate environment, and then swap CNAMEs of the two environments to redirect traffic to the new version instantly.
+- **Traffic splitting** – Deploy the new version to a fresh group of instances and temporarily split incoming client traffic between the existing application version and the new one.
 
 ## Elastic Beanstalk Questions
 
@@ -48,7 +48,7 @@
 - Describe the **Rolling** deployment option.
 - Describe the **Rolling with additional batch** deployment option.
 - Describe the **Immutable** deployment option.
-- Describe the **Blue/Green** deployment option.
+- Describe the **Traffic Splitting** deployment option.
 
 ---
 
@@ -66,7 +66,7 @@
 
 #### In-Place Deployment
 
-- The application on each instance in the deployment group is stopped, the latest application revision is installed, and the new version of the application is started and validated.
+- The application on each instance in the _deployment group_ is stopped, the latest application revision is installed, and the new version of the application is started and validated.
 - **Only deployments that use the EC2/On-Premises compute platform can use in-place deployments.**
 - AWS Lambda compute platform deployments _cannot_ use an in-place deployment type.
 
@@ -74,7 +74,7 @@
 
 - The behavior of your deployment depends on which compute platform you use:
 
-  – **Blue/green on an EC2/On-Premises compute platform:** The instances in a deployment group (the original environment) are replaced by a different set of instances (the replacement environment). _If you use an EC2/On-Premises compute platform, be aware that blue/green deployments work with Amazon **EC2 instances only.**_
+  – **Blue/green on an EC2/On-Premises compute platform:** The instances in a _deployment group_ (the original environment) are replaced by a different set of instances (the replacement environment). _If you use an EC2/On-Premises compute platform, be aware that blue/green deployments work with Amazon **EC2 instances only.**_
 
   - **Blue/green on an AWS Lambda compute platform:** Traffic is shifted from your current serverless environment to one with your updated Lambda function versions. You can specify Lambda functions that perform validation tests and choose the way in which the traffic shift occurs. _All AWS Lambda compute platform deployments are blue/green deployments. For this reason, you do not need to specify a deployment type._
 
@@ -83,7 +83,7 @@
 ## CodeDeploy Questions
 
 - What is a CodeDeploy agent?
-- What protocol does the CodeDeploy agent use for outbound communicate.
+- What protocol does the CodeDeploy agent use for outbound communication.
 - What compute platforms is the CodeDeploy agent **required** for?
 - Describe the in-place deployment process.
 - What are the only compute types that can use in-place deployment?
@@ -177,7 +177,7 @@
 
 #### StackSets
 
-- Stack sets extend the functionality of stacks, using a single AWS CloudFormation template, by enabling you to create, update, or delete stacks _across multiple accounts and regions with a single operation._
+- StackSets extend the functionality of stacks, using a single AWS CloudFormation template, by enabling you to create, update, or delete stacks **across multiple accounts and regions with a single operation.**
 - Remember that **a stack set is a regional resource** so if you create a stack set in one region, you cannot see it or change it in other regions.
 - _Using an administrator account_, you define and manage an AWS CloudFormation template, and use the template as the basis for provisioning stacks into selected target accounts across specified regions.
 - CloudFormation doesn’t have the capability to locally build, test, and debug your application like what AWS SAM has.
@@ -216,3 +216,13 @@
 - What service is AWS SAM an extension of?
 - Does the AWS SAM CLI let you locally build, test, and debug serverless applications that are defined by AWS SAM templates?
 - What does the AWS SAM CLI provide locally?
+
+---
+
+# AWS X-Ray
+
+- **AWS X-Ray** helps developers analyze and debug production, distributed applications, such as those built using a microservices architecture. With X-Ray, you can understand how your application and its underlying services are performing to identify and troubleshoot the root cause of performance issues and errors. _X-Ray provides an end-to-end view of requests as they travel through your application_, and shows a map of your application’s underlying components.
+
+- You can use X-Ray to analyze both applications in development and in production, from simple three-tier applications to complex microservices applications consisting of thousands of services.
+
+- AWS X-Ray works with Amazon EC2, Amazon EC2 Container Service (Amazon ECS), AWS Lambda, and AWS Elastic Beanstalk.

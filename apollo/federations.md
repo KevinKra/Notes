@@ -1,3 +1,63 @@
+# GraphQL
+
+- **Fields**: fields are the properties within a gql object.
+
+```
+{
+    hero {
+        name   <--- field
+    }
+}
+```
+
+- **Arguments**: Arguments allow you to pass in custom data effecting the output.
+
+```
+{
+    hero(id: String) {
+        name
+        height(unit: FOOT)
+    }
+}
+```
+
+- **Aliases**: let you rename the result of a field to anything you want.
+
+```
+{
+    coolHeros: hero(episode: Empire) {
+        name
+    }
+}
+```
+
+- **Fragments**: Fragments let you construct sets of fields, and then include them in queries where you need to.
+
+```
+{
+  left: hero(episode: EMPIRE) {
+    ...a
+  }
+  right: hero(episode: JEDI) {
+    ...a
+  }
+}
+
+fragment a on Character {
+  name
+  appearsIn
+  friends {
+    name
+  }
+}
+```
+
+- **Operation Type**: `Query`, `Mutation`, or `Subscription`.
+- **Variables**: variables provide a first-class say to factor dynamic values out of the query and pass them as a separate dictionary. The variable definitions are the part that looks like `($episode: Episode)`
+- **Directives**: A directive can be attached to a field or fragment inclusion, and can affect execution of the query in any way the server desires. `@include(if: Boolean)` and `@skip(if: Boolean)`
+- **Mutations**:
+- **Inline Fragments**:
+
 # Apollo Federations
 
 - To get the most out of GraphQL, your organization should expose a single graph that provides a unified interface for querying any combination of your backing data sources. However, it can be challenging to represent an enterprise-scale graph with a single, monolithic GraphQL server. **To remedy this, you can use Apollo Federation to divide your graph's implementation across multiple back-end services (called subgraphs).**
