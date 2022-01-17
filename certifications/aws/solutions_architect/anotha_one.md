@@ -6,6 +6,11 @@
 - Cross-Account Access delegate access across AWS accounts using IAM roles
 - By default, a brand new IAM user created using the AWS CLI or AWS API has no credentials of any kind. You must create the type of credentials for an IAM user based on the needs of your user. You must choose to at least include a console password or access keys when creating a new IAM user.
 
+- IAM database authentication provides the following benefits:
+  - Network traffic to and from the database is encrypted using Secure Sockets Layer (SSL).
+  - You can use IAM to centrally manage access to your database resources, instead of managing access individually on each DB instance.
+  - For applications running on Amazon EC2, you can use profile credentials specific to your EC2 instance to access your database instead of a password, for greater security
+
 ### Advanced IAM Policy Documents
 
 - ARN (Amazon Resource Name): `arn:partition:service:region:account_id:resource || resource_type/ ...`
@@ -390,6 +395,15 @@
 
 - Although ECS provides **Service Auto Scaling, Service Load Balancing, and Monitoring with CloudWatch, these features are not automatically enabled by default unlike with Elastic Beanstalk.**
 
+### Task Placement Strategy
+
+> **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
+
+- Amazon ECS supports the following task placement strategies:
+  - **binpack**: place tasks based on the _least_ available amount of CPU or memory. This minimizes the number of instances in use.
+  - **random**: place tasks randomly.
+  - **spread**: place tasks evenly based on the specified value. _Accepted values are attribute key-value pairs, instanceId, or host._
+
 ### ECS Auto Scaling
 
 - The following metrics are available for **ECS Service**:
@@ -409,10 +423,15 @@
 
 # Aurora
 
+- An Aurora Provisioned DB cluster is not suitable for intermittent, sporadic, and unpredictable transactional workloads.
 - Amazon Aurora is fully managed by Amazon RDS, which automates time-consuming administration tasks like hardware provisioning, database setup, patching, and backups.
 - **Read replication latency of less than 1 second** is only possible if you would use Amazon Aurora replicas.
 - **You can create up to 15 Aurora replicas within an AWS Region.**
 - MySQL replicas won't provide you a read replication latency of less than 1 second. RDS Read Replicas can only provide asynchronous replication in seconds and not in milliseconds. You have to use Amazon Aurora replicas in this scenario.
+
+### Aurora Serverless
+
+- Scaling is rapid because it uses a pool of "warm" resources that are always ready to service requests.
 
 ### Aurora Questions
 
@@ -642,6 +661,11 @@
 - Enhanced networking uses single root I/O virtualization (SR-IOV) to provide high-performance networking capabilities on supported instance types.
 - Enhanced networking provides higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies.
 
+### Data Transfer Costs
+
+- Data transferred between Amazon EC2, Amazon RDS, Amazon Redshift, Amazon ElastiCache instances, and Elastic Network Interfaces in the same Availability Zone is free.
+- Although the data transfer between instances in private subnets is free, there will be an issue with retrieving the data in Amazon S3. Remember that you won’t be able to connect to your Amazon S3 bucket if you are using a private subnet unless you have a VPC Endpoint.
+
 ### EC2 Questions
 
 - What is the Reserved Instance Marketplace?
@@ -708,6 +732,12 @@
 ---
 
 # Lambda
+
+- When you create or update Lambda functions that use environment variables, AWS Lambda encrypts them using the AWS Key Management Service. When your Lambda function is invoked, those values are decrypted and made available to the Lambda code.
+
+The first time you create or update Lambda functions that use environment variables in a region, a default service key is created for you automatically within AWS KMS. This key is used to encrypt environment variables. However, if you wish to use encryption helpers and use KMS to encrypt environment variables after your Lambda function is created, you must create your own AWS KMS key and choose it instead of the default key. The default key will give errors when chosen. Creating your own key gives you more flexibility, including the ability to create, rotate, disable, and define access controls, and to audit the encryption keys used to protect your data.
+
+The option that says: There is no need to do anything because, by default, AWS Lambda already encrypts the environment variables using the AWS Key Management Service is incorrect. Although Lambda encrypts the environment variables in your function by default, the sensitive information would still be visible to other users who have access to the Lambda console. This is because Lambda uses a default KMS key to encrypt the variables, which is usually accessible by other users. The best option in this scenario is to use encryption helpers to secure your environment variables.
 
 - Lambda functions can’t process long-running processes.
 - Take note that a Lambda function has a **maximum processing time of 15 minutes**.
@@ -894,17 +924,24 @@
 
 # RDS
 
-- RDS synchronously replicates the data to a standby instance in a different Availability Zone (AZ) that is in the same region and not in a different one.
+- **RDS synchronously replicates the data to a standby instance in a different Availability Zone (AZ) that is in the same region and not in a different one.**
 - IAM database authentication is only supported in MySQL and PostgreSQL database engines.
 - With IAM database authentication, you don't need to use a password when you connect to a DB instance but instead, you use an authentication token.
 - You can force all connections to your DB instance to use SSL, or you can encrypt connections from specific client computers only.
+- You can authenticate to your DB instance using AWS Identity and Access Management (IAM) database authentication. **IAM database authentication works with MySQL and PostgreSQL.** With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.
+
+#### Multi-AZ High Availability
+
+- Increased database availability in the case of system upgrades like OS patching or DB Instance scaling.
+
+- Provides enhanced database durability in the event of a DB instance component failure or an Availability Zone outage.
 
 #### RDS in-transit security
 
 - If you want to force SSL, use the `rds.force_ssl` parameter.
 - By default, the `rds.force_ssl` parameter is set to false. Set the `rds.force_ssl` parameter to `true` to force connections to use SSL.
 - The `rds.force_ssl` parameter is static, so after you change the value, you must reboot your DB instance for the change to take effect.
-- To use SSL from a specific client, you must obtain the certs for the client computer, import certs on the client computer, and then encrypt the connections from the client computer.
+- Download the Amazon RDS Root CA certificate. Import the certificate to your servers and configure your application to use SSL to encrypt the connection to RDS.
 
 ### Microsoft SQL Server
 
