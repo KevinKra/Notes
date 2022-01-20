@@ -1,4 +1,168 @@
+# AWS CLI
+
+- For commands that can return a large list of items, the AWS CLI provides options that you can use to control the number of items included in the output when the AWS CLI calls a service’s API to populate the list.**By default, the AWS CLI uses a page size of 1000** and retrieves all available items. If you see issues when running list commands on a large number of resources, the default page size of 1000 might be too high. This can cause calls to AWS services to exceed the maximum allowed time and generate a “timed out” error.
+- You can use the `--page-size` option to specify that the AWS CLI request a smaller number of items from each call to the AWS service. The CLI still retrieves the full list but performs a larger number of service API calls in the background and retrieves a smaller number of items with each call. This gives the individual calls a better chance of succeeding without a timeout.
+
+## AWS CLI Questions
+
+- What is the default page size in the AWS CLI?
+- What option can you use to modify the number of items from each call ot the AWS service?
+
+---
+
 # ECS
+
+> ECS is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
+
+## Container Concepts
+
+### Containers
+
+A **container** is a standardized unit of software development that contains everything that your software application needs to run, including **relevant code, runtime, system tools, and system libraries**. Containers are created from a read-only template called an **image**.
+
+### Images
+
+Images are typically built from a Dockerfile, which is a **plaintext file** that specifies all of the components that are included in the container.
+
+### Registry
+
+After being built, these images are stored in a registry where they then can be downloaded and run on your cluster.
+
+## ECS Concepts
+
+ECS is composed of several core pieces, they include:
+
+- **Clusters**
+
+  > When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+
+- **Tasks**
+  > A task is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+  - **Task Definition**
+    > Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+  - **Task Scheduler**
+    > The task scheduler is responsible for placing tasks within your cluster.
+- **Containers**
+  > A container is a standardized unit of software development that contains everything that your software application needs to run, including relevant code, runtime, system tools, and system libraries. Containers are created from a read-only template called an image.
+  - **Container Agent**
+    > The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
+
+### Application Architecture
+
+#### Fargate
+
+**The Fargate launch type is good for the following workloads:**
+
+- Large workloads that need to be optimized for low overhead
+- Small workloads that have occasional burst
+- Tiny workloads
+- Batch workloads
+
+When architecting your application to run on Amazon ECS using AWS Fargate, the main question is when should you put multiple containers into the same task definition versus deploying containers separately in multiple task definitions.
+
+**When the following conditions are required, we recommend that you deploy your containers in a single task definition:**
+
+- Your containers share a common lifecycle (that is, they are launched and terminated together).
+  Your containers must run on the same underlying host (that is, one container references the other on a localhost port).
+- You require that your containers share resources.
+- Your containers share data volumes.
+
+  Otherwise, you should define your containers in separate tasks definitions so that you can scale, provision, and deprovision them separately.
+
+#### EC2 Launch Type
+
+The EC2 launch type is good for large workloads that need to be optimized for price.
+
+When you’re considering how to model task definitions and services using the EC2 launch type, it helps to think about what processes need to run together and how to scale each component.
+
+**As an example, imagine an application that consists of the following components:**
+
+- A frontend service that displays information on a webpage
+- A backend service that provides APIs for the frontend service
+- A data store
+
+---
+
+## Clusters
+
+> When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+
+You can register one or more Amazon EC2 instances (also referred to as **container instances**) with your cluster to run tasks on them. Or, you can use the serverless infrastructure that Fargate provides to run tasks. When your tasks are run on Fargate, your cluster resources are also managed by Fargate.
+
+- Infrastructure capacity can be provided by AWS Fargate (Serverless/Managed), EC2, on-prem, or even VMs that you manage remotely.
+- A cluster may contain a mix of tasks hosted on AWS Fargate, Amazon EC2 instances, or external instances.
+- Clusters are **region-specific**.
+- Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.
+- Enabling managed Amazon ECS cluster auto scaling allows ECS to manage the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value that you specify.
+
+### Cluster States
+
+- **ACTIVE**
+  - The cluster is ready to accept tasks and, if applicable, you can register container instances with the cluster.
+- **PROVISIONING**
+  - The cluster has capacity providers associated with it and the resources needed for the capacity provider are being created.
+- **DEPROVISIONING**
+  - The cluster has capacity providers associated with it and the resources needed for the capacity provider are being deleted.
+- **FAILED**
+  - The cluster has capacity providers associated with it and the resources needed for the capacity provider have failed to create.
+- **INACTIVE**
+  - **The cluster has been deleted.** Clusters with an INACTIVE status may remain discoverable in your account for a period of time. However, _this behavior is subject to change in the future_, so you should not rely on INACTIVE clusters persisting.
+
+## Task Components
+
+### Tasks
+
+> A **task** is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+
+After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks to run on your cluster.
+
+### Tasks Definitions
+
+> Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+
+- **Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
+
+**Task definitions are split into separate parts:**
+
+- **Task family** – the name of the task, and each family can have multiple revisions.
+- **IAM task role** – specifies the permissions that containers in the task should have.
+- **Network mode** – determines how the networking is configured for your containers.
+- **Container definitions** – specify which image to use, how much CPU and memory the container are allocated, and many more options.
+- **Volumes** – allow you to share data between containers and even persist the data on the container instance when the containers are no longer running.
+- **Task placement constraints** – lets you customize how your tasks are placed within the infrastructure.
+- **Launch types** – determines which infrastructure your tasks use.
+
+### Task Scheduler
+
+> The task scheduler is responsible for placing tasks within your cluster.
+
+- **REPLICA** — places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
+- **DAEMON** — deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When using this strategy, there is no need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.
+
+- You can upload a new version of your application task definition, and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.
+
+- Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.
+
+## Container Agent
+
+> The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
+
+- The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
+
+- Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition which can be configured in the task definition.
+- **Service scheduler** this only provides you the ability to run tasks _manually_ (for batch jobs or single run tasks), with Amazon ECS placing tasks on your cluster for you. The service scheduler is ideally suited for long running stateless services and applications but not to configure port mappings.
+- **Container instance** this is just an Amazon EC2 instance that is running the Amazon ECS container agent and has been registered into a cluster. When you run tasks with Amazon ECS, your tasks using the EC2 launch type are placed on your active container instances. However, you can’t manually configure the port mappings directly on your container instances but through task definitions.
+- **Container Agent** this only allows container instances to connect to your cluster. The Amazon ECS container agent is included in the Amazon ECS-optimized AMIs, but you can also install it on any Amazon EC2 instance that supports the Amazon ECS specification. Same as the other incorrect options, you can’t configure port mappings with this component.
+
+## Service Load Balancing
+
+- Amazon ECS services support the Application Load Balancer, Network Load Balancer, and Classic Load Balancer ELBs. Application Load Balancers are used to route HTTP/HTTPS (or layer 7) traffic. Network Load Balancers are used to route TCP or UDP (or layer 4) traffic. Classic Load Balancers are used to route TCP traffic.
+
+- The Classic Load Balancer doesn’t allow you to run multiple copies of a task on the same instance. You must statically map port numbers on a container instance. However, an Application Load Balancer uses **dynamic port mapping**, so you can run multiple tasks from a single service on the same container instance.
+
+- Services with tasks that use the `awsvpc` network mode, such as those with the Fargate launch type, do not support Classic Load Balancers. **You must use NLB instead for TCP.**
+
+## Deployment
 
 ### Task Placement Strategy
 
@@ -6,16 +170,35 @@
 
 - Amazon ECS supports the following task placement strategies:
   - **binpack**: tasks are placed on container instances so as to leave the least amount of unused CPU or memory. This strategy minimizes the number of container instances in use. When this strategy is used and a scale-in action is taken, Amazon ECS terminates tasks. It does this based on the amount of resources that are left on the container instance after the task is terminated. The container instance that has the most available resources left after task termination has that task terminated.
-  - **random**: place tasks randomly.
-  - **spread**: place tasks evenly based on the specified value. _Accepted values are attribute key-value pairs, instanceId, or host._
+  - **random**: this will just place tasks on instances randomly.
+  - **spread**: The spread strategy, contrary to the `binpack` strategy, tries to put your tasks on as many different instances as possible. It is typically used to achieve high availability and mitigate risks, by making sure that you don’t put all your task-eggs in the same instance-baskets. Spread across Availability Zones, therefore, is the default placement strategy used for services. **When using the spread strategy, you must also indicate a field parameter.** It is used to indicate the bins that you are considering. The accepted values are `instanceID`, `host`, or a custom attribute key:value pairs such as `attribute:ecs.availability-zone` to balance tasks across zones. There are several AWS attributes that start with the ecs prefix, but you can be creative and create your own attributes.
 
 ## ECS Questions
 
+- What are ECS port mappings used for?
+- What is the Service Scheduler?
+- What is the Container Instance?
+- What is the Container Agent?
 - What is an ECS task placement strategy?
 - What are the three ECS task placement strategies?
 - Describe the binpack task placement strategy.
 - Describe the random task placement strategy.
 - Describe the spread task placement strategy.
+
+---
+
+# SWF
+
+- **Markers** are used to record events in the workflow execution history for application specific purposes. Markers are useful when you want to record custom information to help implement decider logic. For example, you could use a marker to count the number of loops in a recursive workflow.
+- **Signals** enable you to inject information into a running workflow execution.
+- **Timers** enable you to notify your decider when a certain amount of time has elapsed.
+- **Tags** enable you to filter the listing of the executions when you use the visibility operations.
+
+---
+
+# S3
+
+- Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and your Amazon S3 bucket. **Transfer Acceleration leverages Amazon CloudFront’s globally distributed AWS Edge Locations. As data arrives at an AWS Edge Location, data is routed to your Amazon S3 bucket over an optimized network path.**
 
 ---
 
@@ -40,9 +223,9 @@
 
 - **Rolling** – Deploy the new version in batches. Each batch is taken out of service during the deployment phase, reducing your environment’s capacity by the number of instances in a batch. This method will deploy the new version in batches only to existing instances, without provisioning new resources. The compute capacity of the environment would still be compromised in this method.
 
-- **Rolling with additional batch** – Deploy the new version in batches, but first launch a new batch of instances to ensure full capacity during the deployment process.
+- **Rolling with additional batch** – Starts by deploying your application code to a single batch of newly created EC2 instances. Once the deployment succeeds on the first batch of instances, the application code is deployed to the remaining instances in batches until the last batch of instances remains. At this point, the last batch of instances is terminated. This deployment policy ensures that the impact of a failed deployment is limited to a single batch of instances and enables your application to serve traffic at full capacity during an ongoing deployment.
 
-- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer* to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. If the new instances don’t pass health checks, Elastic Beanstalk terminates them, leaving the original instances untouched. \*\*If an immutable environment update fails, the rollback process requires only terminating an Auto Scaling group. A failed \_rolling update*, on the other hand, requires performing an additional rolling update to roll back the changes.\*\*
+- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. If the new instances don’t pass health checks, Elastic Beanstalk terminates them, leaving the original instances untouched. If an immutable environment update fails, the rollback process requires only terminating an Auto Scaling group. A failed rolling update, on the other hand, requires performing an additional rolling update to roll back the changes.
 
 - **Traffic splitting** – Deploy the new version to a fresh group of instances and temporarily split incoming client traffic between the existing application version and the new one.
 
@@ -125,6 +308,8 @@
 - **Execution Context** is a temporary runtime environment that initializes any external dependencies of your Lambda function code, such as database connections or HTTP endpoints.
 
 - To create a Lambda function, you first create a Lambda function deployment package, **a `.zip` or `.jar` file** consisting of your code and any dependencies. **When creating the zip, include only the code and its dependencies, not the containing folder.** You will then need to set the appropriate security permissions for the zip package.
+
+- In **Lambda non-proxy (or custom) integration**, you can specify how the incoming request data is mapped to the integration request and how the resulting integration response data is mapped to the method response.
 
 #### Errors
 
@@ -286,13 +471,17 @@
 
 ---
 
-# AWS X-Ray
+# X-Ray
 
 - **AWS X-Ray** helps developers analyze and debug production, distributed applications, such as those built using a microservices architecture. With X-Ray, you can understand how your application and its underlying services are performing to identify and troubleshoot the root cause of performance issues and errors. _X-Ray provides an end-to-end view of requests as they travel through your application_, and shows a map of your application’s underlying components.
-
 - You can use X-Ray to analyze both applications in development and in production, from simple three-tier applications to complex microservices applications consisting of thousands of services.
-
 - AWS X-Ray works with Amazon EC2, Amazon EC2 Container Service (Amazon ECS), AWS Lambda, and AWS Elastic Beanstalk.
+
+- A segment can break down the data about the work done into **subsegments**. Subsegments provide more granular timing information and details about downstream calls that your application made to fulfill the original request. A subsegment can contain additional details about a call to an AWS service, an external HTTP API, or an SQL database. You can even define arbitrary subsegments to instrument specific functions or lines of code in your application.
+
+- For services that don’t send their own segments like Amazon DynamoDB, X-Ray uses subsegments to generate **_inferred_ segments** and downstream nodes on the service map. This lets you see all of your downstream dependencies, even if they don’t support tracing, or are external.
+
+- Subsegments represent your application’s view of a downstream call as a client. If the downstream service is also instrumented, the segment that it sends replaces the inferred segment generated from the upstream client’s subsegment. The node on the service graph always uses information from the service’s segment, if it’s available, while the edge between the two nodes uses the upstream service’s subsegment.
 
 ---
 
@@ -360,3 +549,11 @@
 - Can the salted `HMAC` value be used to derive the value of the encryption key or decrypt the contents of the encrypted object?
 - What is the salted `HMAC` value used for?
 - An S3 bucket using SSE-C stores what value to validate future requests?
+
+# API Gateway
+
+### API integration request
+
+- An integration request is an HTTP request that API Gateway submits to the backend, passing along the client-submitted request data, and transforming the data, if necessary. The HTTP method (or verb) and URI of the integration request are dictated by the backend (that is, the integration endpoint). They can be the same as or different from the method request's HTTP method and URI, respectively.
+
+For example, when a Lambda function returns a file that is fetched from Amazon S3, you can expose this operation intuitively as a GET method request to the client even though the corresponding integration request requires that a POST request be used to invoke the Lambda function. For an HTTP endpoint, it is likely that the method request and the corresponding integration request both use the same HTTP verb. However, this is not required. You can integrate the following method request:
