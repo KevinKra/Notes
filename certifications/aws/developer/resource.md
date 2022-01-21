@@ -1,12 +1,12 @@
 # AWS CLI
 
-- For commands that can return a large list of items, the AWS CLI provides options that you can use to control the number of items included in the output when the AWS CLI calls a service’s API to populate the list.**By default, the AWS CLI uses a page size of 1000** and retrieves all available items. If you see issues when running list commands on a large number of resources, the default page size of 1000 might be too high. This can cause calls to AWS services to exceed the maximum allowed time and generate a “timed out” error.
+- **By default, the AWS CLI uses a page size of 1000** and retrieves all available items.
 - You can use the `--page-size` option to specify that the AWS CLI request a smaller number of items from each call to the AWS service. The CLI still retrieves the full list but performs a larger number of service API calls in the background and retrieves a smaller number of items with each call. This gives the individual calls a better chance of succeeding without a timeout.
 
 ## AWS CLI Questions
 
 - What is the default page size in the AWS CLI?
-- What option can you use to modify the number of items from each call ot the AWS service?
+- What option can you use to modify the number of items from each call to the AWS service?
 
 ---
 
@@ -14,17 +14,17 @@
 
 > ECS is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
 
-## Container Concepts
+### Container Concepts
 
-### Containers
+#### Containers
 
 A **container** is a standardized unit of software development that contains everything that your software application needs to run, including **relevant code, runtime, system tools, and system libraries**. Containers are created from a read-only template called an **image**.
 
-### Images
+#### Images
 
 Images are typically built from a Dockerfile, which is a **plaintext file** that specifies all of the components that are included in the container.
 
-### Registry
+#### Registry
 
 After being built, these images are stored in a registry where they then can be downloaded and run on your cluster.
 
@@ -92,7 +92,7 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 - Infrastructure capacity can be provided by AWS Fargate (Serverless/Managed), EC2, on-prem, or even VMs that you manage remotely.
 - A cluster may contain a mix of tasks hosted on AWS Fargate, Amazon EC2 instances, or external instances.
 - Clusters are **region-specific**.
-- Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.
+- **Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.**
 - Enabling managed Amazon ECS cluster auto scaling allows ECS to manage the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value that you specify.
 
 ### Cluster States
@@ -139,9 +139,9 @@ After you have created a task definition for your application within Amazon ECS,
 - **REPLICA** — places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
 - **DAEMON** — deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When using this strategy, there is no need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.
 
-- You can upload a new version of your application task definition, and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.
+- You can upload a new version of your application task definition, **and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.**
 
-- Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.
+- **Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
 
 ## Container Agent
 
@@ -175,6 +175,15 @@ After you have created a task definition for your application within Amazon ECS,
 
 ## ECS Questions
 
+- What is a Cluster?
+- Are Clusters region specific?
+- What must you do before you delete a Cluster?
+- What is a Task?
+- What is a Task Definition?
+- How many containers can be defined by a single class definition?
+- Is it a good idea, or normal, to have an entire application task based on one task definition?
+- What does a Task Scheduler do?
+- Can Tasks running on EC2 and Fargate mount EFS?
 - What are ECS port mappings used for?
 - What is the Service Scheduler?
 - What is the Container Instance?
@@ -184,15 +193,6 @@ After you have created a task definition for your application within Amazon ECS,
 - Describe the binpack task placement strategy.
 - Describe the random task placement strategy.
 - Describe the spread task placement strategy.
-
----
-
-# SWF
-
-- **Markers** are used to record events in the workflow execution history for application specific purposes. Markers are useful when you want to record custom information to help implement decider logic. For example, you could use a marker to count the number of loops in a recursive workflow.
-- **Signals** enable you to inject information into a running workflow execution.
-- **Timers** enable you to notify your decider when a certain amount of time has elapsed.
-- **Tags** enable you to filter the listing of the executions when you use the visibility operations.
 
 ---
 
@@ -557,3 +557,14 @@ After you have created a task definition for your application within Amazon ECS,
 - An integration request is an HTTP request that API Gateway submits to the backend, passing along the client-submitted request data, and transforming the data, if necessary. The HTTP method (or verb) and URI of the integration request are dictated by the backend (that is, the integration endpoint). They can be the same as or different from the method request's HTTP method and URI, respectively.
 
 For example, when a Lambda function returns a file that is fetched from Amazon S3, you can expose this operation intuitively as a GET method request to the client even though the corresponding integration request requires that a POST request be used to invoke the Lambda function. For an HTTP endpoint, it is likely that the method request and the corresponding integration request both use the same HTTP verb. However, this is not required. You can integrate the following method request:
+
+---
+
+# SWF
+
+- **Markers** are used to record events in the workflow execution history for application specific purposes. Markers are useful when you want to record custom information to help implement decider logic. For example, you could use a marker to count the number of loops in a recursive workflow.
+- **Signals** enable you to inject information into a running workflow execution.
+- **Timers** enable you to notify your decider when a certain amount of time has elapsed.
+- **Tags** enable you to filter the listing of the executions when you use the visibility operations.
+
+---
