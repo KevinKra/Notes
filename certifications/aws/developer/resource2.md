@@ -12,9 +12,9 @@ In DynamoDB, tables, items, and attributes are the core components that you work
 
 - **Attributes** – Each item is composed of one or more attributes. An attribute is a fundamental data element, something that does not need to be broken down any further.
 
-Each item in the table has a unique identifier, or primary key, that distinguishes the item from all of the others in the table.
+Each item in the table has a unique identifier, or **primary key**, that distinguishes the item from all of the others in the table.
 
-Other than the primary key, the People table is schemaless, which means that neither the attributes nor their data types need to be defined beforehand. Each item can have its own distinct attributes.
+Other than the primary key, the `People` table is schemaless, which means that neither the attributes nor their data types need to be defined beforehand. Each item can have its own distinct attributes.
 
 DynamoDB supports nested attributes up to **32 levels deep**.
 
@@ -38,7 +38,7 @@ DynamoDB uses the partition key value as input to an internal hash function. The
 
 In a table that has a partition key and a sort key, it's possible for multiple items to have the same partition key value. However, those items must have different sort key values.
 
-A composite primary key gives you additional flexibility when querying data. For example, if you provide only the value for Artist, DynamoDB retrieves all of the songs by that artist. To retrieve only a subset of songs by a particular artist, you can provide a value for Artist along with a range of values for SongTitle.
+A composite primary key gives you additional flexibility when querying data. For example, if you provide only the value for `Artist`, DynamoDB retrieves all of the songs by that artist. To retrieve only a subset of songs by a particular artist, you can provide a value for `Artist` along with a range of values for `SongTitle`.
 
 > The partition key of an item is also known as its **hash attribute**. The term hash attribute derives from the use of an internal hash function in DynamoDB that evenly distributes data items across partitions, based on their partition key values.
 
@@ -54,16 +54,20 @@ A secondary index lets you query the data in the table using an alternate key, i
 
 DynamoDB doesn't require that you use indexes, but they give your applications more flexibility when querying your data.
 
-#### **DynamoDB supports two kinds of indexes:**
+When you create a secondary index, DynamoDB actually creates a _new table_ that is sorted with your partition key and the new sort key, serving as the composite/primary key for the table.
+
+Secondary Indexes are created at table creation time. You cannot create a secondary index after the table has been created.
+
+#### DynamoDB supports two kinds of indexes:
 
 - **Global secondary index** – An index with a partition key and sort key that can be different from those on the table.
 - **Local secondary index** – An index that has the same partition key as the table, but a different sort key.
 
 Each table in DynamoDB has a quota of **20 global secondary indexes (default quota) and 5 local secondary indexes.**
 
-In the example `Music` table shown previously, you can query data items by `Artist` (partition key) or by `Artist` and `SongTitle` (partition key and sort key). What if you also wanted to query the data by Genre and `AlbumTitle`? To do this, you could create an index on `Genre` and `AlbumTitle`, and then query the index in much the same way as you'd query the `Music` table.
+In the example `Music` table shown previously, you can query data items by `Artist` (partition key) or by `Artist` and `SongTitle` (partition key and sort key). What if you also wanted to query the data by `Genre` and `AlbumTitle`? To do this, you could create an index on `Genre` and `AlbumTitle`, and then query the index in much the same way as you'd query the `Music` table.
 
-- Every index belongs to a table, which is called the _base table_ for the index. In the preceding example, Music is the base table for the GenreAlbumTitle index.
+- Every index belongs to a table, which is called the _base table_ for the index. In the preceding example, `Music` is the base table for the GenreAlbumTitle index.
 
 - DynamoDB maintains indexes automatically. When you add, update, or delete an item in the base table, DynamoDB adds, updates, or deletes the corresponding item in any indexes that belong to that table.
 
@@ -101,12 +105,12 @@ _Control plane_ operations let you create and manage DynamoDB tables. They also 
 
 Data plane operations let you perform create, read, update, and delete (also called CRUD) actions on data in a table. Some of the data plane operations also let you read data from a secondary index.
 
-You can use PartiQL - A SQL-Compatible Query Language for Amazon DynamoDB, to perform these CRUD operations or you can use DynamoDB’s classic CRUD APIs that separates each operation into a distinct API call.
+You can use **PartiQL** - A SQL-Compatible Query Language for Amazon DynamoDB, to perform these CRUD operations or you can use DynamoDB’s classic CRUD APIs that separates each operation into a distinct API call.
 
 #### Creating Data
 
 - `PutItem`: Retrieves a single item from a table.
-- `BatchWriteItem`: **Writes up to 25 items to a table.** This is more efficient than calling PutItem multiple times because your application only needs a single network round trip to write the items. _You can also use BatchWriteItem for deleting multiple items from one or more tables._
+- `BatchWriteItem`: **Writes up to 25 items to a table.** This is more efficient than calling `PutItem` multiple times because your application only needs a single network round trip to write the items. _You can also use BatchWriteItem for deleting multiple items from one or more tables._
 
 #### Reading Data
 
@@ -145,7 +149,7 @@ DynamoDB Streams operations let you enable or disable a stream on a table, and a
 
 ### Document Types
 
-The document types are list and map. **These data types can be nested within each other**, to represent complex data structures **up to 32 levels deep.**
+The document types are `list` and `map`. **These data types can be nested within each other**, to represent complex data structures **up to 32 levels deep.**
 
 There is no limit on the number of values in a list or a map, as long as the item containing the **values fits within the DynamoDB item size limit (400 KB).**
 
@@ -329,3 +333,64 @@ To write an item to the table, DynamoDB calculates the hash value of the partiti
 You can read multiple items from the table in a single operation (`Query`) if the items you want have the same partition key value. DynamoDB returns all of the items with that partition key value. Optionally, you can apply a condition to the sort key so that it returns only the items within a certain range of values.
 
 To read all of the items with an `AnimalType` of _Dog_, you can issue a Query operation without specifying a sort key condition. By default, the items are returned in the order that they are stored (that is, in ascending order by sort key). Optionally, you can request descending order instead.
+
+## DynamoDB Questions
+
+- DynamoDB's data structures are divided into three what levels?
+- A row in DynamoDB is called what?
+- A column in DynamoDB is called what?
+- How many layers nested can an attribute be?
+- What is a primary key?
+- What is a sort key?
+- What is a partition key?
+- What is a composite key?
+- How does DynamoDB use the partition key?
+- Beyond the primary key, do other in a table attributes need to be defined before hand and share the same attribute types?
+- In a table that has a partition key _and_ sort key, can multiple items have the same partition key value?
+- An item's partition key is also called it's <blank> attribute.
+- An item's sort key is also called it's <blank> attribute.
+- Each primary key must be what type of value? What does this restrict to it?
+- What happens when you declare a secondary index for your table?
+- Can you create a secondary index for your table after the table has been already created?
+- What is the difference between a global secondary index and a local secondary index?
+- What is the default quota limit for a table's **global secondary index**?
+- What is the default quota limit for a table's **local secondary index**?
+- Every index belongs to a table, what is this table called?
+- When creating an index, which table elements need to be projected from the base table to the index?
+- At a minimum, DynamoDB projects which attributes from the base table to the index?
+- Are DynamoDB streams required or optional?
+- Do DynamoDB stream events appear in the ordered they occurred?
+- Each event on a stream is represented by what?
+- For a table with a stream, what happens when a new event is added to the table?
+- For a table with a stream, what happens when an event is updated?
+- For a table with a stream, what happens when a new event is deleted from the table?
+- Each stream record contains what core pieces of data?
+- What is the lifespan for a stream record?
+- Streams can be used together with what service to build event-driven architecture when events of interest appear in a stream?
+- Can streams help enable data replication in, and across, AWS regions?
+- Can streams be used for data analysis and producing materialized views with tools like Kineses?
+- What is the ControlPlane?
+- What is the DataPlane?
+- In the DataPlane, what two commands can you use for writing data?
+- `BatchWriteItem` writes up to how many items in a table?
+- `BatchWriteItem` is also useful/used for what other table operation?
+- In the DataPlane, what four commands can you use for reading data?
+- `BatchGetItem` returns how many items?
+- Can `BatchGetItem` get items from multiple tables?
+- Which read command retrieves all items that have a specific partition key?
+- Which read command retrieves all items in a specified table or index?
+- In the DataPlane, what two commands can you use for writing data?
+- With the `UpdateItem` command, are you able to add _and_ remove attributes from the selected item?
+- In the DataPlane, what two commands can you use for deleting data?
+- What are the four stream commands?
+- `GetShardIterator` is used to retrieve what data structure? What does it retrieve?
+- `GetRecords` uses what data structure to review one or more stream records?
+- What Scalar types does DynamoDB support?
+- Describe the `Binary` scalar type.
+- What are the two **document types** in DynamoDB?
+- How deeply nested can a map / list be?
+- Is there a space limit to the number of values you can have on a document type attribute?
+- Describe a `List`.
+- Describe a `Map`.
+- Describe a `Set`.
+- Does each item in a set need to be unique?
