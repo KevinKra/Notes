@@ -247,7 +247,7 @@ If you need more than double your previous peak on table, DynamoDB automatically
 
 If you recently switched an existing table to on-demand capacity mode for the first time, or if you created a new table with on-demand capacity mode enabled, the table has the following previous peak settings, even though the table has not served traffic previously using on-demand capacity mode.
 
-When you switch a table from provisioned capacity mode to on-demand capacity mode, DynamoDB makes several changes to the structure of your table and partitions. This process can take several minutes. During the switching period, your table delivers throughput that is consistent with the previously provisioned write capacity unit and read capacity unit amounts.
+When you switch a table from provisioned capacity mode to on-demand capacity mode, DynamoDB makes several changes to the structure of your table and partitions. This process can take several minutes. **During the switching period, your table delivers throughput that is consistent with the previously provisioned write capacity unit and read capacity unit amounts.**
 
 ### Provisioned Mode
 
@@ -261,7 +261,7 @@ If you choose provisioned mode, you specify the number of reads and writes per s
 
 #### RCU and WCU
 
-If your application reads or writes larger items (up to the DynamoDB maximum item size of 400 KB), it will consume more capacity units.
+If your application reads or writes larger items (up to the DynamoDB _maximum item size_ of 400 KB), it will consume more capacity units.
 
 For example, suppose that you create a provisioned table with 6 read capacity units and 6 write capacity units. With these settings, your application could do the following:
 
@@ -279,17 +279,17 @@ _Provisioned throughput_ is the maximum amount of capacity that an application c
 
 #### DynamoDB Auto Scaling
 
-**DynamoDB auto scaling actively manages throughput capacity for tables and global secondary indexes.** With auto-scaling, you define a range (upper and lower limits) for read and write capacity units. You also define a target utilization percentage within that range.
+**DynamoDB auto scaling actively manages throughput capacity for tables and global secondary indexes.** With auto-scaling, you define a range (upper and lower limits) for read and write capacity units. **You also define a target utilization percentage within that range.**
 
-With DynamoDB auto-scaling, a table or a global secondary index can increase its provisioned read and write capacity to handle sudden increases in traffic, without request throttling. When the workload decreases, DynamoDB auto scaling can decrease the throughput so that you don't pay for unused provisioned capacity.
+**With DynamoDB auto-scaling, a table or a global secondary index can increase its provisioned read and write capacity to handle sudden increases in traffic, without request throttling.** When the workload decreases, DynamoDB auto scaling can decrease the throughput so that you don't pay for unused provisioned capacity.
 
 #### Reserved Capacity
 
 As a DynamoDB customer, you can purchase reserved capacity in advance for tables that use the DynamoDB Standard table class, as described at Amazon DynamoDB Pricing.
 
-With reserved capacity, you pay a one-time upfront fee and commit to a minimum provisioned usage level over a period of time.
+**With reserved capacity, you pay a one-time upfront fee and commit to a minimum provisioned usage level over a period of time.**
 
-Your reserved capacity is billed at the hourly reserved capacity rate. By reserving your read and write capacity units ahead of time, you realize significant cost savings on your provisioned capacity costs. Any capacity that you provision in excess of your reserved capacity is billed at standard provisioned capacity rates.
+**Your reserved capacity is billed at the hourly reserved capacity rate.** By reserving your read and write capacity units ahead of time, you realize significant cost savings on your provisioned capacity costs. Any capacity that you provision in excess of your reserved capacity is billed at standard provisioned capacity rates.
 
 > Reserved capacity is not available for replicated write capacity units. Reserved capacity is also not available for tables using the DynamoDB Standard-IA table class or on-demand capacity mode.
 
@@ -330,7 +330,7 @@ If the table has a composite primary key (partition key and sort key), DynamoDB 
 
 To write an item to the table, DynamoDB calculates the hash value of the partition key to determine which partition should contain the item. In that partition, several items could have the same partition key value. So DynamoDB stores the item among the others with the same partition key, in ascending order by sort key.
 
-You can read multiple items from the table in a single operation (`Query`) if the items you want have the same partition key value. DynamoDB returns all of the items with that partition key value. Optionally, you can apply a condition to the sort key so that it returns only the items within a certain range of values.
+You can read multiple items from the table in a single operation (`Query`) if the items you want have the same partition key value. DynamoDB returns all of the items with that partition key value. **Optionally, you can apply a condition to the sort key so that it returns only the items within a certain range of values.**
 
 To read all of the items with an `AnimalType` of _Dog_, you can issue a Query operation without specifying a sort key condition. By default, the items are returned in the order that they are stored (that is, in ascending order by sort key). Optionally, you can request descending order instead.
 
@@ -415,3 +415,27 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What is the WCU expense for writing an item?
 - What is the WCU expense for a transactional write?
 - WCU's support up to what data size before an additional WCU is needed?
+- Explain how DynamoDB on-demand capacity mode scales for your peak volumes.
+- What happens if you need more capacity than double your previous peak, will you experience throttling?
+- Can throttling occur if you exceed double your previous peak in the last 30 minutes?
+- If you switch capacity types from provisioned into on-demand, what throughput will your table have until the allocations have been configured?
+- What situations is provisioned mode good for?
+- If you set a provisioned table with 6 RCU, how many **strong reads** in KB/s can the table support?
+- If you set a provisioned table with 6 RCU, how many **eventual reads** in KB/s can the table support?
+- If you set a provisioned table with 6 RCU, how many **transactional reads** in KB/s can the table support?
+- If you set a provisioned table with 6 WCU, how many **writes** in KB/s can the table support?
+- If you set a provisioned table with 6 WCU, how many **transactional writes** in KB/s can the table support?
+- If you exceed your provisioned throughput, what is your throughput subject to?
+- If a request is throttled, what failure message does it return?
+- If a request is throttled, what exception is returned?
+- Does DynamoDB automatically manage the throughput for your index tables?
+- With auto scaling enabled, you define what a rcu/wcu range and what else?
+- With auto scaling, can a table or global secondary index adjust its provisioned read/write capacity to handle sudden spikes in traffic without causing throttling?
+- What kind of fee and usage levels do you need to define when you used DynamoDB reserved capacity?
+- Is reserved capacity available for tables using DynamoDB standard-IA or on-demand capacity mode?
+- What two table classes does DynamoDB offer?
+- Which DynamoDB table class is the default class and recommended for most workloads?
+- Is the choice of the table class permanent?
+- DynamoDB allocates additional partitions in what two situations?
+- Is the data in a global secondary index stored separately from the data in its base table?
+- For your `Query` operations on a table, can you provide an optional condition to the sort key so it only returns the items within a certain range in the partitioned space?
