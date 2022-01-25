@@ -167,11 +167,11 @@ A map type attribute can store an unordered collection of name-value pairs. Maps
 
 #### Sets
 
-DynamoDB supports types that represent sets of number, string, or binary values. **All the elements within a set must be of the same type.**
+DynamoDB supports types that represent sets of **number, string, or binary values**. **All the elements within a set must be of the same type.**
 
 There is no limit on the number of values in a set, as long as the item containing the values fits within the DynamoDB item size limit (400 KB).
 
-**Each value within a set must be unique.** **The order of the values within a set is not preserved. **Therefore, your applications must not rely on any particular order of elements within the set. DynamoDB does not support empty sets, however, empty string and binary values are allowed within a set.
+**Each value within a set must be unique.** **The order of the values within a set is not preserved.** Therefore, your applications must not rely on any particular order of elements within the set. DynamoDB does not support empty sets, however, empty string and binary values are allowed within a set.
 
 - `["Black", "Green", "Red"]`
 
@@ -251,7 +251,7 @@ When you switch a table from provisioned capacity mode to on-demand capacity mod
 
 ### Provisioned Mode
 
-If you choose provisioned mode, you specify the number of reads and writes per second that you require for your application. You can use auto scaling to adjust your table’s provisioned capacity automatically in response to traffic changes. This helps you govern your DynamoDB use to stay at or below a defined request rate in order to obtain cost predictability.
+If you choose provisioned mode, you specify the number of reads and writes per second that you require for your application. You can use auto-scaling to adjust your table’s provisioned capacity automatically in response to traffic changes. This helps you govern your DynamoDB use to stay at or below a defined request rate in order to obtain cost predictability.
 
 **Provisioned mode is a good option if any of the following are true:**
 
@@ -279,9 +279,9 @@ _Provisioned throughput_ is the maximum amount of capacity that an application c
 
 #### DynamoDB Auto Scaling
 
-**DynamoDB auto scaling actively manages throughput capacity for tables and global secondary indexes.** With auto scaling, you define a range (upper and lower limits) for read and write capacity units. You also define a target utilization percentage within that range.
+**DynamoDB auto scaling actively manages throughput capacity for tables and global secondary indexes.** With auto-scaling, you define a range (upper and lower limits) for read and write capacity units. You also define a target utilization percentage within that range.
 
-With DynamoDB auto scaling, a table or a global secondary index can increase its provisioned read and write capacity to handle sudden increases in traffic, without request throttling. When the workload decreases, DynamoDB auto scaling can decrease the throughput so that you don't pay for unused provisioned capacity.
+With DynamoDB auto-scaling, a table or a global secondary index can increase its provisioned read and write capacity to handle sudden increases in traffic, without request throttling. When the workload decreases, DynamoDB auto scaling can decrease the throughput so that you don't pay for unused provisioned capacity.
 
 #### Reserved Capacity
 
@@ -353,19 +353,19 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What happens when you declare a secondary index for your table?
 - Can you create a secondary index for your table after the table has been already created?
 - What is the difference between a global secondary index and a local secondary index?
-- What is the default quota limit for a table's **global secondary index**?
-- What is the default quota limit for a table's **local secondary index**?
+- What is the default quota limit for **global secondary indexes** on a table?
+- What is the default quota limit for **local secondary indexes** on a table?
 - Every index belongs to a table, what is this table called?
 - When creating an index, which table elements need to be projected from the base table to the index?
 - At a minimum, DynamoDB projects which attributes from the base table to the index?
 - Are DynamoDB streams required or optional?
-- Do DynamoDB stream events appear in the ordered they occurred?
+- Do DynamoDB stream events appear in the order they occurred?
 - Each event on a stream is represented by what?
-- For a table with a stream, what happens when a new event is added to the table?
-- For a table with a stream, what happens when an event is updated?
-- For a table with a stream, what happens when a new event is deleted from the table?
+- For a table with a stream, what happens when a new item is added to the table?
+- For a table with a stream, what happens when an item is updated?
+- For a table with a stream, what happens when a new item is deleted from the table?
 - Each stream record contains what core pieces of data?
-- What is the lifespan for a stream record?
+- What is the lifespan of a stream record?
 - Streams can be used together with what service to build event-driven architecture when events of interest appear in a stream?
 - Can streams help enable data replication in, and across, AWS regions?
 - Can streams be used for data analysis and producing materialized views with tools like Kineses?
@@ -394,8 +394,9 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Describe a `Map`.
 - Describe a `Set`.
 - Does each item in a set need to be unique?
+- What three types do sets support?
 - If two tables, in two different regions, share the same table namespace are they the same table?
-- What HTTP response do you get when a write to the a DynamoDB table has occurred and is durable.
+- What HTTP response do you get when a write to a DynamoDB table has occurred and is durable.
 - Is it possible to get a stale response that doesn't reflect the current state of the table?
 - Do strongly consistent reads have a higher latency than eventually consistent reads?
 - Are strongly consistent reads supported on the global secondary index?
@@ -405,7 +406,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Which capacity mode has free-tier eligible options?
 - Do secondary indexes inherit the read/write capacity from the base table?
 - DynamoDB on-demand mode instantly accommodate your workloads to support what previously reached metric?
-- What situations are DynamoDB on-demand instances suitable for>
+- What situations are DynamoDB on-demand instances suitable for?
 - How frequently can you switch a table between on-demand and provisioned?
 - What is the RCU expense for a strongly consistent read?
 - What is the RCU expense for an eventually consistent read?
