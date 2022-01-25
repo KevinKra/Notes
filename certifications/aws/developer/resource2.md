@@ -109,7 +109,7 @@ You can use **PartiQL** - A SQL-Compatible Query Language for Amazon DynamoDB, t
 
 #### Creating Data
 
-- `PutItem`: Retrieves a single item from a table.
+- `PutItem`: Writes a single item from a table.
 - `BatchWriteItem`: **Writes up to 25 items to a table.** This is more efficient than calling `PutItem` multiple times because your application only needs a single network round trip to write the items. _You can also use BatchWriteItem for deleting multiple items from one or more tables._
 
 #### Reading Data
@@ -181,7 +181,7 @@ There is no limit on the number of values in a set, as long as the item containi
 
 ## Read Consistency
 
-Amazon DynamoDB is available in multiple AWS Regions around the world. **Each Region is independent and isolated from other AWS Regions.** For example, if you have a table called `People` in the `us-east-2` Region and another table named `People` in the `us-west-2` Region, these are considered two entirely separate tables.
+Amazon DynamoDB is available in multiple AWS Regions around the world. **Tables in each Region are independent and isolated from tables other AWS Regions.** For example, if you have a table called `People` in the `us-east-2` Region and another table named `People` in the `us-west-2` Region, these are considered two entirely separate tables.
 
 When your application writes data to a DynamoDB table and receives an **HTTP 200 response (OK)**, the write has occurred and is durable. The data is eventually consistent across all storage locations, usually within one second or less.
 
@@ -196,7 +196,7 @@ When you request a strongly consistent read, DynamoDB returns a response with th
 - A strongly consistent read might not be available if there is a network delay or outage. In this case, DynamoDB may return a server error (HTTP 500).
 - Strongly consistent reads may have higher latency than eventually consistent reads.
 - **Strongly consistent reads are not supported on global secondary indexes.**
-- Strongly consistent reads use more throughput capacity than eventually consistent reads. For details, see Read/Write Capacity Mode.
+- Strongly consistent reads use more throughput capacity than eventually consistent reads.
 
 ## Read/Write Capacity Mode
 
@@ -345,11 +345,11 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What is a partition key?
 - What is a composite key?
 - How does DynamoDB use the partition key?
-- Beyond the primary key, do other in a table attributes need to be defined before hand and share the same attribute types?
+- Beyond the primary key, do other in a table attributes need to be defined beforehand and share the same attribute types?
 - In a table that has a partition key _and_ sort key, can multiple items have the same partition key value?
-- An item's partition key is also called it's <blank> attribute.
-- An item's sort key is also called it's <blank> attribute.
-- Each primary key must be what type of value? What does this restrict to it?
+- An item's partition key is also called it's _what_ attribute.
+- An item's sort key is also called it's _what_ attribute.
+- Each primary key must be comprised of what types of value?
 - What happens when you declare a secondary index for your table?
 - Can you create a secondary index for your table after the table has been already created?
 - What is the difference between a global secondary index and a local secondary index?
@@ -394,3 +394,23 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Describe a `Map`.
 - Describe a `Set`.
 - Does each item in a set need to be unique?
+- If two tables, in two different regions, share the same table namespace are they the same table?
+- What HTTP response do you get when a write to the a DynamoDB table has occurred and is durable.
+- Is it possible to get a stale response that doesn't reflect the current state of the table?
+- Do strongly consistent reads have a higher latency than eventually consistent reads?
+- Are strongly consistent reads supported on the global secondary index?
+- Do strongly consistent reads require more throughput than eventually consistent reads?
+- What are the two read/write capacity modes that DynamoDB provides for your tables?
+- Which capacity mode is the default mode?
+- Which capacity mode has free-tier eligible options?
+- Do secondary indexes inherit the read/write capacity from the base table?
+- DynamoDB on-demand mode instantly accommodate your workloads to support what previously reached metric?
+- What situations are DynamoDB on-demand instances suitable for>
+- How frequently can you switch a table between on-demand and provisioned?
+- What is the RCU expense for a strongly consistent read?
+- What is the RCU expense for an eventually consistent read?
+- What is the RCU expense for a transactional read?
+- RCU's support up to what data size before an additional RCU is needed?
+- What is the WCU expense for writing an item?
+- What is the WCU expense for a transactional write?
+- WCU's support up to what data size before an additional WCU is needed?
