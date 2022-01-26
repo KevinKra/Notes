@@ -291,19 +291,19 @@ For example, suppose that you create a provisioned table with 6 read capacity un
 - Write up to 6 KB per second (1 KB × 6 write capacity units).
 - Perform transactional write requests of up to 3 KB per second.
 
-#### Throttling
+### Throttling
 
 _Provisioned throughput_ is the maximum amount of capacity that an application can consume from a table or index. If your application exceeds your provisioned throughput capacity on a table or index, it is subject to request throttling.
 
 **Throttling prevents your application from consuming too many capacity units.** When a request is throttled, **it fails with an HTTP 400 code (Bad Request)** and a `ProvisionedThroughputExceededException`. **The AWS SDKs have built-in support for retrying throttled requests (see Error Retries and Exponential Backoff)**, so you do not need to write this logic yourself.
 
-#### DynamoDB Auto Scaling
+### DynamoDB Auto Scaling
 
 **DynamoDB auto scaling actively manages throughput capacity for tables and global secondary indexes.** With auto-scaling, you define a range (upper and lower limits) for read and write capacity units. **You also define a target utilization percentage within that range.**
 
 **With DynamoDB auto-scaling, a table or a global secondary index can increase its provisioned read and write capacity to handle sudden increases in traffic, without request throttling.** When the workload decreases, DynamoDB auto scaling can decrease the throughput so that you don't pay for unused provisioned capacity.
 
-#### Reserved Capacity
+### Reserved Capacity
 
 As a DynamoDB customer, you can purchase reserved capacity in advance for tables that use the DynamoDB Standard table class, as described at Amazon DynamoDB Pricing.
 
@@ -311,7 +311,7 @@ As a DynamoDB customer, you can purchase reserved capacity in advance for tables
 
 **Your reserved capacity is billed at the hourly reserved capacity rate.** By reserving your read and write capacity units ahead of time, you realize significant cost savings on your provisioned capacity costs. Any capacity that you provision in excess of your reserved capacity is billed at standard provisioned capacity rates.
 
-> Reserved capacity is not available for replicated write capacity units. Reserved capacity is also not available for tables using the DynamoDB Standard-IA table class or on-demand capacity mode.
+Reserved capacity is not available for replicated write capacity units. **Reserved capacity is also not available for tables using the DynamoDB Standard-IA table class or on-demand capacity mode.**
 
 ## Table Classes
 
@@ -365,7 +365,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What is a partition key?
 - What is a composite key?
 - How does DynamoDB use the partition key?
-- Beyond the primary key, do other in a table attributes need to be defined beforehand and share the same attribute types?
+- Beyond the primary key, do other table attributes need to be defined beforehand and share the same attribute types?
 - In a table that has a partition key _and_ sort key, can multiple items have the same partition key value?
 - An item's partition key is also called it's _what_ attribute.
 - An item's sort key is also called it's _what_ attribute.
@@ -403,13 +403,13 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - With the `UpdateItem` command, are you able to add _and_ remove attributes from the selected item?
 - In the DataPlane, what two commands can you use for deleting data?
 - What are the four stream commands?
-- `GetShardIterator` is used to retrieve what data structure? What does it retrieve?
+- `GetShardIterator` is used to retrieve what data structure? What is this structure used to retrieve?
 - `GetRecords` uses what data structure to review one or more stream records?
-- What Scalar types does DynamoDB support?
+- What _five_ Scalar types does DynamoDB support?
 - Describe the `Binary` scalar type.
 - What are the two **document types** in DynamoDB?
 - How deeply nested can a map / list be?
-- Is there a space limit to the number of values you can have on a document type attribute?
+- An Item can have up to how much memory allocated to it?
 - Describe a `List`.
 - Describe a `Map`.
 - Describe a `Set`.
@@ -417,7 +417,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What three types do sets support?
 - If two tables, in two different regions, share the same table namespace are they the same table?
 - What HTTP response do you get when a write to a DynamoDB table has occurred and is durable.
-- Is it possible to get a stale response that doesn't reflect the current state of the table?
+- With eventually consistent reads, is it possible to get a stale response that doesn't reflect the current state of the table?
 - Do strongly consistent reads have a higher latency than eventually consistent reads?
 - Are strongly consistent reads supported on the global secondary index?
 - Do strongly consistent reads require more throughput than eventually consistent reads?
@@ -438,8 +438,8 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Explain how DynamoDB on-demand capacity mode scales for your peak volumes.
 - What happens if you need more capacity than double your previous peak, will you experience throttling?
 - Can throttling occur if you exceed double your previous peak in the last 30 minutes?
-- If you switch capacity types from provisioned into on-demand, what throughput will your table have until the allocations have been configured?
-- What situations is provisioned mode good for?
+- If you switch capacity types from provisioned to on-demand, what throughput will your table have until the allocations have been configured?
+- What situations is the DynamoDB provisioned capacity mode suitable for?
 - If you set a provisioned table with 6 RCU, how many **strong reads** in KB/s can the table support?
 - If you set a provisioned table with 6 RCU, how many **eventual reads** in KB/s can the table support?
 - If you set a provisioned table with 6 RCU, how many **transactional reads** in KB/s can the table support?
@@ -449,7 +449,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - If a request is throttled, what failure message does it return?
 - If a request is throttled, what exception is returned?
 - Does DynamoDB automatically manage the throughput for your index tables?
-- With auto scaling enabled, you define what a rcu/wcu range and what else?
+- With auto scaling enabled, you define a RCU/WCU range and what else?
 - With auto scaling, can a table or global secondary index adjust its provisioned read/write capacity to handle sudden spikes in traffic without causing throttling?
 - What kind of fee and usage levels do you need to define when you used DynamoDB reserved capacity?
 - Is reserved capacity available for tables using DynamoDB standard-IA or on-demand capacity mode?
