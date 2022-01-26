@@ -464,74 +464,60 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 
 # ECS <a name="ECS"></a>
 
-> ECS is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
+Elastic Container Service (ECS) is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
 
-### Container Concepts
-
-#### Containers
-
-A **container** is a standardized unit of software development that contains everything that your software application needs to run, including **relevant code, runtime, system tools, and system libraries**. Containers are created from a read-only template called an **image**.
-
-#### Images
-
-Images are typically built from a Dockerfile, which is a **plaintext file** that specifies all of the components that are included in the container.
-
-#### Registry
-
-After being built, these images are stored in a registry where they then can be downloaded and run on your cluster.
-
-## ECS Concepts
+## ECS Overview
 
 ECS is composed of several core pieces, they include:
 
 - **Clusters**
-
-  > When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
-
-- **Tasks**
-  > A task is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
-  - **Task Definition**
-    > Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
-  - **Task Scheduler**
-    > The task scheduler is responsible for placing tasks within your cluster.
+  - When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+- **Task Definition**
+  - Task definitions specify various parameters for your application. It is a text file, _in JSON format_, that describes one or more containers, **up to a maximum of ten**, that form your application.
+    - **Tasks**
+      - A task is the instantiation of a task definition _within a cluster_. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+    - **Task Scheduler**
+      - The task scheduler is responsible for placing tasks within your cluster.
 - **Containers**
-  > A container is a standardized unit of software development that contains everything that your software application needs to run, including relevant code, runtime, system tools, and system libraries. Containers are created from a read-only template called an image.
-  - **Container Agent**
-    > The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
+  - A container is a standardized unit of software development that contains everything that your software application needs to run, including relevant code, runtime, system tools, and system libraries. Containers are created from a read-only template called an image.
+    - **Container Agent**
+      - _The container agent runs on each container instance within an Amazon ECS cluster._ The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
 
-### Application Architecture
+## Application Architecture
 
-#### Fargate
+### Fargate Launch Type
 
 **The Fargate launch type is good for the following workloads:**
 
-- Large workloads that need to be optimized for low overhead
-- Small workloads that have occasional burst
-- Tiny workloads
-- Batch workloads
+- Large workloads that need to be optimized for low overhead.
+- Small workloads that have occasional burst.
+- Tiny workloads.
+- Batch workloads.
 
-When architecting your application to run on Amazon ECS using AWS Fargate, the main question is when should you put multiple containers into the same task definition versus deploying containers separately in multiple task definitions.
+When architecting your application to run on Amazon ECS using AWS Fargate, the main question is when should you put multiple containers into the _same Task Definition_ versus deploying containers _separately in multiple Task Definitions_.
 
-**When the following conditions are required, we recommend that you deploy your containers in a single task definition:**
+> **Batch Workloads:** Jobs that can run without end user interaction, or can be scheduled to run as resources permit, are called batch jobs. Batch processing is for those frequently used programs that can be executed with **minimal human interaction**.
 
-- Your containers share a common lifecycle (that is, they are launched and terminated together).
-  Your containers must run on the same underlying host (that is, one container references the other on a localhost port).
-- You require that your containers share resources.
-- Your containers share data volumes.
+#### When the following conditions are required, we recommend that you deploy your containers in a single Task Definition:
+
+- Your containers **share a common lifecycle** (that is, they are launched and terminated together).
+  Your containers **must run on the same underlying host** (that is, one container references the other on a localhost port).
+- You require that your **containers share resources**.
+- Your containers **share data volumes**.
 
   Otherwise, you should define your containers in separate tasks definitions so that you can scale, provision, and deprovision them separately.
 
-#### EC2 Launch Type
+### EC2 Launch Type
 
-The EC2 launch type is good for large workloads that need to be optimized for price.
+The EC2 launch type is good for **large workloads that need to be optimized for price**.
 
 When you’re considering how to model task definitions and services using the EC2 launch type, it helps to think about what processes need to run together and how to scale each component.
 
 **As an example, imagine an application that consists of the following components:**
 
-- A frontend service that displays information on a webpage
-- A backend service that provides APIs for the frontend service
-- A data store
+- A frontend service that displays information on a webpage.
+- A backend service that provides APIs for the frontend service.
+- A data store.
 
 ---
 
@@ -541,11 +527,9 @@ When you’re considering how to model task definitions and services using the E
 
 You can register one or more Amazon EC2 instances (also referred to as **container instances**) with your cluster to run tasks on them. Or, you can use the serverless infrastructure that Fargate provides to run tasks. When your tasks are run on Fargate, your cluster resources are also managed by Fargate.
 
-- Infrastructure capacity can be provided by AWS Fargate (Serverless/Managed), EC2, on-prem, or even VMs that you manage remotely.
-- A cluster may contain a mix of tasks hosted on AWS Fargate, Amazon EC2 instances, or external instances.
+- A cluster may contain a _mix of tasks_ hosted on AWS Fargate, Amazon EC2 instances, or external instances.
 - Clusters are **region-specific**.
 - **Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.**
-- Enabling managed Amazon ECS cluster auto scaling allows ECS to manage the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value that you specify.
 
 ## Task Components
 
@@ -561,45 +545,16 @@ After you have created a task definition for your application within Amazon ECS,
 
 - **Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
 
-**Task definitions are split into separate parts:**
-
-- **Task family** – the name of the task, and each family can have multiple revisions.
-- **IAM task role** – specifies the permissions that containers in the task should have.
-- **Network mode** – determines how the networking is configured for your containers.
-- **Container definitions** – specify which image to use, how much CPU and memory the container are allocated, and many more options.
-- **Volumes** – allow you to share data between containers and even persist the data on the container instance when the containers are no longer running.
-- **Task placement constraints** – lets you customize how your tasks are placed within the infrastructure.
-- **Launch types** – determines which infrastructure your tasks use.
-
 ### Task Scheduler
 
 > The task scheduler is responsible for placing tasks within your cluster.
-
-- **REPLICA** — places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
-- **DAEMON** — deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When using this strategy, there is no need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.
-
-- You can upload a new version of your application task definition, **and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.**
 
 - **Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
 
 ## Container Agent
 
-> The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
-
-- The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
-
-- Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition which can be configured in the task definition.
-- **Service scheduler** this only provides you the ability to run tasks _manually_ (for batch jobs or single run tasks), with Amazon ECS placing tasks on your cluster for you. The service scheduler is ideally suited for long running stateless services and applications but not to configure port mappings.
-- **Container instance** this is just an Amazon EC2 instance that is running the Amazon ECS container agent and has been registered into a cluster. When you run tasks with Amazon ECS, your tasks using the EC2 launch type are placed on your active container instances. However, you can’t manually configure the port mappings directly on your container instances but through task definitions.
-- **Container Agent** this only allows container instances to connect to your cluster. The Amazon ECS container agent is included in the Amazon ECS-optimized AMIs, but you can also install it on any Amazon EC2 instance that supports the Amazon ECS specification. Same as the other incorrect options, you can’t configure port mappings with this component.
-
-## Service Load Balancing
-
-- Amazon ECS services support the Application Load Balancer, Network Load Balancer, and Classic Load Balancer ELBs. Application Load Balancers are used to route HTTP/HTTPS (or layer 7) traffic. Network Load Balancers are used to route TCP or UDP (or layer 4) traffic. Classic Load Balancers are used to route TCP traffic.
-
-- The Classic Load Balancer doesn’t allow you to run multiple copies of a task on the same instance. You must statically map port numbers on a container instance. However, an Application Load Balancer uses **dynamic port mapping**, so you can run multiple tasks from a single service on the same container instance.
-
-- Services with tasks that use the `awsvpc` network mode, such as those with the Fargate launch type, do not support Classic Load Balancers. **You must use NLB instead for TCP.**
+**The container agent runs on each container instance within an Amazon ECS Cluster.**
+The agent sends information about the resource's **current running tasks and resource utilization to Amazon ECS.** The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
 
 ## Deployment
 
@@ -607,31 +562,40 @@ After you have created a task definition for your application within Amazon ECS,
 
 > **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
 
-- Amazon ECS supports the following task placement strategies:
+- **Amazon ECS supports the following task placement strategies:**
   - **binpack**: tasks are placed on container instances so as to leave the least amount of unused CPU or memory. This strategy minimizes the number of container instances in use. When this strategy is used and a scale-in action is taken, Amazon ECS terminates tasks. It does this based on the amount of resources that are left on the container instance after the task is terminated. The container instance that has the most available resources left after task termination has that task terminated.
   - **random**: this will just place tasks on instances randomly.
-  - **spread**: The spread strategy, contrary to the `binpack` strategy, tries to put your tasks on as many different instances as possible. It is typically used to achieve high availability and mitigate risks, by making sure that you don’t put all your task-eggs in the same instance-baskets. Spread across Availability Zones, therefore, is the default placement strategy used for services. **When using the spread strategy, you must also indicate a field parameter.** It is used to indicate the bins that you are considering. The accepted values are `instanceID`, `host`, or a custom attribute key:value pairs such as `attribute:ecs.availability-zone` to balance tasks across zones. There are several AWS attributes that start with the ecs prefix, but you can be creative and create your own attributes.
+  - **spread**: The spread strategy, contrary to the `binpack` strategy, tries to put your tasks on as many different instances as possible. It is typically used to achieve high availability and mitigate risks, by making sure that you don’t put all your task-eggs in the same instance-baskets.
 
 ## ECS Questions
 
-- What is a Cluster?
-- Are Clusters region specific?
-- What must you do before you delete a Cluster?
-- What is a Task?
+- A Cluster is a logical grouping of what?
 - What is a Task Definition?
-- How many containers can be defined by a single class definition?
-- Is it a good idea, or normal, to have an entire application task based on one task definition?
-- What does a Task Scheduler do?
-- Can Tasks running on EC2 and Fargate mount EFS?
-- What are ECS port mappings used for?
-- What is the Service Scheduler?
-- What is the Container Instance?
-- What is the Container Agent?
+- What language are Task Definitions written in?
+- What is the maximum number of containers that a Task Definition can describe?
+- If the Task Definition is used to describe one or more containers, what is a Task?
+- What does the Task Scheduler do?
+- What is an Container?
+- What is the name of the _read-only_ template that Containers are created from?
+- What workloads is Fargate suitable for?
+- When using Fargate with ECS, it's important to determine what architecting decision regarding Task Definitions?
+- What four conditions are suitable for running multiple containers in the _same_ Task Definition?
+- If your Task Definitions underlying containers share the same resources and/or volumes, should they exist in the same Task Definition?
+- What is a Batch Workload?
+- The EC2 Launch type is suitable for what type of workloads?
+- If you're using the EC2 Launch type, do you need to register one _or more_ EC2 instances to your Cluster to run tasks on them?
+- What is another name for EC2 instances that are attached to Clusters?
+- Are Clusters region specific?
+- Can a Cluster contain tasks hosted on Fargate, EC2 instances, and external instances?
+- Before you delete a cluster, do you need to delete the services and deregister the container instances running inside that Cluster?
+- Does the Container Agent run on each container instance within an ECS Cluster?
+- What does the Container Agent do?
+- In addition to reporting on the current running tasks and resource utilization, can the Container Agent also be used to start and stop tasks whenever it receives a request from ECS?
 - What is an ECS task placement strategy?
 - What are the three ECS task placement strategies?
-- Describe the binpack task placement strategy.
-- Describe the random task placement strategy.
-- Describe the spread task placement strategy.
+- Describe the `binpack` task placement strategy.
+- Describe the `random` task placement strategy.
+- Describe the `spread` task placement strategy.
 
 ---
 
