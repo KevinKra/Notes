@@ -169,29 +169,29 @@ DynamoDB Streams operations let you enable or disable a stream on a table, and a
 
 ### Document Types
 
-The document types are `list` and `map`. **These data types can be nested within each other**, to represent complex data structures **up to 32 levels deep.**
+- The document types are `list` and `map`. **These data types can be nested within each other**, to represent complex data structures **up to 32 levels deep.**
 
-There is no limit on the number of values in a list or a map, as long as the item containing the **values fits within the DynamoDB item size limit (400 KB).**
+- There is no limit on the number of values in a list or a map, as long as the item containing the **values fits within the DynamoDB item size limit (400 KB).**
 
 #### List
 
-A list type attribute can store an ordered collection of values. Lists are enclosed in square brackets: `[ ... ]` A list is similar to a JSON array.
+- A list type attribute can store an ordered collection of values. Lists are enclosed in square brackets: `[ ... ]` A list is similar to a JSON array.
 
 - `FavoriteThings: ["Cookies", "Coffee", 3.14159]`
 
 #### Map
 
-A map type attribute can store an unordered collection of name-value pairs. Maps are enclosed in curly braces: `{ ... }` A map is similar to a JSON object.
+- A map type attribute can store an unordered collection of name-value pairs. Maps are enclosed in curly braces: `{ ... }` A map is similar to a JSON object.
 
 - Maps are ideal for storing JSON documents in DynamoDB.
 
 #### Sets
 
-DynamoDB supports types that represent sets of **number, string, or binary values**. **All the elements within a set must be of the same type.**
+- DynamoDB supports types that represent sets of **number, string, or binary values**. **All the elements within a set must be of the same type.**
 
-There is no limit on the number of values in a set, as long as the item containing the values fits within the DynamoDB item size limit (400 KB).
+- There is no limit on the number of values in a set, as long as the item containing the values fits within the DynamoDB item size limit (400 KB).
 
-**Each value within a set must be unique.** **The order of the values within a set is not preserved.** Therefore, your applications must not rely on any particular order of elements within the set. DynamoDB does not support empty sets, however, empty string and binary values are allowed within a set.
+- **Each value within a set must be unique.** **The order of the values within a set is not preserved.** Therefore, your applications must not rely on any particular order of elements within the set. DynamoDB does not support empty sets, however, empty string and binary values are allowed within a set.
 
 - `["Black", "Green", "Red"]`
 
