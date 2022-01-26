@@ -505,7 +505,7 @@ When architecting your application to run on Amazon ECS using AWS Fargate, the m
 - You require that your **containers share resources**.
 - Your containers **share data volumes**.
 
-  Otherwise, you should define your containers in separate tasks definitions so that you can scale, provision, and deprovision them separately.
+Otherwise, you should define your containers in separate tasks definitions so that you can scale, provision, and deprovision them separately.
 
 ### EC2 Launch Type
 
@@ -543,13 +543,13 @@ After you have created a task definition for your application within Amazon ECS,
 
 > Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
 
-- **Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
+**Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
 
 ### Task Scheduler
 
 > The task scheduler is responsible for placing tasks within your cluster.
 
-- **Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
+**Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
 
 ## Container Agent
 
@@ -599,20 +599,9 @@ The agent sends information about the resource's **current running tasks and res
 
 ---
 
-# S3
-
-- Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and your Amazon S3 bucket. **Transfer Acceleration leverages Amazon CloudFront’s globally distributed AWS Edge Locations. As data arrives at an AWS Edge Location, data is routed to your Amazon S3 bucket over an optimized network path.**
-
----
-
 # Elastic Beanstalk <a name="Elastic-Beanstalk"></a>
 
 ### Deployment
-
-- Depending on the platform version you’d like to update to, Elastic Beanstalk recommends one of two methods for performing platform updates.
-
-  - **Update your Environment’s Platform Version** – This is the recommended method when you’re updating to the latest platform version, _without a change in runtime, web server, or application server versions, and without a change in the major platform version._ This is the most common and routine platform update.
-  - **Perform a Blue/Green Deployment** – This is the recommended method when you’re updating to a different runtime, web server, or application server versions, or to a different major platform version. _This is a good approach when you want to take advantage of new runtime capabilities_ or the latest Elastic Beanstalk functionality.
 
 - This service is not suitable for deploying _serverless applications_. In addition, it doesn’t have the capability to locally build, test, and debug your serverless applications as effectively as what AWS SAM can do.
 
