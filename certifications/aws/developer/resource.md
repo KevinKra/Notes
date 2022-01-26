@@ -1,4 +1,24 @@
-# DynamoDB
+# AWS Developer Associate
+
+> Guide for the Developer Associate Exam.
+
+## Index
+
+a. [DynamoDB](#DynamoDB)
+
+b. [ECS](#ECS)
+
+c. [Elastic Beanstalk](#Elastic-Beanstalk)
+
+d. [CodeDeploy](#CodeDeploy)
+
+e. [Lambda](#Lambda)
+
+f. [CloudFormation](#CloudFormation)
+
+g. [AWS-SAM](#AWS-SAM)
+
+# DynamoDB <a name="DynamoDB"></a>
 
 ## Core Components
 
@@ -442,7 +462,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 
 ---
 
-# ECS
+# ECS <a name="ECS"></a>
 
 > ECS is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
 
@@ -621,7 +641,7 @@ After you have created a task definition for your application within Amazon ECS,
 
 ---
 
-# Elastic Beanstalk
+# Elastic Beanstalk <a name="Elastic-Beanstalk"></a>
 
 ### Deployment
 
@@ -662,7 +682,7 @@ After you have created a task definition for your application within Amazon ECS,
 
 ---
 
-# CodeDeploy
+# CodeDeploy <a name="CodeDeploy"></a>
 
 - CodeDeploy can deploy application content that runs on a server and is stored in Amazon S3 buckets, GitHub repositories, or Bitbucket repositories.
 
@@ -709,7 +729,7 @@ After you have created a task definition for your application within Amazon ECS,
 
 ---
 
-# Lambda
+# Lambda <a name="Lambda"></a>
 
 - To create a Lambda function, **you need a deployment package and an execution role.**
 
@@ -779,6 +799,93 @@ After you have created a task definition for your application within Amazon ECS,
 - Describe lambda **canary** deployments.
 - Describe lambda **linear** deployments.
 - Describe lambda **all-at-once** deployments.
+
+---
+
+# CloudFormation <a name="CloudFormation"></a>
+
+- A Cloudformation template is a JSON- or YAML-formatted text file that describes your AWS infrastructure.
+
+- When you specify a transform, **you can use AWS SAM syntax to declare resources in your template.** The model defines the syntax that you can use and how it is processed. More specifically, the `AWS::Serverless` transform, **which is a macro hosted by AWS CloudFormation**, takes an entire template written in the AWS Serverless Application Model (AWS SAM) syntax and transforms and expands it into a compliant AWS CloudFormation template.
+
+- `Transform` section specifies the version of the AWS Serverless Application Model (AWS SAM) to use. This is used for serverless applications (also referred to as Lambda-based applications).
+- `Mappings` section just lists a mapping of keys and associated values that you can use to specify conditional parameter values, similar to a lookup table.
+- `Resources` section is primarily used to specify the stack resources and their properties.
+- `Parameter` section is just the part of the template that contains values to pass to your template at runtime when you create or update a stack.
+
+### Deployment
+
+#### Lambda
+
+- For **NodeJS** and **Python** functions, you can specify the function code inline in the template. The `ZipFile` parameter will allow the developer to place the python/nodeJS code inline in the template.
+- If you are using a CloudFormation template, you can configure the `AWS::Lambda::Function` resource which creates a Lambda function. To create a function, you need a deployment package and an execution role.
+- **Uploading the code in S3 then specifying the `S3Key` and `S3Bucket` parameters under the `AWS::Lambda::Function` resource in the CloudFormation template is a valid deployment step**, though you still have to upload the code in S3 instead of just including the function source inline in the ZipFile parameter.
+- **Changes to a deployment package in Amazon S3 are not detected automatically during stack updates. To update the function code, change the object key or version in the template.**
+- Uploading the code in S3 as a _ZIP file_ then specifying the _S3 path_ in the `Code: ZipFile` parameter of the `AWS::Lambda::Function` resource in the CloudFormation template is incorrect because contrary to its name, **the `ZipFile` parameter directly accepts the source code of your Lambda function and not an actual zip file.** If you include your function source inline with this parameter, AWS CloudFormation places it in a file named index and zips it to create a deployment package.
+
+#### StackSets
+
+- StackSets extend the functionality of stacks, using a single AWS CloudFormation template, by enabling you to create, update, or delete stacks **across multiple accounts and regions with a single operation.**
+- Remember that **a stack set is a regional resource** so if you create a stack set in one region, you cannot see it or change it in other regions.
+- _Using an administrator account_, you define and manage an AWS CloudFormation template, and use the template as the basis for provisioning stacks into selected target accounts across specified regions.
+- CloudFormation doesn’t have the capability to locally build, test, and debug your application like what AWS SAM has.
+
+#### Change Sets
+
+- Change Sets only allow you to _preview_ how proposed changes to a stack might impact your running resources.
+
+#### Stack Instance
+
+- A stack instance is simply a reference to a stack in a target account within a region. Remember that a stack instance is associated with one stack set which is why this is just one of the components of CloudFormation StackSets.
+
+## CloudFormation Questions
+
+- What language templates does the CloudFormation script use?
+- What CloudFormation section allows you to use AWS SAM syntax to declare resources in your template?
+- The AWS SAM `Transform` macro in CloudFormation does what with the SAM syntax?
+- Describe the usage of the CloudFormation `Transform` section.
+- Describe the usage of the CloudFormation `Mappings` section.
+- Describe the usage of the CloudFormation `Resources` section.
+- Describe the usage of the CloudFormation `Parameter` section.
+- For Lambda deployments using CloudFormation, you can specify the function code inline in the template with what two languages?
+- What Cloudformation parameter do you use to paste lambda code directly into a CloudFormation script?
+- The `ZipFile` parameter is within what CloudFormation section?
+- Can you store your code in S3 and reference it through CloudFormation?
+- Are changes to a lambda deployment package, stored in S3, automatically detected during CloudFormation stack updates?
+- Is creating a zip file, storing it in S3, and then providing that S3 file path back to the CloudFormation template's `ZipFile` parameter a suitable approach for the `ZipFile` parameter?
+- What is a StackSet?
+- Do StackSets enable you to create, update, and delete stacks across multiple accounts and regions.
+- Are stack sets regional?
+- Does CloudFormation have the ability to locally build, test, and debug your application?
+- What is a **Change Set**?
+- What is a **Stack Instance**?
+
+---
+
+# AWS SAM (Serverless Application Model) <a name="AWS-SAM"></a>
+
+- **AWS SAM is an open-source framework that you can use to build serverless applications on AWS.** It consists of the AWS SAM template specification that you use to define your serverless applications, and the AWS SAM command line interface (AWS SAM CLI) that you use to build, test, and deploy your serverless applications.
+- Because **AWS SAM is an extension of AWS CloudFormation**, you get the reliable deployment capabilities of AWS CloudFormation.
+- You can use AWS SAM with a suite of AWS tools for building serverless applications. **The AWS SAM CLI lets you locally build, test, and debug serverless applications that are defined by AWS SAM templates.**
+- **The CLI provides a Lambda-like execution environment _locally_.** It helps you catch issues upfront by providing parity with the actual Lambda execution environment.
+- To step through and debug your code to understand what the code is doing, you can use AWS SAM with AWS toolkits like the AWS Toolkit for JetBrains, AWS Toolkit for PyCharm, AWS Toolkit for IntelliJ, and AWS Toolkit for Visual Studio Code. This tightens the feedback loop by making it possible for you to find and troubleshoot issues that you might run into in the cloud.
+- After you develop and test your serverless application locally, you can deploy your application by using the `sam package` and `sam deploy` commands.
+  - The `sam package` command zips your code artifacts, uploads them to Amazon S3, and produces a packaged AWS SAM template file that’s ready to be used.
+  - The `sam deploy` command uses this file to deploy your application.
+  - To deploy an application that contains one or more nested applications, you must include the `CAPABILITY_AUTO_EXPAND` capability in the `sam deploy` command.
+  - `sam publish` publishes an AWS SAM application to the AWS Serverless Application Repository and does not generate the template file.
+
+## AWS SAM Questions
+
+- What does SAM stand for?
+- What is AWS SAM?
+- What service is AWS SAM an extension of?
+- Does the AWS SAM CLI let you locally build, test, and debug serverless applications that are defined by AWS SAM templates?
+- What does the AWS SAM CLI provide locally?
+- What does the `sam package` command do?
+- What does the `sam deploy` command do?
+- What does the `sam publish` command do?
+- If you're trying to deploy an application that contains one or more nested applications, what capability do you need to include in the `sam deploy` command?
 
 ---
 

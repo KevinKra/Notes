@@ -95,19 +95,6 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 - **Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.**
 - Enabling managed Amazon ECS cluster auto scaling allows ECS to manage the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value that you specify.
 
-### Cluster States
-
-- **ACTIVE**
-  - The cluster is ready to accept tasks and, if applicable, you can register container instances with the cluster.
-- **PROVISIONING**
-  - The cluster has capacity providers associated with it and the resources needed for the capacity provider are being created.
-- **DEPROVISIONING**
-  - The cluster has capacity providers associated with it and the resources needed for the capacity provider are being deleted.
-- **FAILED**
-  - The cluster has capacity providers associated with it and the resources needed for the capacity provider have failed to create.
-- **INACTIVE**
-  - **The cluster has been deleted.** Clusters with an INACTIVE status may remain discoverable in your account for a period of time. However, _this behavior is subject to change in the future_, so you should not rely on INACTIVE clusters persisting.
-
 ## Task Components
 
 ### Tasks
