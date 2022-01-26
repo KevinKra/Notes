@@ -601,11 +601,82 @@ The agent sends information about the resource's **current running tasks and res
 
 # Elastic Beanstalk <a name="Elastic-Beanstalk"></a>
 
-### Deployment
+## Elastic Beanstalk concepts
+
+### Application
+
+- An Elastic Beanstalk **_application_** is a logical collection of Elastic Beanstalk components, including _environments, versions, and environment configurations_.
+
+### Application Version
+
+- In Elastic Beanstalk, an **_application version_** refers to a **specific, labeled iteration of deployable code for a web application.** An **application version points to an Amazon S3 object** that contains the deployable code.
+
+- Applications can have many versions and **each application version is unique.**
+
+### Environment
+
+- An **_Environment_** is a collection of AWS resources running an application version.
+
+- **Each environment runs only one application version at a time**, however, you can run the same application version or different application versions in many environments simultaneously.
+
+### Environment Tier
+
+- The environment is the heart of the application. The **_Environment Tier_** designates the _type of application_ that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
+
+- When you launch an Elastic Beanstalk environment, you first choose an _environment tier_.
+
+- There are two environment tiers in Elastic Beanstalk: **Web Server Tier** and **Worker Environment Tier**.
+
+#### _Web Server Tier_
+
+> An application that serves HTTP requests runs in a **web server environment tier**.
+
+- **When you create an environment, Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: _one ELB, an Auto Scaling group, and one or more Amazon Elastic Compute Cloud (Amazon EC2) instances._
+
+- Every environment has a CNAME (URL) that points to a load balancer.
+
+- **The environment has a URL**, such as `myapp.us-west-2.elasticbeanstalk.com`. **This URL is aliased in Amazon Route 53 to an Elastic Load Balancing URL**—something like `abcdef-123456.us-west-2.elb.amazonaws.com` -—by using a CNAME record.
+
+- The software stack running on the Amazon EC2 instances is dependent on the **_Container Type_**. A _container type_ defines the infrastructure topology and software stack to be used for that environment.
+
+  > For example, an Elastic Beanstalk environment with an Apache Tomcat container uses the Amazon Linux operating system, Apache web server, and Apache Tomcat software.
+
+- A software component called the **_Host Manager (HM)_** _runs on each Amazon EC2 instance_. **The Host Manager reports metrics, errors and events, and server instance status, which are available via the Elastic Beanstalk console, APIs, and CLIs.**
+
+#### _Worker Environment Tier_
+
+> A backend environment that pulls tasks from an Amazon Simple Queue Service (Amazon SQS) queue runs in a **worker environment tier.**
+
+- AWS resources created for a worker environment tier include an _Auto Scaling group, one or more Amazon EC2 instances, and an IAM role._
+
+- For the worker environment tier, **Elastic Beanstalk also creates and provisions an Amazon SQS queue if you don’t already have one.**
+
+- When you launch a worker environment, **Elastic Beanstalk installs the necessary support files for your programming language of choice and a daemon on each EC2 instance in the Auto Scaling group.**
+  - The daemon reads messages from an Amazon SQS queue.
+  - The daemon sends data from each message that it reads to the web application running in the worker environment for processing.
+  - If you have multiple instances in your worker environment, each instance has its own daemon, but they all read from the same Amazon SQS queue.
+
+### Environment Configuration
+
+An **_environment configuration_** identifies a collection of parameters and settings that define how an environment and its associated resources behave.
+
+### Saved Configuration
+
+A **_saved configuration_** is a template that you can use as a starting point for creating unique environment configurations.
+
+The API and the AWS CLI refer to saved configurations as **_configuration templates_**.
+
+### Platform
+
+**A _platform_ is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.**
+
+You design and target your web application to a platform. Elastic Beanstalk provides a variety of platforms on which you can build your applications.
+
+## Deployment
 
 - This service is not suitable for deploying _serverless applications_. In addition, it doesn’t have the capability to locally build, test, and debug your serverless applications as effectively as what AWS SAM can do.
 
-- **Blue/green deployments require that your environment runs independently of your production database if your application uses one.** If your environment has an Amazon RDS DB instance attached to it, the data will not transfer over to your second environment and **will be lost** if you terminate the original environment.
+- Because AWS Elastic Beanstalk performs an **in-place** update when you update your application versions, your application might become unavailable to users for a short period of time. **To avoid this, perform a blue/green deployment.** To do this, deploy the new version to a separate environment, and then swap the CNAMEs of the two environments to redirect traffic to the new version instantly.
 
 ### Deployment Options
 
@@ -623,15 +694,43 @@ The agent sends information about the resource's **current running tasks and res
 
 ## Elastic Beanstalk Questions
 
-- What is the recommended method when you’re updating to a different runtime, web server, or application server versions, or to a different major platform version?
+- Describe the concept of an EB _Application._
+- Describe the concept of an EB _Application Version._
+- Does the Application Version point to an S3 Object to find the deployable code for that version?
+- Describe the concept of an EB _Environment_.
+- Can an EB environment run _more than_ one application version at a time?
+- Can you run the same application version, or different versions, in many environments simultaneously?
+- The _Environment Tier_ designates what?
+- Does EB use the environment tier to determine what resources to provision to support it?
+- What are the two types of EB environment tiers?
+- An application that serves HTTP requests runs in which EB environment tier?
+- A backend application that pulls tasks from an SQS queue runs in which EB environment tier?
+- For the _Web Server Tier_ does AWS setup the following resources for the environment: an ELB, Auto Scaling Group, and one or more EC2 instances?
+- The software stack running on the EB EC2 instances is dependent on what?
+- Does a _container type_ define the infrastructure topology and software stack to be used for an EC2 instance's environment?
+- Does a _Host Manager_ run on each EB EC2 instance?
+- Does the Host Manager report metrics, errors and events, and server instance status?
+- Where are Host Manager reports found?
+- What three resources are created for a worker environment tier?
+- For the worker environment tier, does Elastic Beanstalk create and provision an Amazon SQS queue if you don’t already have one?
+- When you launch a worker environment, does Elastic Beanstalk install the necessary support files for your programming language of choice and a daemon on each EC2 instance in the Auto Scaling group?
+- Does the installed daemon read messages from the SQS queue?
+- Does the daemon send data from each SQS message to the worker environment for processing?
+- If you have multiple instances in your worker environment, does each instance have _its own_ daemon?
+- Do all the daemons in the previous question read from the same SQS queue?
+- What is an _Environment Configuration_?
+- What is a _Saved Configuration_?
+- What does the API and AWS CLI refer to saved configurations as?
+- What is a _Platform?_
 - Is Elastic Beanstalk suitable for deploying serverless applications?
 - Can Elastic Beanstalk build, test, and debug, serverless applications as well as AWS SAM can?
-- What are the **five** deployment options for Elastic Beanstalk?
-- Describe the **All at once** deployment option.
-- Describe the **Rolling** deployment option.
-- Describe the **Rolling with additional batch** deployment option.
-- Describe the **Immutable** deployment option.
-- Describe the **Traffic Splitting** deployment option.
+- EB performance in-place updates when you update your application versions, in order to avoid downtime what type of deployment can you use?
+- What are the _five_ deployment options for Elastic Beanstalk?
+- Describe the `All at once` deployment option.
+- Describe the `Rolling` deployment option.
+- Describe the `Rolling with additional batch` deployment option.
+- Describe the `Immutable` deployment option.
+- Describe the `Traffic Splitting` deployment option.
 
 ---
 
