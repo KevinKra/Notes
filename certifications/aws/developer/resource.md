@@ -439,3 +439,359 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - DynamoDB allocates additional partitions in what two situations?
 - Is the data in a global secondary index stored separately from the data in its base table?
 - For your `Query` operations on a table, can you provide an optional condition to the sort key so it only returns the items within a certain range in the partitioned space?
+
+---
+
+# ECS
+
+> ECS is a highly scalable and fast container management service that makes it easy to run, stop, and manage containers on a **Cluster**.
+
+### Container Concepts
+
+#### Containers
+
+A **container** is a standardized unit of software development that contains everything that your software application needs to run, including **relevant code, runtime, system tools, and system libraries**. Containers are created from a read-only template called an **image**.
+
+#### Images
+
+Images are typically built from a Dockerfile, which is a **plaintext file** that specifies all of the components that are included in the container.
+
+#### Registry
+
+After being built, these images are stored in a registry where they then can be downloaded and run on your cluster.
+
+## ECS Concepts
+
+ECS is composed of several core pieces, they include:
+
+- **Clusters**
+
+  > When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+
+- **Tasks**
+  > A task is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+  - **Task Definition**
+    > Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+  - **Task Scheduler**
+    > The task scheduler is responsible for placing tasks within your cluster.
+- **Containers**
+  > A container is a standardized unit of software development that contains everything that your software application needs to run, including relevant code, runtime, system tools, and system libraries. Containers are created from a read-only template called an image.
+  - **Container Agent**
+    > The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
+
+### Application Architecture
+
+#### Fargate
+
+**The Fargate launch type is good for the following workloads:**
+
+- Large workloads that need to be optimized for low overhead
+- Small workloads that have occasional burst
+- Tiny workloads
+- Batch workloads
+
+When architecting your application to run on Amazon ECS using AWS Fargate, the main question is when should you put multiple containers into the same task definition versus deploying containers separately in multiple task definitions.
+
+**When the following conditions are required, we recommend that you deploy your containers in a single task definition:**
+
+- Your containers share a common lifecycle (that is, they are launched and terminated together).
+  Your containers must run on the same underlying host (that is, one container references the other on a localhost port).
+- You require that your containers share resources.
+- Your containers share data volumes.
+
+  Otherwise, you should define your containers in separate tasks definitions so that you can scale, provision, and deprovision them separately.
+
+#### EC2 Launch Type
+
+The EC2 launch type is good for large workloads that need to be optimized for price.
+
+When you’re considering how to model task definitions and services using the EC2 launch type, it helps to think about what processes need to run together and how to scale each component.
+
+**As an example, imagine an application that consists of the following components:**
+
+- A frontend service that displays information on a webpage
+- A backend service that provides APIs for the frontend service
+- A data store
+
+---
+
+## Clusters
+
+> When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+
+You can register one or more Amazon EC2 instances (also referred to as **container instances**) with your cluster to run tasks on them. Or, you can use the serverless infrastructure that Fargate provides to run tasks. When your tasks are run on Fargate, your cluster resources are also managed by Fargate.
+
+- Infrastructure capacity can be provided by AWS Fargate (Serverless/Managed), EC2, on-prem, or even VMs that you manage remotely.
+- A cluster may contain a mix of tasks hosted on AWS Fargate, Amazon EC2 instances, or external instances.
+- Clusters are **region-specific**.
+- **Before you can delete a cluster, you must delete the services and deregister the container instances inside that cluster.**
+- Enabling managed Amazon ECS cluster auto scaling allows ECS to manage the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value that you specify.
+
+## Task Components
+
+### Tasks
+
+> A **task** is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
+
+After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks to run on your cluster.
+
+### Tasks Definitions
+
+> Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+
+- **Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
+
+**Task definitions are split into separate parts:**
+
+- **Task family** – the name of the task, and each family can have multiple revisions.
+- **IAM task role** – specifies the permissions that containers in the task should have.
+- **Network mode** – determines how the networking is configured for your containers.
+- **Container definitions** – specify which image to use, how much CPU and memory the container are allocated, and many more options.
+- **Volumes** – allow you to share data between containers and even persist the data on the container instance when the containers are no longer running.
+- **Task placement constraints** – lets you customize how your tasks are placed within the infrastructure.
+- **Launch types** – determines which infrastructure your tasks use.
+
+### Task Scheduler
+
+> The task scheduler is responsible for placing tasks within your cluster.
+
+- **REPLICA** — places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
+- **DAEMON** — deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When using this strategy, there is no need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.
+
+- You can upload a new version of your application task definition, **and the ECS scheduler automatically starts new containers using the updated image and stop containers running the previous version.**
+
+- **Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
+
+## Container Agent
+
+> The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS.
+
+- The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
+
+- Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition which can be configured in the task definition.
+- **Service scheduler** this only provides you the ability to run tasks _manually_ (for batch jobs or single run tasks), with Amazon ECS placing tasks on your cluster for you. The service scheduler is ideally suited for long running stateless services and applications but not to configure port mappings.
+- **Container instance** this is just an Amazon EC2 instance that is running the Amazon ECS container agent and has been registered into a cluster. When you run tasks with Amazon ECS, your tasks using the EC2 launch type are placed on your active container instances. However, you can’t manually configure the port mappings directly on your container instances but through task definitions.
+- **Container Agent** this only allows container instances to connect to your cluster. The Amazon ECS container agent is included in the Amazon ECS-optimized AMIs, but you can also install it on any Amazon EC2 instance that supports the Amazon ECS specification. Same as the other incorrect options, you can’t configure port mappings with this component.
+
+## Service Load Balancing
+
+- Amazon ECS services support the Application Load Balancer, Network Load Balancer, and Classic Load Balancer ELBs. Application Load Balancers are used to route HTTP/HTTPS (or layer 7) traffic. Network Load Balancers are used to route TCP or UDP (or layer 4) traffic. Classic Load Balancers are used to route TCP traffic.
+
+- The Classic Load Balancer doesn’t allow you to run multiple copies of a task on the same instance. You must statically map port numbers on a container instance. However, an Application Load Balancer uses **dynamic port mapping**, so you can run multiple tasks from a single service on the same container instance.
+
+- Services with tasks that use the `awsvpc` network mode, such as those with the Fargate launch type, do not support Classic Load Balancers. **You must use NLB instead for TCP.**
+
+## Deployment
+
+### Task Placement Strategy
+
+> **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
+
+- Amazon ECS supports the following task placement strategies:
+  - **binpack**: tasks are placed on container instances so as to leave the least amount of unused CPU or memory. This strategy minimizes the number of container instances in use. When this strategy is used and a scale-in action is taken, Amazon ECS terminates tasks. It does this based on the amount of resources that are left on the container instance after the task is terminated. The container instance that has the most available resources left after task termination has that task terminated.
+  - **random**: this will just place tasks on instances randomly.
+  - **spread**: The spread strategy, contrary to the `binpack` strategy, tries to put your tasks on as many different instances as possible. It is typically used to achieve high availability and mitigate risks, by making sure that you don’t put all your task-eggs in the same instance-baskets. Spread across Availability Zones, therefore, is the default placement strategy used for services. **When using the spread strategy, you must also indicate a field parameter.** It is used to indicate the bins that you are considering. The accepted values are `instanceID`, `host`, or a custom attribute key:value pairs such as `attribute:ecs.availability-zone` to balance tasks across zones. There are several AWS attributes that start with the ecs prefix, but you can be creative and create your own attributes.
+
+## ECS Questions
+
+- What is a Cluster?
+- Are Clusters region specific?
+- What must you do before you delete a Cluster?
+- What is a Task?
+- What is a Task Definition?
+- How many containers can be defined by a single class definition?
+- Is it a good idea, or normal, to have an entire application task based on one task definition?
+- What does a Task Scheduler do?
+- Can Tasks running on EC2 and Fargate mount EFS?
+- What are ECS port mappings used for?
+- What is the Service Scheduler?
+- What is the Container Instance?
+- What is the Container Agent?
+- What is an ECS task placement strategy?
+- What are the three ECS task placement strategies?
+- Describe the binpack task placement strategy.
+- Describe the random task placement strategy.
+- Describe the spread task placement strategy.
+
+---
+
+# S3
+
+- Amazon S3 Transfer Acceleration enables fast, easy, and secure transfers of files over long distances between your client and your Amazon S3 bucket. **Transfer Acceleration leverages Amazon CloudFront’s globally distributed AWS Edge Locations. As data arrives at an AWS Edge Location, data is routed to your Amazon S3 bucket over an optimized network path.**
+
+---
+
+# Elastic Beanstalk
+
+### Deployment
+
+- Depending on the platform version you’d like to update to, Elastic Beanstalk recommends one of two methods for performing platform updates.
+
+  - **Update your Environment’s Platform Version** – This is the recommended method when you’re updating to the latest platform version, _without a change in runtime, web server, or application server versions, and without a change in the major platform version._ This is the most common and routine platform update.
+  - **Perform a Blue/Green Deployment** – This is the recommended method when you’re updating to a different runtime, web server, or application server versions, or to a different major platform version. _This is a good approach when you want to take advantage of new runtime capabilities_ or the latest Elastic Beanstalk functionality.
+
+- This service is not suitable for deploying _serverless applications_. In addition, it doesn’t have the capability to locally build, test, and debug your serverless applications as effectively as what AWS SAM can do.
+
+- **Blue/green deployments require that your environment runs independently of your production database if your application uses one.** If your environment has an Amazon RDS DB instance attached to it, the data will not transfer over to your second environment and **will be lost** if you terminate the original environment.
+
+### Deployment Options
+
+> In ElasticBeanstalk, you can choose from a variety of deployment methods:
+
+- **All at once** – Deploy the new version to all instances simultaneously. All instances in your environment are out of service for a short time while the deployment occurs. It is possible that there would be a degradation of the service since some instances would be unavailable during the deployment process. _All at once has the shortest deployment time of all the methods._
+
+- **Rolling** – Deploy the new version in batches. Each batch is taken out of service during the deployment phase, reducing your environment’s capacity by the number of instances in a batch. This method will deploy the new version in batches only to existing instances, without provisioning new resources. The compute capacity of the environment would still be compromised in this method.
+
+- **Rolling with additional batch** – Starts by deploying your application code to a single batch of newly created EC2 instances. Once the deployment succeeds on the first batch of instances, the application code is deployed to the remaining instances in batches until the last batch of instances remains. At this point, the last batch of instances is terminated. This deployment policy ensures that the impact of a failed deployment is limited to a single batch of instances and enables your application to serve traffic at full capacity during an ongoing deployment.
+
+- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. If the new instances don’t pass health checks, Elastic Beanstalk terminates them, leaving the original instances untouched. If an immutable environment update fails, the rollback process requires only terminating an Auto Scaling group. A failed rolling update, on the other hand, requires performing an additional rolling update to roll back the changes.
+
+- **Traffic splitting** – Deploy the new version to a fresh group of instances and temporarily split incoming client traffic between the existing application version and the new one.
+
+## Elastic Beanstalk Questions
+
+- What is the recommended method when you’re updating to a different runtime, web server, or application server versions, or to a different major platform version?
+- Is Elastic Beanstalk suitable for deploying serverless applications?
+- Can Elastic Beanstalk build, test, and debug, serverless applications as well as AWS SAM can?
+- What are the **five** deployment options for Elastic Beanstalk?
+- Describe the **All at once** deployment option.
+- Describe the **Rolling** deployment option.
+- Describe the **Rolling with additional batch** deployment option.
+- Describe the **Immutable** deployment option.
+- Describe the **Traffic Splitting** deployment option.
+
+---
+
+# CodeDeploy
+
+- CodeDeploy can deploy application content that runs on a server and is stored in Amazon S3 buckets, GitHub repositories, or Bitbucket repositories.
+
+### Deployment
+
+#### CodeDeploy Agent
+
+- The CodeDeploy agent is a software package that, when installed and configured on an instance, makes it possible for that instance to be used in CodeDeploy deployments. **The CodeDeploy agent communicates outbound using HTTPS over port 443.**
+
+- It is also important to note that the CodeDeploy agent is _required only if you deploy to an EC2/On-Premises compute platform._ **It is not required for ECS or Lambda deployments.**
+
+#### In-Place Deployment
+
+- **Only deployments that use the EC2/On-Premises compute platform can use in-place deployments.**
+- The application on each instance in the _deployment group_ is stopped, the latest application revision is installed, and the new version of the application is started and validated.
+- AWS Lambda compute platform deployments _cannot_ use an in-place deployment type.
+- ECS deployments _cannot_ use an in-place deployment type.
+- **For Lambda and ECS, you can only do a blue/green deployment in CodeDeploy.**
+
+#### Blue/Green Deployment
+
+- The behavior of your deployment depends on which compute platform you use:
+
+  – **Blue/green on an EC2/On-Premises compute platform:** The instances in a _deployment group_ (the original environment) are replaced by a different set of instances (the replacement environment). _If you use an EC2/On-Premises compute platform, be aware that blue/green deployments work with Amazon **EC2 instances only.**_
+
+  - **Blue/green on an AWS Lambda compute platform:** Traffic is shifted from your current serverless environment to one with your updated Lambda function versions. You can specify Lambda functions that perform validation tests and choose the way in which the traffic shift occurs. **All AWS Lambda compute platform deployments are blue/green deployments. For this reason, you do not need to specify a deployment type.**
+
+  - **Blue/green on an Amazon ECS compute platform:** Traffic is shifted from the task set with the original version of a containerized application in an Amazon ECS service to a replacement task set in the same service. The protocol and port of a specified load balancer listener are used to reroute production traffic. _During deployment, a test listener can be used to serve traffic to the replacement task set while validation tests are run._
+
+## CodeDeploy Questions
+
+- What is a CodeDeploy agent?
+- What protocol does the CodeDeploy agent use for outbound communication.
+- What compute platforms is the CodeDeploy agent **required** for?
+- Describe the in-place deployment process.
+- What are the only compute types that can use in-place deployment?
+- Can AWS Lambda use in-place deployments?
+- Describe the Blue/Green deployment process for EC2/On-Prem.
+- Describe the Blue/Green deployment process for Lambda.
+- Describe the Blue/Green deployment process for ECS.
+- Can Blue/Green deployments work with both EC2 and On-prem compute platforms?
+- Do you need to specify a deployment type for Lambda functions?
+- For ECS deployments, what purpose can using a **test listener** provide?
+
+---
+
+# Lambda
+
+- To create a Lambda function, **you need a deployment package and an execution role.**
+
+  - **deployment package** contains your function code.
+  - The **execution role** grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing.
+
+- A function has an **unpublished version**, and can have **published versions** and **aliases**.
+
+  - The **unpublished version** changes when you update your function’s code and configuration.
+  - A **published version** is a snapshot of your function code and configuration that can’t be changed.
+  - An **alias** is a named resource that maps to a version, _and can be changed to map to a different version._
+
+- You can use the CreateFunction API _via the AWS CLI or the AWS SDK_ of your choice.
+- **Lambda Alias** is just like a pointer to a specific Lambda function version.
+- **Execution Context** is a temporary runtime environment that initializes any external dependencies of your Lambda function code, such as database connections or HTTP endpoints.
+
+- To create a Lambda function, you first create a Lambda function deployment package, **a `.zip` or `.jar` file** consisting of your code and any dependencies. **When creating the zip, include only the code and its dependencies, not the containing folder.** You will then need to set the appropriate security permissions for the zip package.
+
+- In **Lambda non-proxy (or custom) integration**, you can specify how the incoming request data is mapped to the integration request and how the resulting integration response data is mapped to the method response.
+
+#### Errors
+
+- The `InvalidParameterValueException` will be returned if one of the parameters in the request is invalid. For example, if you provided an IAM role in the CreateFunction API which AWS Lambda is unable to assume.
+- If you have exceeded your maximum total code size per account, the `CodeStorageExceededException` will be returned.
+- If the resource already exists, the `ResourceConflictException` will be returned.
+- If the AWS Lambda service encountered an internal error, the `ServiceException` will be returned.
+
+#### Layers
+
+- You can configure your Lambda function to pull in additional code and content in the form of layers.
+- A layer is a ZIP archive that contains libraries, a custom runtime, or other dependencies. With layers, you can use libraries in your function without needing to include them in your **deployment package**.
+- Layers help you keep your deployment package small, which makes development easier. You can avoid errors that can occur when you install and package dependencies with your function code.
+- For _Node.js, Python, and Ruby functions_, you can develop your function code in the Lambda console **as long as you keep your deployment package under 3 MB**.
+- **A function can use up to 5 layers at a time.** The total unzipped size of the function and **all layers can’t exceed the unzipped deployment package size limit of 250 MB.**
+- You can create layers, or use layers published by AWS and other AWS customers.
+- Layers are extracted to the `/opt` directory in the function execution environment. Each runtime looks for libraries in a different location under `/opt`, depending on the language. Structure your layer so that function code can access libraries without additional configuration.
+
+### Deployment
+
+- **Canary**: In a Canary deployment configuration, the traffic is shifted in two increments. You can choose from predefined canary options that specify the percentage of traffic shifted to your updated Lambda function version in the first increment and the interval, in minutes, before the remaining traffic is shifted in the second increment.
+- **Linear**: This will cause the traffic to be shifted in equal increments with an equal number of minutes between each increment. You can choose from predefined linear options that specify the percentage of traffic shifted in each increment and the number of minutes between each increment.
+- **All-at-once** With this deployment configuration, the traffic is shifted from the original Lambda function to the updated Lambda function version all at once.
+
+## Lambda Questions
+
+- What two file types are suitable for the lambda function deployment package?
+- What _two_ things are required when you create a lambda functions?
+- what does the **deployment package** provide?
+- What does the **execution role** provide?
+- A lambda can come in two versions, what are they?
+- Describe a **published version** of a lambda function.
+- Describe a **unpublished version** of a lambda function.
+- Describe a lambda function **alias**.
+- What is the Execution Context in a lambda function and what use cases can it provide?
+- Describe the `InvalidParameterValueException` error.
+- Describe the `CodeStorageExceededException` error.
+- Describe the `ResourceConflictException` error.
+- Describe the `ServiceException` error.
+- What are lambda layers?
+- Layers help keep supporting code out of what?
+- What languages can you develop your function code in within the lambda console, what is max size for the deployment package?
+- How many layers can a lambda function have at a time?
+- What is the max unzipped deployment package size for a lambda function and all of its layers?
+- Are you able to create layers and also use layers published by AWS and AWS Customers?
+- What directory are layers extracted from in the function execution environment?
+- What three types of lambda deployments are there?
+- Describe lambda **canary** deployments.
+- Describe lambda **linear** deployments.
+- Describe lambda **all-at-once** deployments.
+
+---
+
+# CloudWatch
+
+## CloudWatch + API Gateway
+
+---
+
+# CodeCommit
+
+---
+
+# Lambda
+
+---
