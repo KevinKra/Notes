@@ -609,11 +609,11 @@ The agent sends information about the resource's **current running tasks and res
 
 ### Application
 
-- An Elastic Beanstalk **_application_** is a logical collection of Elastic Beanstalk components, including _environments, versions, and environment configurations_.
+- An Elastic Beanstalk **_Application_** is a logical collection of Elastic Beanstalk components, including environments, versions, and environment configurations.
 
 ### Application Version
 
-- In Elastic Beanstalk, an **_application version_** refers to a **specific, labeled iteration of deployable code for a web application.** An **application version points to an Amazon S3 object** that contains the deployable code.
+- In Elastic Beanstalk, an **_Application Version_** refers to a **specific, labeled iteration of deployable code for a web application. An application version points to an Amazon S3 object** that contains the deployable code.
 
 - Applications can have many versions and **each application version is unique.**
 
@@ -666,13 +666,13 @@ The agent sends information about the resource's **current running tasks and res
 
 ### Saved Configuration
 
-- A **_saved configuration_** is a template that you can use as a starting point for creating unique environment configurations.
+- A **_Saved Configuration_** is a template that you can use as a starting point for creating unique environment configurations.
 
-- The API and the AWS CLI refer to saved configurations as **_configuration templates_**.
+- The API and the AWS CLI refer to saved configurations as **_Configuration Templates_**.
 
 ### Platform
 
-**A _platform_ is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.**
+- A **_Platform_** is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.
 
 - You design and target your web application to a platform. Elastic Beanstalk provides a variety of platforms on which you can build your applications.
 
@@ -790,7 +790,7 @@ The agent sends information about the resource's **current running tasks and res
 - To create a Lambda function, **you need a deployment package and an execution role.**
 
   - **deployment package** contains your function code.
-  - The **execution role** grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing.
+  - The **execution role** grants the function permission to use AWS services, such as CloudWatch Logs for log streaming and AWS X-Ray for request tracing.
 
 - A function has an **unpublished version**, and can have **published versions** and **aliases**.
 
@@ -832,12 +832,12 @@ The agent sends information about the resource's **current running tasks and res
 ## Lambda Questions
 
 - What two file types are suitable for the lambda function deployment package?
-- What _two_ things are required when you create a lambda functions?
+- What two elements are _required_ when you create a lambda function?
 - what does the **deployment package** provide?
 - What does the **execution role** provide?
-- A lambda can come in two versions, what are they?
-- Describe a **published version** of a lambda function.
+- A lambda can come in two "versions", what are they?
 - Describe a **unpublished version** of a lambda function.
+- Describe a **published version** of a lambda function.
 - Describe a lambda function **alias**.
 - What is the Execution Context in a lambda function and what use cases can it provide?
 - Describe the `InvalidParameterValueException` error.
