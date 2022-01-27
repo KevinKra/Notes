@@ -338,7 +338,7 @@ When you create a table, the initial status of the table is `CREATING`. During t
 - If you increase the table's provisioned throughput settings beyond what the existing partitions can support.
 - If an existing partition fills to capacity and more storage space is required.
 
-Global secondary indexes in DynamoDB are also composed of partitions. The data in a global secondary index is stored separately from the data in its base table, but index partitions behave in much the same way as table partitions.
+Global secondary indexes in DynamoDB are also composed of partitions. **The data in a global secondary index is stored separately from the data in its base table,** but index partitions behave in much the same way as table partitions.
 
 ### Data Distribution: Partition Key
 
@@ -350,7 +350,7 @@ To write an item to the table, DynamoDB uses the value of the partition key as i
 
 If the table has a composite primary key (partition key and sort key), DynamoDB calculates the hash value of the partition key in the same way as described in Data Distribution: Partition Key. However, it stores all the items with the same partition key value physically close together, ordered by sort key value.
 
-To write an item to the table, DynamoDB calculates the hash value of the partition key to determine which partition should contain the item. In that partition, several items could have the same partition key value. So DynamoDB stores the item among the others with the same partition key, in ascending order by sort key.
+To write an item to the table, DynamoDB calculates the hash value of the partition key to determine which partition should contain the item. **In that partition, several items could have the same partition key value.** So DynamoDB stores the item among the others with the same partition key, in ascending order by sort key.
 
 You can read multiple items from the table in a single operation (`Query`) if the items you want have the same partition key value. DynamoDB returns all of the items with that partition key value. **Optionally, you can apply a condition to the sort key so that it returns only the items within a certain range of values.**
 
@@ -373,7 +373,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - An item's sort key is also called it's _what_ attribute.
 - Each primary key must be comprised of what types of value?
 - What happens when you declare a secondary index for your table?
-- Can you create a secondary index for your table after the table has been already created?
+- Can you create a _local_ secondary index for your table after the table has been already created?
 - What is the difference between a global secondary index and a local secondary index?
 - What is the default quota limit for **global secondary indexes** on a table?
 - What is the default quota limit for **local secondary indexes** on a table?
@@ -453,13 +453,15 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Does DynamoDB automatically manage the throughput for your index tables?
 - With auto scaling enabled, you define a RCU/WCU range and what else?
 - With auto scaling, can a table or global secondary index adjust its provisioned read/write capacity to handle sudden spikes in traffic without causing throttling?
-- What kind of fee and usage levels do you need to define when you used DynamoDB reserved capacity?
-- Is reserved capacity available for tables using DynamoDB standard-IA or on-demand capacity mode?
+- What kind of fee and usage levels do you need to define when you use DynamoDB reserved capacity?
+- DynamoDB allocates additional partitions in what two situations?
 - What two table classes does DynamoDB offer?
+- What is reserved capacity?
+- Is reserved capacity available for tables using DynamoDB standard-IA or on-demand capacity mode?
 - Which DynamoDB table class is the default class and recommended for most workloads?
 - Is the choice of the table class permanent?
-- DynamoDB allocates additional partitions in what two situations?
 - Is the data in a global secondary index stored separately from the data in its base table?
+- Can several items exist in the same partition? What is used to differentiate them?
 - For your `Query` operations on a table, can you provide an optional condition to the sort key so it only returns the items within a certain range in the partitioned space?
 
 ---
@@ -623,9 +625,9 @@ The agent sends information about the resource's **current running tasks and res
 
 ### Environment Tier
 
-- The environment is the heart of the application. The **_Environment Tier_** designates the _type of application_ that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
+- The environment is the heart of the application. The **Environment Tier designates the _type of application_** that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
 
-- When you launch an Elastic Beanstalk environment, you first choose an _environment tier_.
+- When you launch an Elastic Beanstalk environment, you first choose an environment tier.
 
 - There are two environment tiers in Elastic Beanstalk: **Web Server Tier** and **Worker Environment Tier**.
 
@@ -633,46 +635,46 @@ The agent sends information about the resource's **current running tasks and res
 
 > An application that serves HTTP requests runs in a **web server environment tier**.
 
-- **When you create an environment, Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: _one ELB, an Auto Scaling group, and one or more Amazon Elastic Compute Cloud (Amazon EC2) instances._
+- **When you create an environment, Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: one ELB, an Auto Scaling group, and one or more EC2 instances.
 
 - Every environment has a CNAME (URL) that points to a load balancer.
 
 - **The environment has a URL**, such as `myapp.us-west-2.elasticbeanstalk.com`. **This URL is aliased in Amazon Route 53 to an Elastic Load Balancing URL**—something like `abcdef-123456.us-west-2.elb.amazonaws.com` -—by using a CNAME record.
 
-- The software stack running on the Amazon EC2 instances is dependent on the **_Container Type_**. A _container type_ defines the infrastructure topology and software stack to be used for that environment.
+- The software stack running on the EC2 instances is dependent on the **_Container Type_**. A container type defines the infrastructure topology and software stack to be used for that environment.
 
   > For example, an Elastic Beanstalk environment with an Apache Tomcat container uses the Amazon Linux operating system, Apache web server, and Apache Tomcat software.
 
-- A software component called the **_Host Manager (HM)_** _runs on each Amazon EC2 instance_. **The Host Manager reports metrics, errors and events, and server instance status, which are available via the Elastic Beanstalk console, APIs, and CLIs.**
+- A software component called the **Host Manager (HM) runs on each Amazon EC2 instance**. The Host Manager reports metrics, errors, events, and server instance status, which are available via the Elastic Beanstalk console, APIs, and CLIs.
 
 #### _Worker Environment Tier_
 
-> A backend environment that pulls tasks from an Amazon Simple Queue Service (Amazon SQS) queue runs in a **worker environment tier.**
+> A backend environment that pulls tasks from an SQS queue runs in a **worker environment tier.**
 
-- AWS resources created for a worker environment tier include an _Auto Scaling group, one or more Amazon EC2 instances, and an IAM role._
+- AWS resources created for a worker environment tier include: an Auto Scaling group, one or more Amazon EC2 instances, and an IAM role.
 
 - For the worker environment tier, **Elastic Beanstalk also creates and provisions an Amazon SQS queue if you don’t already have one.**
 
-- When you launch a worker environment, **Elastic Beanstalk installs the necessary support files for your programming language of choice and a daemon on each EC2 instance in the Auto Scaling group.**
+- When you launch a worker environment, **Elastic Beanstalk installs the necessary support files for your programming language of choice** _and_ **a daemon on each EC2 instance in the Auto Scaling group.**
   - The daemon reads messages from an Amazon SQS queue.
   - The daemon sends data from each message that it reads to the web application running in the worker environment for processing.
   - If you have multiple instances in your worker environment, each instance has its own daemon, but they all read from the same Amazon SQS queue.
 
 ### Environment Configuration
 
-An **_environment configuration_** identifies a collection of parameters and settings that define how an environment and its associated resources behave.
+- An **_environment configuration_** identifies a collection of parameters and settings that define how an environment and its associated resources behave.
 
 ### Saved Configuration
 
-A **_saved configuration_** is a template that you can use as a starting point for creating unique environment configurations.
+- A **_saved configuration_** is a template that you can use as a starting point for creating unique environment configurations.
 
-The API and the AWS CLI refer to saved configurations as **_configuration templates_**.
+- The API and the AWS CLI refer to saved configurations as **_configuration templates_**.
 
 ### Platform
 
 **A _platform_ is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.**
 
-You design and target your web application to a platform. Elastic Beanstalk provides a variety of platforms on which you can build your applications.
+- You design and target your web application to a platform. Elastic Beanstalk provides a variety of platforms on which you can build your applications.
 
 ## Deployment
 
@@ -688,9 +690,9 @@ You design and target your web application to a platform. Elastic Beanstalk prov
 
 - **Rolling** – Deploy the new version in batches. Each batch is taken out of service during the deployment phase, reducing your environment’s capacity by the number of instances in a batch. This method will deploy the new version in batches only to existing instances, without provisioning new resources. The compute capacity of the environment would still be compromised in this method.
 
-- **Rolling with additional batch** – Starts by deploying your application code to a single batch of newly created EC2 instances. Once the deployment succeeds on the first batch of instances, the application code is deployed to the remaining instances in batches until the last batch of instances remains. At this point, the last batch of instances is terminated. This deployment policy ensures that the impact of a failed deployment is limited to a single batch of instances and enables your application to serve traffic at full capacity during an ongoing deployment.
+- **Rolling with additional batch** – Starts by deploying your application code to a single batch of newly created EC2 instances. **Once the deployment succeeds on the first batch of instances**, the application code is deployed to the remaining instances in batches until the last batch of instances remains. **At this point, the last batch of instances is terminated.** This deployment policy ensures that the impact of a failed deployment is limited to a single batch of instances and enables your application to serve traffic at full capacity during an ongoing deployment.
 
-- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. If the new instances don’t pass health checks, Elastic Beanstalk terminates them, leaving the original instances untouched. If an immutable environment update fails, the rollback process requires only terminating an Auto Scaling group. A failed rolling update, on the other hand, requires performing an additional rolling update to roll back the changes.
+- **Immutable** – Deploy the new version to a fresh group of instances by performing an immutable update. To perform an immutable environment update, Elastic Beanstalk creates a second, temporary Auto Scaling group behind your environment’s load balancer to contain the new instances. Immutable deployments can prevent issues caused by partially completed rolling deployments. **If the new instances don’t pass their health checks, Elastic Beanstalk terminates them, leaving the original instances untouched.** If an immutable environment update fails, the **rollback process requires only terminating an Auto Scaling group**. **A failed rolling update, on the other hand, requires performing an additional rolling update to roll back the changes.**
 
 - **Traffic splitting** – Deploy the new version to a fresh group of instances and temporarily split incoming client traffic between the existing application version and the new one.
 
