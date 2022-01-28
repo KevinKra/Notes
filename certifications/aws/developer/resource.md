@@ -385,7 +385,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Each event on a stream is represented by what?
 - For a table with a stream, what happens when a new item is added to the table?
 - For a table with a stream, what happens when an item is updated?
-- For a table with a stream, what happens when a new item is deleted from the table?
+- For a table with a stream, what happens when an item is deleted from the table?
 - Each stream record contains what core pieces of data?
 - What is the lifespan of a stream record?
 - Streams can be used together with what service to build event-driven architecture when events of interest appear in a stream?
@@ -401,10 +401,10 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - Can `BatchGetItem` get items from multiple tables?
 - Which read command retrieves all items that have a specific partition key?
 - Which read command retrieves all items in a specified table or index?
-- In the DataPlane, what two commands can you use for writing data?
 - With the `UpdateItem` command, are you able to add _and_ remove attributes from the selected item?
 - In the DataPlane, what two commands can you use for deleting data?
 - What are the four stream commands?
+- Can `ListStreams` list streams from one or multiple tables?
 - `GetShardIterator` is used to retrieve what data structure? What is this structure used to retrieve?
 - `GetRecords` uses what data structure to review one or more stream records?
 - What _five_ Scalar types does DynamoDB support?
@@ -609,23 +609,23 @@ The agent sends information about the resource's **current running tasks and res
 
 ### Application
 
-- An Elastic Beanstalk **_Application_** is a logical collection of Elastic Beanstalk components, including environments, versions, and environment configurations.
+- An Elastic Beanstalk **_application_** is a logical collection of Elastic Beanstalk components, including environments, versions, and environment configurations.
 
 ### Application Version
 
-- In Elastic Beanstalk, an **_Application Version_** refers to a **specific, labeled iteration of deployable code for a web application. An application version points to an Amazon S3 object** that contains the deployable code.
+- In Elastic Beanstalk, an **_application version_** refers to a **specific, labeled iteration of deployable code for a web application.** An application version points to an **S3 object** that contains the deployable code.
 
 - Applications can have many versions and **each application version is unique.**
 
 ### Environment
 
-- An **_Environment_** is a collection of AWS resources running an application version.
+- An **_environment_** is a collection of AWS resources running an application version.
 
 - **Each environment runs only one application version at a time**, however, you can run the same application version or different application versions in many environments simultaneously.
 
 ### Environment Tier
 
-- The environment is the heart of the application. The **Environment Tier designates the _type of application_** that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
+- The environment is the heart of the application. The Environment Tier designates the **_type of application_** that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
 
 - When you launch an Elastic Beanstalk environment, you first choose an environment tier.
 
@@ -635,7 +635,7 @@ The agent sends information about the resource's **current running tasks and res
 
 > An application that serves HTTP requests runs in a **web server environment tier**.
 
-- **When you create an environment, Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: one ELB, an Auto Scaling group, and one or more EC2 instances.
+- When you create an environment, **Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: one ELB, an Auto Scaling group, and one or more EC2 instances.
 
 - Every environment has a CNAME (URL) that points to a load balancer.
 
@@ -666,13 +666,13 @@ The agent sends information about the resource's **current running tasks and res
 
 ### Saved Configuration
 
-- A **_Saved Configuration_** is a template that you can use as a starting point for creating unique environment configurations.
+- A **_saved configuration_** is a template that you can use as a starting point for creating unique environment configurations.
 
-- The API and the AWS CLI refer to saved configurations as **_Configuration Templates_**.
+- The API and the AWS CLI refer to saved configurations as **_configuration templates_**.
 
 ### Platform
 
-- A **_Platform_** is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.
+- A **_platform_** is a combination of an operating system, programming language runtime, web server, application server, and Elastic Beanstalk components.
 
 - You design and target your web application to a platform. Elastic Beanstalk provides a variety of platforms on which you can build your applications.
 
@@ -698,21 +698,23 @@ The agent sends information about the resource's **current running tasks and res
 
 ## Elastic Beanstalk Questions
 
-- Describe the concept of an EB _Application._
-- Describe the concept of an EB _Application Version._
+- Describe the concept of an Elastic Beanstalk **Application**.
+- Describe the concept of an Elastic Beanstalk **Application Version**.
 - Does the Application Version point to an S3 Object to find the deployable code for that version?
-- Describe the concept of an EB _Environment_.
-- Can an EB environment run _more than_ one application version at a time?
+- Describe the concept of an Elastic Beanstalk **Environment**.
+- Can an Elastic Beanstalk environment run _more than_ one application version at a time?
 - Can you run the same application version, or different versions, in many environments simultaneously?
-- The _Environment Tier_ designates what?
-- Does EB use the environment tier to determine what resources to provision to support it?
-- What are the two types of EB environment tiers?
-- An application that serves HTTP requests runs in which EB environment tier?
-- A backend application that pulls tasks from an SQS queue runs in which EB environment tier?
-- For the _Web Server Tier_ does AWS setup the following resources for the environment: an ELB, Auto Scaling Group, and one or more EC2 instances?
-- The software stack running on the EB EC2 instances is dependent on what?
-- Does a _container type_ define the infrastructure topology and software stack to be used for an EC2 instance's environment?
-- Does a _Host Manager_ run on each EB EC2 instance?
+- The Environment Tier designates what?
+- Does Elastic Beanstalk use the environment tier to determine what resources to provision to support it?
+- What are the two types of Elastic Beanstalk environment tiers?
+- An application that serves HTTP requests runs in which Elastic Beanstalk environment tier?
+- A backend application that pulls tasks from an SQS queue runs in which Elastic Beanstalk environment tier?
+- Does your _Web Server Application Tier_ environment have a URL?
+- Is your web server environment aliased in Amazon Route 53 to an Elastic Load Balancing URL?
+- For the **Elastic Beanstalk Web Server Tier** does AWS setup the following resources for the environment: an ELB, Auto Scaling Group, and one or more EC2 instances?
+- The software stack running on the Elastic Beanstalk EC2 instances is dependent on what?
+- Does a **container type** define the infrastructure topology and software stack to be used for an EC2 instance's environment?
+- Does a **host manager** run on each Elastic Beanstalk EC2 instance?
 - Does the Host Manager report metrics, errors and events, and server instance status?
 - Where are Host Manager reports found?
 - What three resources are created for a worker environment tier?
@@ -721,14 +723,14 @@ The agent sends information about the resource's **current running tasks and res
 - Does the installed daemon read messages from the SQS queue?
 - Does the daemon send data from each SQS message to the worker environment for processing?
 - If you have multiple instances in your worker environment, does each instance have _its own_ daemon?
-- Do all the daemons in the previous question read from the same SQS queue?
-- What is an _Environment Configuration_?
-- What is a _Saved Configuration_?
+- Do the daemon, on each EC2 instance, read from the same SQS queue?
+- What is an **Environment Configuration**?
+- What is a **Saved Configuration**?
 - What does the API and AWS CLI refer to saved configurations as?
-- What is a _Platform?_
+- What is a **Platform?**
 - Is Elastic Beanstalk suitable for deploying serverless applications?
-- Can Elastic Beanstalk build, test, and debug, serverless applications as well as AWS SAM can?
-- EB performance in-place updates when you update your application versions, in order to avoid downtime what type of deployment can you use?
+- Can Elastic Beanstalk build, test, and dug, serverless applications as well as AWS SAM can?
+- Elastic Beanstalk performs in-place updates when you update your application versions, in order to avoid downtime what type of deployment can you use?
 - What are the _five_ deployment options for Elastic Beanstalk?
 - Describe the `All at once` deployment option.
 - Describe the `Rolling` deployment option.
@@ -831,10 +833,10 @@ The agent sends information about the resource's **current running tasks and res
 
 ## Lambda Questions
 
-- What two file types are suitable for the lambda function deployment package?
 - What two elements are _required_ when you create a lambda function?
 - what does the **deployment package** provide?
 - What does the **execution role** provide?
+- What two file types are suitable for the lambda function deployment package?
 - A lambda can come in two "versions", what are they?
 - Describe a **unpublished version** of a lambda function.
 - Describe a **published version** of a lambda function.
