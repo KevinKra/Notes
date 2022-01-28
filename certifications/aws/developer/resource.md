@@ -819,7 +819,7 @@ The agent sends information about the resource's **current running tasks and res
 - A layer is a ZIP archive that contains libraries, a custom runtime, or other dependencies. With layers, you can use libraries in your function without needing to include them in your **deployment package**.
 - Layers help you keep your deployment package small, which makes development easier. You can avoid errors that can occur when you install and package dependencies with your function code.
 - For _Node.js, Python, and Ruby functions_, you can develop your function code in the Lambda console **as long as you keep your deployment package under 3 MB**.
-- **A function can use up to 5 layers at a time.** The total unzipped size of the function and **all layers can’t exceed the unzipped deployment package size limit of 250 MB.**
+- **A function can use up to 5 layers at a time.** The total unzipped size of the function and all layers can’t exceed the unzipped deployment package size **limit of 250 MB.**
 - You can create layers, or use layers published by AWS and other AWS customers.
 - Layers are extracted to the `/opt` directory in the function execution environment. Each runtime looks for libraries in a different location under `/opt`, depending on the language. Structure your layer so that function code can access libraries without additional configuration.
 
@@ -860,14 +860,57 @@ The agent sends information about the resource's **current running tasks and res
 
 # CloudFormation <a name="CloudFormation"></a>
 
-- A Cloudformation template is a JSON- or YAML-formatted text file that describes your AWS infrastructure.
+> AWS CloudFormation is a service that helps you model and set up your AWS resources so that you can spend less time managing those resources and more time focusing on your applications that run in AWS. You create a template that describes all the AWS resources that you want (like Amazon EC2 instances or Amazon RDS DB instances), and CloudFormation takes care of provisioning and configuring those resources for you. You don't need to individually create and configure AWS resources and figure out what's dependent on what; CloudFormation handles that.
+
+## Core Benefits of IAAS
+
+- **Simplify Infrastructure Management**
+
+  - **Problem:** For a scalable web application that also includes a backend database, you might use an Auto Scaling group, an Elastic Load Balancing load balancer, and an Amazon Relational Database Service database instance. You might use each individual service to provision these resources and after you create the resources, you would have to configure them to work together. All these tasks can add complexity and time before you even get your application up and running.
+  - **Solution:** You can create a **CloudFormation _template_** or modify an existing one. _A template describes all your resources and their properties._ When you use that template to create a CloudFormation stack, CloudFormation provisions the Auto Scaling group, load balancer, and database for you. After the stack has been successfully created, your AWS resources are up and running. You can delete the stack just as easily, which deletes all the resources in the stack. By using CloudFormation, you easily manage a collection of resources as a single unit.
+
+- **Quickly Replicate your Infrastructure**
+
+  - **Problem:** If your application requires additional availability, you might replicate it in multiple regions so that if one region becomes unavailable, your users can still use your application in other regions. The challenge in replicating your application is that it also requires you to replicate your resources. Not only do you need to record all the resources that your application requires, but you must also provision and configure those resources in each region.
+  - **Solution:** Reuse your CloudFormation template to create your resources in a consistent and repeatable manner. To reuse your template, describe your resources once and then provision the same resources over and over in multiple regions.
+
+- **Easily Control and Track Changes**
+
+  - **Problem:** In some cases, you might have underlying resources that you want to upgrade incrementally. For example, you might change to a higher performing instance type in your Auto Scaling launch configuration so that you can reduce the maximum number of instances in your Auto Scaling group. If problems occur after you complete the update, you might need to roll back your infrastructure to the original settings. To do this manually, you not only have to remember which resources were changed, you also have to know what the original settings were.
+  - **Solution:** When you provision your infrastructure with CloudFormation, the CloudFormation template describes exactly what resources are provisioned and their settings. Because these templates are text files, you simply track differences in your templates to track changes to your infrastructure, similar to the way developers control revisions to source code. For example, you can use a version control system with your templates so that you know exactly what changes were made, who made them, and when. If at any point you need to reverse changes to your infrastructure, you can use a previous version of your template.
+
+## CloudFormation Concepts
+
+### Templates
+
+- A Cloudformation template is a **JSON- or YAML-formatted text file** that describes your AWS infrastructure.
+
+- You can save these files with any extension, such as `.json`, `.yaml`, `.template`, or `.txt`. CloudFormation uses these templates as blueprints for building your AWS resources.
+
+- For example, in a template, you can describe an Amazon EC2 instance, such as the instance type, the AMI ID, block device mappings, and its Amazon EC2 key pair name. **Whenever you create a stack, you also specify a template that CloudFormation uses** to create whatever you described in the template.
+
+- CloudFormation templates have additional capabilities that you can use to build complex sets of resources and reuse those templates in multiple contexts. For example, **you can add input parameters whose values are specified when you create a CloudFormation stack.** In other words, _you can specify a value like the instance type when you create a stack instead of when you create the template_, making the template easier to reuse in different situations.
+
+### Stacks
+
+- When you use CloudFormation, you manage related resources as a single unit called a stack.
+
+- You create, update, and delete a collection of resources by creating, updating, and deleting stacks. **All the resources in a stack are defined by the stack's CloudFormation template.**
+
+- Suppose you created a template that includes an Auto Scaling group, Elastic Load Balancing load balancer, and an Amazon Relational Database Service (Amazon RDS) database instance. **To create those resources, you create a stack by submitting the template that you created, and CloudFormation provisions all those resources for you.** You can work with stacks by using the CloudFormation console, API, or AWS CLI.
+
+### Change Sets
+
+- If you need to make changes to the running resources in a stack, you update the stack. Before making changes to your resources, you can generate a change set, **which is a summary of your proposed changes.** Change sets allow you to see how your changes might impact your running resources, especially for critical resources, before implementing them.
+
+- For example, if you change the name of an Amazon RDS database instance, CloudFormation will create a new database and delete the old one. You will lose the data in the old database unless you've already backed it up. If you generate a change set, you will see that your change will cause your database to be replaced, and you will be able to plan accordingly before you update your stack.
 
 - When you specify a transform, **you can use AWS SAM syntax to declare resources in your template.** The model defines the syntax that you can use and how it is processed. More specifically, the `AWS::Serverless` transform, **which is a macro hosted by AWS CloudFormation**, takes an entire template written in the AWS Serverless Application Model (AWS SAM) syntax and transforms and expands it into a compliant AWS CloudFormation template.
 
-- `Transform` section specifies the version of the AWS Serverless Application Model (AWS SAM) to use. This is used for serverless applications (also referred to as Lambda-based applications).
-- `Mappings` section just lists a mapping of keys and associated values that you can use to specify conditional parameter values, similar to a lookup table.
+- `Transform` section specifies the version of the AWS SAM to use. This is used for serverless applications (also referred to as Lambda-based applications).
+- `Mappings` section lists a mapping of keys and associated values that you can use to specify conditional parameter values, similar to a lookup table.
 - `Resources` section is primarily used to specify the stack resources and their properties.
-- `Parameter` section is just the part of the template that contains values to pass to your template at runtime when you create or update a stack.
+- `Parameter` section is the part of the template that contains values to pass to your template at runtime when you create or update a stack.
 
 ### Deployment
 
