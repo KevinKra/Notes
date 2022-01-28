@@ -881,31 +881,30 @@ The agent sends information about the resource's **current running tasks and res
   - **Problem:** In some cases, you might have underlying resources that you want to upgrade incrementally. For example, you might change to a higher performing instance type in your Auto Scaling launch configuration so that you can reduce the maximum number of instances in your Auto Scaling group. If problems occur after you complete the update, you might need to roll back your infrastructure to the original settings. To do this manually, you not only have to remember which resources were changed, you also have to know what the original settings were.
   - **Solution:** When you provision your infrastructure with CloudFormation, the CloudFormation template describes exactly what resources are provisioned and their settings. Because these templates are text files, you simply track differences in your templates to track changes to your infrastructure, similar to the way developers control revisions to source code. For example, you can use a version control system with your templates so that you know exactly what changes were made, who made them, and when. If at any point you need to reverse changes to your infrastructure, you can use a previous version of your template.
 
+### Drift in CloudFormation
+
+When you start to use CloudFormation for establishing your infrastructure, you may start to experience an issue called **drift**. As an application grows and transforms, changes are gradually introduced through CloudFormation templates. These templates assume no changes have occurred to your AWS infrastructure outside of them. In the event that a user starts directly interfacing with the AWS console or CLI and modifies resources, _drift_ will start to appear between the actual true state of your infrastructure and what is being maintained through your CloudFormation templates. Consequently, it's very important to _only_ make changes to your infrastructure through templates once CloudFormation is established.
+
 ## CloudFormation Concepts
 
 ### Templates
 
 - A Cloudformation template is a **JSON- or YAML-formatted text file** that describes your AWS infrastructure.
-
-- You can save these files with any extension, such as `.json`, `.yaml`, `.template`, or `.txt`. CloudFormation uses these templates as blueprints for building your AWS resources.
-
-- For example, in a template, you can describe an Amazon EC2 instance, such as the instance type, the AMI ID, block device mappings, and its Amazon EC2 key pair name. **Whenever you create a stack, you also specify a template that CloudFormation uses** to create whatever you described in the template.
-
+- You can save template files with any extension, such as `.json`, `.yaml`, `.template`, or `.txt`.
+- CloudFormation uses templates as blueprints for building your AWS resources. For example, in a template, you can describe an EC2 instance, such as the instance type, the AMI ID, block device mappings, and its Amazon EC2 key pair name. **Whenever you create a stack, you also specify a template that CloudFormation uses** to create whatever you described in the template.
 - CloudFormation templates have additional capabilities that you can use to build complex sets of resources and reuse those templates in multiple contexts. For example, **you can add input parameters whose values are specified when you create a CloudFormation stack.** In other words, _you can specify a value like the instance type when you create a stack instead of when you create the template_, making the template easier to reuse in different situations.
 
 ### Stacks
 
 - When you use CloudFormation, you manage related resources as a single unit called a stack.
-
 - You create, update, and delete a collection of resources by creating, updating, and deleting stacks. **All the resources in a stack are defined by the stack's CloudFormation template.**
-
 - Suppose you created a template that includes an Auto Scaling group, Elastic Load Balancing load balancer, and an Amazon Relational Database Service (Amazon RDS) database instance. **To create those resources, you create a stack by submitting the template that you created, and CloudFormation provisions all those resources for you.** You can work with stacks by using the CloudFormation console, API, or AWS CLI.
 
 ### Change Sets
 
 - If you need to make changes to the running resources in a stack, you update the stack. Before making changes to your resources, you can generate a change set, **which is a summary of your proposed changes.** Change sets allow you to see how your changes might impact your running resources, especially for critical resources, before implementing them.
-
-- For example, if you change the name of an Amazon RDS database instance, CloudFormation will create a new database and delete the old one. You will lose the data in the old database unless you've already backed it up. If you generate a change set, you will see that your change will cause your database to be replaced, and you will be able to plan accordingly before you update your stack.
+- Change Sets are similar to a `git diff`. It shows the _before_ and _after_ changes of the set it's referencing.
+- For example, **if you change the name of an Amazon RDS database instance, CloudFormation will create a new database and delete the old one. You will lose the data in the old database unless you've already backed it up.** If you generate a change set, you will see that your change will cause your database to be replaced, and you will be able to plan accordingly before you update your stack.
 
 - When you specify a transform, **you can use AWS SAM syntax to declare resources in your template.** The model defines the syntax that you can use and how it is processed. More specifically, the `AWS::Serverless` transform, **which is a macro hosted by AWS CloudFormation**, takes an entire template written in the AWS Serverless Application Model (AWS SAM) syntax and transforms and expands it into a compliant AWS CloudFormation template.
 
@@ -941,7 +940,18 @@ The agent sends information about the resource's **current running tasks and res
 
 ## CloudFormation Questions
 
-- What language templates does the CloudFormation script use?
+- What are three core benefits of using CloudFormation and IAAS?
+- Describe how CloudFormation helps with simplifying infrastructure management.
+- Describe how CloudFormation helps with infrastructure replication.
+- Describe how CloudFormation helps with controlling and tracking changes.
+- What is drift?
+- What languages are a CloudFormation template be written in?
+- What do you need to provide when creating a stack?
+- What feature on templates can you leverage that allows you to define values when a stack is being initialized?
+- By using parameters on templates, are developers able to create more adaptable and reusable stacks?
+- All resources in a stack are defined by what?
+- What use case does a ChangeSet provide?
+- A ChangeSet can be consider similar to what `git` feature?
 - What CloudFormation section allows you to use AWS SAM syntax to declare resources in your template?
 - The AWS SAM `Transform` macro in CloudFormation does what with the SAM syntax?
 - Describe the usage of the CloudFormation `Transform` section.
