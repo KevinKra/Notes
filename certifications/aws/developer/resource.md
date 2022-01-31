@@ -1178,7 +1178,7 @@ For any _traced request_ to your application, you can see detailed information n
 
 **AWS X-Ray receives traces from your application, in addition to AWS services your application uses that are already integrated with X-Ray.**
 
-**Instrumenting your application** involves sending trace data for incoming and outbound requests and other events within your application, along with metadata about each request.
+**_Instrumenting_ your application involves _sending trace data_ for incoming and outbound requests and other events within your application, along with metadata about each request.**
 
 ### X-Ray Daemon
 
@@ -1193,8 +1193,6 @@ X-Ray uses trace data from the AWS resources that power your cloud applications 
 The service graph shows the client, your frontend service, and backend services that your frontend service calls to process requests and persist data.
 
 Use the service graph to **identify bottlenecks, latency spikes, and other issues** to solve to improve the performance of your applications.
-
-## X-Ray Service Graph
 
 AWS X-Ray _receives data from services_ as **segments**. X-Ray then _groups segments that have a common request_ into **traces**. X-Ray processes the traces to generate a **service graph** that provides a visual representation of your application.
 
@@ -1220,12 +1218,12 @@ _If a load balancer or other intermediary forwards a request to your application
 ### Subsegments
 
 - A segment can break down the data about the work done into **subsegments**.
-- Subsegments provide more granular timing information and details about downstream calls that your application made to fulfill the original request.
-- A subsegment can contain additional details about a call to an AWS **service**, an **external HTTP API**, or a **SQL database**. You can even define arbitrary subsegments to instrument specific functions or lines of code in your application.
+- Subsegments provide more granular **timing information** and **details about downstream calls** that your application made to fulfill the original request.
+- A subsegment can contain additional details about a **call to an AWS service, an external HTTP API, or a SQL database**. You can even define arbitrary subsegments to instrument specific functions or lines of code in your application.
 
 #### Inferred Segments
 
-- For services that don't send their own segments, _like DynamoDB_, X-Ray uses subsegments to generate **inferred segments** and downstream nodes on the service map. **This lets you see all of your downstream dependencies, even if they don't support tracing, or are external.**
+- For services that don't send their own segments, _like DynamoDB_, **X-Ray uses _subsegments_ to generate _inferred segments_** and downstream nodes on the service map. **This lets you see all of your downstream dependencies, even if they don't support tracing, or are external.**
 - Subsegments represent your application's view of a downstream call as a client.
 - If the downstream service _is also instrumented_, **the segment that it sends replaces the inferred segment generated from the upstream client's subsegment.**
 - The node on the service graph always uses information from the **service's segment, if it's available**, while _the edge between the two nodes_ **uses the upstream service's subsegment**.
@@ -1291,7 +1289,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 ### Annotations and Metadata
 
 - When you _instrument your application_, **the X-Ray SDK records information about incoming and outgoing requests, the AWS resources used, and the application itself.**
-- You can add other information to the segment document as annotations and metadata.
+- You can add other information to the segment document as **annotations and metadata.**
 - Annotations and metadata are **aggregated at the trace level**, and can be added to any **segment or subsegment.**
 - You can view annotations and metadata in the segment or subsegment details in the X-Ray console.
 
@@ -1303,7 +1301,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 
 #### Metadata
 
-- Metadata is **key-value pairs with values of any type**, including objects and lists, but that are **not indexed.**
+- Metadata is **key-value pairs with values of any type, _including objects and lists_**, but that are **not indexed.**
 - Use metadata to record data you want to _store in the trace_ but **don't need to use for searching traces.**
 
 ### Errors, faults, and exceptions
@@ -1316,12 +1314,12 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 
 ## X-Ray Questions
 
-- What does X-Ray collect data on?
-- For any traced request, you can see detailed information not only about the request and response, but what else?
-- Can X-Ray receive traces from your application and AWS services your application uses that are already integrated with X-Ray?
+- What does Amazon X-Ray collect data on?
+- **For any traced request**, you can see detailed information not only about the request and response, but what else?
+- Does X-Ray receive traces from your application and AWS services your application uses that are already integrated with X-Ray?
 - _Instrumenting_ your application involves what?
 - Can AWS services integrated with X-Ray add tracing headers to incoming requests?
-- Can AWS services integrated with X-Ray add send trace data to X-Ray?
+- Can AWS services integrated with X-Ray send trace data to X-Ray?
 - Can AWS services integrated with X-Ray run the X-Ray daemon?
 - Can AWS Lambda send trace data about your requests to your Lambda functions thus allowing the X-Ray daemon on workers have simpler X-Ray SDK integrations?
 - When daemons are being used, is trace data sent directly to X-Ray?
@@ -1337,7 +1335,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 - The traces that X-Ray processes generate a what?
 - Compute resources, running your application logic, send data about their work as what?
 - What three pieces of information does a segment provide?
-- When an HTTP request reaches your application, can you capture information on the host, request, response, work done, and possible issues?
+- When an HTTP request reaches your application, can you capture information about the host, request, response, work done, and possible issues?
 - Does the X-Ray SDK gather information from request and response headers, the code in your application, and metadata about the AWS resources on which it runs?
 - Can you, the developer, choose what data the X-Ray SDK collects?
 - Can a **segment field** be used as a filter expression?
