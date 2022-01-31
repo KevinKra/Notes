@@ -810,14 +810,14 @@ The agent sends information about the resource's **current running tasks and res
 
 - In **Lambda non-proxy (or custom) integration**, you can specify how the incoming request data is mapped to the integration request and how the resulting integration response data is mapped to the method response.
 
-#### Errors
+### Errors
 
 - The `InvalidParameterValueException` will be returned if one of the parameters in the request is invalid. For example, if you provided an IAM role in the CreateFunction API which AWS Lambda is unable to assume.
 - If you have exceeded your maximum total code size per account, the `CodeStorageExceededException` will be returned.
 - If the resource already exists, the `ResourceConflictException` will be returned.
 - If the AWS Lambda service encountered an internal error, the `ServiceException` will be returned.
 
-#### Layers
+### Layers
 
 - You can configure your Lambda function to pull in additional code and content in the form of layers.
 - A layer is a ZIP archive that contains libraries, a custom runtime, or other dependencies. With layers, you can use libraries in your function without needing to include them in your **deployment package**.
@@ -827,11 +827,85 @@ The agent sends information about the resource's **current running tasks and res
 - You can create layers, or use layers published by AWS and other AWS customers.
 - Layers are extracted to the `/opt` directory in the function execution environment. Each runtime looks for libraries in a different location under `/opt`, depending on the language. Structure your layer so that function code can access libraries without additional configuration.
 
+### Aliases
+
+- Aliases allow you to point to two different versions of the Lambda function and dictate what percentage of incoming traffic is sent to each version.
+
+### Concurrency
+
+- If you create a Lambda function to process events from event sources that aren't poll-based (for example, Lambda can process every event from other sources, like Amazon S3 or API Gateway), each published event is a unit of work, in parallel, up to your account limits.
+
+- Formula: `concurrent executions = (invocations per second) x (average execution duration in seconds)`
+
+  - For example, consider a Lambda function that processes Amazon S3 events. Suppose that the Lambda function takes on average three seconds and Amazon S3 publishes 10 events per second. Then, you will have 30 concurrent executions of your Lambda function.
+  - `(10 events per second) x (3 seconds average execution duration)` = 30 concurrent executions
+
+- AWS Lambda dynamically scales function execution in response to increased traffic, up to your concurrency limit.
+- AWS Lambda limits **the total concurrent executions across all functions within a given region to 1000**. This limit can be raised by requesting for AWS to increase the limit of the concurrent executions of your account.
+
 ### Deployment
 
 - **Canary**: In a Canary deployment configuration, the traffic is shifted in two increments. You can choose from predefined canary options that specify the percentage of traffic shifted to your updated Lambda function version in the first increment and the interval, in minutes, before the remaining traffic is shifted in the second increment.
 - **Linear**: This will cause the traffic to be shifted in equal increments with an equal number of minutes between each increment. You can choose from predefined linear options that specify the percentage of traffic shifted in each increment and the number of minutes between each increment.
 - **All-at-once** With this deployment configuration, the traffic is shifted from the original Lambda function to the updated Lambda function version all at once.
+
+## Execution Environment
+
+- You can now configure your AWS Lambda functions to run up to **15 minutes per execution**. Previously, the maximum execution time (timeout) for a Lambda function was 5 minutes.
+- Lambda invokes your function in an execution environment, **which provides a secure and isolated runtime environment.**
+- The execution environment manages the resources required to run your function. The execution environment also provides **lifecycle support** for the function's runtime and any external extensions associated with your function.
+- When you create your Lambda function, you specify configuration information, **such as the amount of memory available and the maximum execution time allowed for your function.** Lambda uses this information to set up the execution environment.
+- The function's **runtime and each external extension** are processes that run within the execution environment.
+- **Permissions, resources, credentials, and environment variables** are shared between the function and the extensions.
+
+### Lambda Execution Environment Lifecycle
+
+- The lifecycle of the execution environment includes the following phases:
+
+  - **Init:** In this phase, **Lambda creates or unfreezes an execution environment** with the configured resources, downloads the code for the function and all layers, initializes any extensions, initializes the runtime, and then runs the function’s initialization code (the code outside the main handler).
+  - **Invoke:** In this phase, Lambda invokes the function handler. After the function runs to completion, **Lambda prepares to handle another function invocation**.
+  - **Shutdown:** This phase is triggered if the Lambda function **_does not receive any invocations_** for a period of time. In the Shutdown phase, Lambda shuts down the runtime, alerts the extensions to let them stop cleanly, and then removes the environment. Lambda sends a Shutdown event to each extension, which tells the extension that the environment is about to be shut down.
+
+- Each phase starts with an **event** that Lambda sends _to the runtime and to all registered extensions._
+
+- The runtime and each extension indicate completion by **sending a `Next` API request**. **Lambda freezes the execution environment when the runtime and each extension have completed and there are no pending events.**
+
+#### Init Phase
+
+- In the Init phase, Lambda performs **three tasks**:
+
+  - Start all extensions (Extension init)
+  - Bootstrap the runtime (Runtime init)
+  - Run the function's static code (Function init)
+
+- The Init phase ends when **the runtime and all extensions signal that they are ready** by sending a `Next` API request.
+- **The Init phase is limited to 10 seconds.**
+- If all three tasks do not complete within 10 seconds, **Lambda retries the Init phase at the time of the first function invocation.**
+
+#### Invoke Phase
+
+- When a Lambda function is invoked in response to a Next API request, Lambda sends an Invoke event to the runtime and to each extension.
+- **The function's timeout setting limits the duration of the entire Invoke phase.** For example, if you set the function timeout as 360 seconds, the function and all extensions need to complete within 360 seconds.
+- Note that **there is no independent post-invoke phase.** The duration is the sum of all invocation time (runtime + extensions) and is not calculated until the function and all extensions have _finished_ executing.
+- The invoke phase ends after the runtime and all extensions signal that they are done by sending a Next API request.
+- If the Lambda function **crashes or times out** during the Invoke phase, **Lambda resets the execution environment.**
+- The reset behaves like a Shutdown event. First, Lambda shuts down the runtime. Then Lambda sends a Shutdown event to each registered external extension. **The event includes the reason for the shutdown.** If another Invoke event results in this execution environment being reused, Lambda initializes the runtime and extensions as part of the _next_ invocation.
+  - The Lambda reset **does not** clear the `/tmp` directory content prior to the next init phase. This behavior is consistent with the regular shutdown phase.
+
+#### Shutdown Phase
+
+- When Lambda is about to shut down the runtime, it sends a Shutdown event to the runtime and to each external extension. Extensions can use this time for final cleanup tasks.
+- The Shutdown event is a response to a `Next` API request.
+- **The entire Shutdown phase is capped at 2 seconds.** If the runtime or any extension does not respond, **Lambda terminates it via a signal (`SIGKILL`).**
+- After the function and all extensions have completed, Lambda maintains the execution environment for some time in anticipation of another function invocation. **In effect, Lambda freezes the execution environment.**
+- When the function is invoked again, Lambda thaws the environment for reuse.
+
+- Reusing the execution environment has the following implications:
+  - **Objects declared _outside_ of the function's handler method remain initialized**, providing additional optimization when the function is invoked again. For example, if your Lambda function establishes a database connection, instead of reestablishing the connection, the original connection is used in subsequent invocations. **We recommend adding logic in your code to check if a connection exists before creating a new one.**
+  - **Each execution environment provides 512 MB of disk space in the `/tmp` directory.** The directory content _remains_ when the execution environment is frozen, **providing a transient cache that can be used for multiple invocations.** You can add extra code to check if the cache has the data that you stored.
+  - **Background processes or callbacks that were initiated by your Lambda function and did not complete when the function ended resume if Lambda reuses the execution environment.** Make sure that any background processes or callbacks in your code are complete before the code exits.
+
+When you write your function code, **do not assume that Lambda automatically reuses the execution environment for subsequent function invocations.** Other factors may dictate a need for Lambda to create a new execution environment, which can lead to unexpected results, such as database connection failures.
 
 ## Lambda Questions
 
@@ -855,10 +929,45 @@ The agent sends information about the resource's **current running tasks and res
 - What is the max unzipped deployment package size for a lambda function and all of its layers?
 - Are you able to create layers and also use layers published by AWS and AWS Customers?
 - What directory are layers extracted from in the function execution environment?
+- With aliases, can you distribute incoming traffic to different versions of a function?
+- What is the concurrency formula?
+- If you had a function that takes 3 seconds and S3 publishes 10 events per second, how many concurrent executions will you have?
+- What is the **default** concurrency limit for all functions within a given region?
 - What three types of lambda deployments are there?
 - Describe lambda **canary** deployments.
 - Describe lambda **linear** deployments.
 - Describe lambda **all-at-once** deployments.
+- How long can your lambda function's execution run for?
+- Is an lambda execution environment a secure and isolated environment?
+- When you setup a Lambda function, do you provide configuration info such as available memory and maximum execution time for your function?
+- What two processes run within a functions execution environment?
+- Do functions and extensions share permissions, resources, credentials, and environment variables between them?
+- The lifecycle of an execution environment consists of what three phases?
+- Is the **Init** phase able to unfreeze previous execution environments?
+- What triggers the **Shutdown** phase?
+- What does each phase start with and does lambda send it to the runtime and all registered events?
+- What api request does the run time, and each extension, use to indicate completion?
+- Does Lambda freeze the execution environment when the runtime and each extension have completed and there are no pending events?
+- What three tasks does the **Init phase** perform?
+- The Init phase ends when what happens?
+- The Init phase is limited to how much time?
+- What happens if all three tasks don't complete within 10 seconds?
+- Does the function and all it's extension need to complete _within_ the timeout phase you set?
+- What does the runtime and all extensions use to signal they are done?
+- If the lambda function crashes, or times out, does it reset the execution environment?
+- Explain the process in which the Invoke phase handles a shutdown.
+- Does the lambda **Invoke phase** reset clear the `/tmp` directory prior to the next init phase? Is this behavior consistent with the regular shutdown phase?
+- The entire Shutdown phase is capped at how many seconds?
+- What happens if the runtime, or any extension, does not respond to the shutdown phase?
+- Does lambda temporarily maintain the execution environment after the function, and all extensions, have completed?
+- The process of preserving your runtime environment is called what?
+- Reusing an execution environment has what implications?
+- What is an example of objects declared outside of a functions handler remaining initialized?
+- Should you include logic in your code to check if a connection exists before creating a new one?
+- Each execution environment provides how many MB of disk space in the `/tmp` directory?
+- Does the `/tmp` directory content remain when the execution environment freezes, thus serving as a transient cache between multiple invocations?
+- Do background processes or callbacks that were initiated by your Lambda function and did not complete when the function ended resume if Lambda reuses the execution environment?
+- Should make sure that any background processes or callbacks in your code are **complete** before your code exits?
 
 ---
 
@@ -1067,21 +1176,23 @@ AWS X-Ray is a service that **collects data about requests that your application
 
 For any _traced request_ to your application, you can see detailed information not only about the request and response, but also about **calls that your application makes to downstream AWS resources, microservices, databases, and web APIs.**
 
-**AWS X-Ray receives traces from your application, in addition to AWS services your application uses that are already integrated with X-Ray.** Instrumenting your application involves sending trace data for incoming and outbound requests and other events within your application, along with metadata about each request.
+**AWS X-Ray receives traces from your application, in addition to AWS services your application uses that are already integrated with X-Ray.**
+
+**Instrumenting your application** involves sending trace data for incoming and outbound requests and other events within your application, along with metadata about each request.
 
 ### X-Ray Daemon
 
 AWS services that are integrated with X-Ray **can add tracing headers to incoming requests, send trace data to X-Ray, or run the X-Ray daemon.** For example, AWS Lambda can send trace data about requests to your Lambda functions, and run the X-Ray daemon on workers to make it simpler to use the X-Ray SDK.
 
-Instead of sending trace data _directly to X-Ray_, **each client SDK sends JSON segment documents to a daemon** process listening for UDP traffic. The X-Ray daemon buffers segments in a queue and uploads them to X-Ray in batches. The daemon is available for **Linux**, **Windows**, and **macOS**, and is included on **AWS Elastic Beanstalk and AWS Lambda platforms**.
+Instead of sending trace data _directly to X-Ray_, **each client SDK sends JSON segment documents to a daemon process** listening for UDP traffic. The X-Ray daemon buffers segments in a queue and uploads them to X-Ray in batches. The daemon is available for **Linux**, **Windows**, and **macOS**, and is included on **AWS Elastic Beanstalk and AWS Lambda platforms**.
 
 ### X-Ray Service Graph
 
 X-Ray uses trace data from the AWS resources that power your cloud applications to generate a detailed **service graph**.
 
-The service graph shows the client, your front-end service, and backend services that your front-end service calls to process requests and persist data.
+The service graph shows the client, your frontend service, and backend services that your frontend service calls to process requests and persist data.
 
-Use the service graph to identify bottlenecks, latency spikes, and other issues to solve to improve the performance of your applications.
+Use the service graph to **identify bottlenecks, latency spikes, and other issues** to solve to improve the performance of your applications.
 
 ## X-Ray Service Graph
 
@@ -1099,11 +1210,11 @@ AWS X-Ray _receives data from services_ as **segments**. X-Ray then _groups segm
   - The **work done** – start and end times, subsegments
   - **Issues** that occur – errors, faults and exceptions, including automatic capture of exception stacks.
 
-The X-Ray SDK gathers information from **request and response headers, the code in your application, and metadata about the AWS resources on which it runs**. You choose the data to collect by modifying your application configuration or code to instrument incoming requests, downstream requests, and AWS SDK clients.
+The X-Ray SDK gathers information from **request and response headers, the code in your application, and metadata about the AWS resources on which it runs**. _You choose the data to collect_ by modifying your application configuration or code to instrument incoming requests, downstream requests, and AWS SDK clients.
 
 _If a load balancer or other intermediary forwards a request to your application_, X-Ray takes the **client IP** from the `X-Forwarded-For` header in the request instead of from the source IP in the IP packet. **The client IP that is recorded for a forwarded request can be forged, so it should not be trusted.**
 
-- A segment field _cannot_ be used as a filter expression
+- A segment field **_cannot_** be used as a filter expression
 - **Segment documents can be up to 64 kB in size.**
 
 ### Subsegments
@@ -1125,14 +1236,10 @@ _If a load balancer or other intermediary forwards a request to your application
 ### Service Graph
 
 - X-Ray uses the data that your application sends to generate a service graph.
-
 - Each AWS resource that sends data to X-Ray appears as a _service_ in the graph.
-
 - **Edges** connect the services that work together to serve requests. **Edges connect clients to your application, and your application to the downstream services and resources that it uses.**
-
 - **A service graph is a `JSON` document** that contains information about the services and resources that make up your application. The X-Ray console uses the service graph to **generate a visualization or _service map_**.
-
-- For a distributed application, _X-Ray combines nodes from all services that process requests with **the same trace ID** into a single service graph._ The first service that the request hits adds a **tracing header** that is propagated between the front end and services that it calls.
+- For a distributed application, _X-Ray combines nodes from all services that process requests with **the same trace ID** into a single service graph._ The first service that the request hits adds a **tracing header** that is propagated between the frontend and services that it calls.
 
   - For example, Scorekeep runs a web API that calls a microservice (an AWS Lambda function) to generate a random name by using a Node.js library. The X-Ray SDK for Java generates the trace ID and includes it in calls to Lambda. **Lambda sends tracing data and passes the trace ID to the function.** The X-Ray SDK for Node.js also uses the trace ID to send data. As a result, nodes for the API, the Lambda service, and the Lambda function all appear as separate, but connected, nodes on the service map.
 
@@ -1160,7 +1267,7 @@ Example Tracing header with root trace ID and sampling decision:
 
 - `X-Amzn-Trace-Id: Root=1-5759e988-bd862e3fe1be46a994272793;Sampled=1`
 
-- The tracing header can also contain a parent segment ID if the request originated from an instrumented application.
+- The tracing header can also contain a **parent segment ID** if the request originated from an instrumented application.
   - For example, if your application calls a downstream HTTP web API with an instrumented HTTP client, the X-Ray SDK adds the segment ID for the original request to the tracing header of the downstream request. An instrumented application that serves the downstream request can record the parent segment ID to connect the two requests.
 
 Example Tracing header with root trace ID, parent segment ID and sampling decision
@@ -1178,7 +1285,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 - Extending filter expressions, X-Ray also supports the group feature. **Using a filter expression, you can define criteria by which to accept traces into the group.**
 - You can call the group by name or by Amazon Resource Name (ARN) to generate its own service graph, trace summaries, and Amazon CloudWatch metrics.
 - Once a group is created, **_incoming traces are checked against the group’s filter expression_ as they are stored in the X-Ray service.**
-- Metrics for the number of traces matching each criteria are published to CloudWatch every minute.
+- Metrics for the number of traces matching each criteria are published to CloudWatch **every minute.**
 - Updating a group's filter expression doesn't change data that's already recorded. **The update applies only to subsequent traces.** This can result in a merged graph of the new and old expressions. **To avoid this, delete the current group and create a fresh one.**
 
 ### Annotations and Metadata
@@ -1191,7 +1298,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 #### Annotations
 
 - **Annotations are _simple key-value pairs_ that are indexed** for use with **filter expressions.**
-- Use annotations to record data that you want to use to group traces in the console, or when calling the GetTraceSummaries API.
+- Use annotations to record data that you want to use to group traces in the console, or when calling the `GetTraceSummaries` API.
 - X-Ray indexes up to **50 annotations per trace.**
 
 #### Metadata
@@ -1201,8 +1308,88 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 
 ### Errors, faults, and exceptions
 
-- X-Ray tracks errors that occur in your application code, and errors that are returned by downstream services. Errors are categorized as follows.
-  - Error – Client errors (400 series errors)
-  - Fault – Server faults (500 series errors)
-  - Throttle – Throttling errors (429 Too Many Requests)
+- X-Ray tracks errors that occur in your **application code**, and **errors that are returned by downstream services**. Errors are categorized as follows.
+  - **Error** – Client errors (400 series errors)
+  - **Fault** – Server faults (500 series errors)
+  - **Throttle** – Throttling errors (429 Too Many Requests)
 - When an exception occurs while your application is serving _an instrumented request_, the X-Ray SDK records details about the exception, including the stack trace, if available. You can view exceptions under segment details in the X-Ray console.
+
+## X-Ray Questions
+
+- What does X-Ray collect data on?
+- For any traced request, you can see detailed information not only about the request and response, but what else?
+- Can X-Ray receive traces from your application and AWS services your application uses that are already integrated with X-Ray?
+- _Instrumenting_ your application involves what?
+- Can AWS services integrated with X-Ray add tracing headers to incoming requests?
+- Can AWS services integrated with X-Ray add send trace data to X-Ray?
+- Can AWS services integrated with X-Ray run the X-Ray daemon?
+- Can AWS Lambda send trace data about your requests to your Lambda functions thus allowing the X-Ray daemon on workers have simpler X-Ray SDK integrations?
+- When daemons are being used, is trace data sent directly to X-Ray?
+- Do daemon processes listen for UDP traffic?
+- Do X-Ray daemons buffer segments in a queue and then upload them to X-Ray in batches?
+- Is the X-Ray daemon available for Linux, Windows, and MacOS systems?
+- Is the X-Ray daemon included on Elastic Beanstalk and Lambda platforms?
+- Does the service graph show your frontend service _and_ the backend services that your frontend service calls to process requests and persist data?
+- What usage does the service graph provide towards improving performance in your applications?
+- What is a **service graph**?
+- The data X-Ray receives from services is called what?
+- X-Ray groups the incoming segments that have a common request into what?
+- The traces that X-Ray processes generate a what?
+- Compute resources, running your application logic, send data about their work as what?
+- What three pieces of information does a segment provide?
+- When an HTTP request reaches your application, can you capture information on the host, request, response, work done, and possible issues?
+- Does the X-Ray SDK gather information from request and response headers, the code in your application, and metadata about the AWS resources on which it runs?
+- Can you, the developer, choose what data the X-Ray SDK collects?
+- Can a **segment field** be used as a filter expression?
+- Segment documents can be up to how many kB in size?
+- When a segment breaks work down into smaller sizes, the unit is called a what?
+- Subsegments provide more granular what?
+- What are some examples of what a subsegment can provide additional details on?
+- For services that don't send their own segments, what does X-Ray use to send _inferred segments_ to downstream nodes on the service map?
+- What is an example of an AWS service that doesn't send its own segments?
+- Do Subsegments represent your application's view of a downstream call as a client?
+- If the downstream service is instrumented, does it replace the upstream client's inferred segment with _its_ segment?
+- Does the node on the service graph always use the information from the service segment if it's available?
+- Does the edge _between two nodes_ use the upstream service's subsegment?
+- Describe the example of the upstream and downstream relationships for the service graph in the notes.
+- Every AWS resource that sends data to X-Ray appears as a _what_ in the graph?
+- What do **Edges** connect?
+- What type of document is a service graph?
+- The X-Ray console uses the service graph to generate a visualization, what is this visualization called?
+- In a distributed application, X-Ray combines all nodes _from all services the process requests_, with what same attribute, into a **single** service graph?
+- The first service that a request hits gets what type of header?
+- Does the tracing header get propagated between the frontend and the services that it calls? What is an example of this?
+- How long is service graph data retained for?
+- What does a **trace ID** track?
+- What does a **trace** collect? What is this request typically?
+- The first _supported_ service that the HTTP request interacts with adds what to the request?
+- The trace ID header added to the request is propagated downstream to track what?
+- The X-Ray SDK applies a sampling algorithm to determine which requests get traced in order to do what?
+- Can you configure X-Ray to modify your default sampling rule and provide additional rules based on properties of a service or request? Describe an example of this.
+- Are all requests traced, up to a configurable minimum (maximum???)?
+- After reaching the tracing minimum, are a percentage of requests traced to avoid unnecessary cost?
+- What **two** attributes are added to `HTTP` requests in tracing headers named `X-Amzn-Trace-Id`?
+- Which X-Ray-integrated service adds a tracing header?
+- What does a tracing header with root trace ID and sampling decision look like?
+- Can a tracing header also contain a parent segment ID? What causes this?
+- How can **filter expressions** be used to help with navigating through data?
+- What is an example of a filter expression used to find traces related to specific paths or users?
+- Describe the X-Ray **group** feature.
+- Can groups be called by name, or ARN, and show its own service graph, trace summaries, and Amazon CloudWatch metrics?
+- Once a group is created, are incoming traces checked against the group's **filter expression**?
+- How frequently are Metrics for the number of traces matching each criteria published to CloudWatch?
+- Does updating a groups filter expression change the data thats already been recorded?
+- Should you delete the old group and create a new one to avoid a _merged graph_?
+- You can add additional information to a segmented document as what?
+- Annotations and metadata can be aggregated at what level?
+- Can annotations and metadata be added to _any_ segment or subsegment?
+- What are **annotations**?
+- Are annotations indexed and useable with filter expressions?
+- What use cases do annotations have?
+- Up to how many annotations does X-ray index per trace?
+- What types can metadata be?
+- Can metadata be indexed?
+- What use case is metadata useful for?
+- Can metadata be used for searching traces?
+- X-Ray tracks errors that occur where?
+- What three categories are errors categorized as?
