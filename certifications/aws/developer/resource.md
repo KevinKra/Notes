@@ -1103,6 +1103,7 @@ The X-Ray SDK gathers information from **request and response headers, the code 
 
 _If a load balancer or other intermediary forwards a request to your application_, X-Ray takes the **client IP** from the `X-Forwarded-For` header in the request instead of from the source IP in the IP packet. **The client IP that is recorded for a forwarded request can be forged, so it should not be trusted.**
 
+- A segment field _cannot_ be used as a filter expression
 - **Segment documents can be up to 64 kB in size.**
 
 ### Subsegments
@@ -1170,6 +1171,7 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 
 - Even with sampling, a complex application generates a lot of data. The AWS X-Ray console provides an easy-to-navigate view of the service graph. It shows health and performance information that helps you identify issues and opportunities for optimization in your application.
 - For advanced tracing, you can drill down to traces for individual requests, or use **filter expressions** to **find traces related to specific paths or users.**
+  - example: `http.url CONTAINS "/api/user"`
 
 ### Groups
 
@@ -1188,15 +1190,14 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 
 #### Annotations
 
-- **Annotations are _simple key-value pairs_ that are indexed for use with filter expressions.**
+- **Annotations are _simple key-value pairs_ that are indexed** for use with **filter expressions.**
 - Use annotations to record data that you want to use to group traces in the console, or when calling the GetTraceSummaries API.
 - X-Ray indexes up to **50 annotations per trace.**
 
 #### Metadata
 
-- Metadata is **key-value pairs with values of any type**, including objects and lists, **but that are not indexed.**
-
-- Use metadata to record data you want to store in the trace but don't need to use for searching traces.
+- Metadata is **key-value pairs with values of any type**, including objects and lists, but that are **not indexed.**
+- Use metadata to record data you want to _store in the trace_ but **don't need to use for searching traces.**
 
 ### Errors, faults, and exceptions
 
