@@ -507,7 +507,7 @@ When architecting your application to run on Amazon ECS using AWS Fargate, the m
 #### When the following conditions are required, we recommend that you deploy your containers in a single Task Definition:
 
 - Your containers **share a common lifecycle** (that is, they are launched and terminated together).
-  Your containers **must run on the same underlying host** (that is, one container references the other on a localhost port).
+- Your containers **must run on the same underlying host** (that is, one container references the other on a localhost port).
 - You require that your **containers share resources**.
 - Your containers **share data volumes**.
 
@@ -765,11 +765,8 @@ The agent sends information about the resource's **current running tasks and res
 #### Blue/Green Deployment
 
 - The behavior of your deployment depends on which compute platform you use:
-
   – **Blue/green on an EC2/On-Premises compute platform:** The instances in a _deployment group_ (the original environment) are replaced by a different set of instances (the replacement environment). _If you use an EC2/On-Premises compute platform, be aware that blue/green deployments work with Amazon **EC2 instances only.**_
-
   - **Blue/green on an AWS Lambda compute platform:** Traffic is shifted from your current serverless environment to one with your updated Lambda function versions. You can specify Lambda functions that perform validation tests and choose the way in which the traffic shift occurs. **All AWS Lambda compute platform deployments are blue/green deployments. For this reason, you do not need to specify a deployment type.**
-
   - **Blue/green on an Amazon ECS compute platform:** Traffic is shifted from the task set with the original version of a containerized application in an Amazon ECS service to a replacement task set in the same service. The protocol and port of a specified load balancer listener are used to reroute production traffic. _During deployment, a test listener can be used to serve traffic to the replacement task set while validation tests are run._
 
 ## CodeDeploy Questions
