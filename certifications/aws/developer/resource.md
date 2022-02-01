@@ -458,7 +458,7 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 - What kind of fee and usage levels do you need to define when you use DynamoDB reserved capacity?
 - DynamoDB allocates additional partitions in what two situations?
 - What two table classes does DynamoDB offer?
-- What is reserved capacity?
+- What is reserved capacity, what capacity mode is it related to?
 - Is reserved capacity available for tables using DynamoDB standard-IA or on-demand capacity mode?
 - Which DynamoDB table class is the default class and recommended for most workloads?
 - Is the choice of the table class permanent?
@@ -529,7 +529,7 @@ When you’re considering how to model task definitions and services using the E
 
 ## Clusters
 
-> When you run tasks using ECS, you place them in a cluster, which is a logical grouping of resources.
+- When you run tasks using ECS, you place them in a cluster, **which is a logical grouping of resources.**
 
 You can register one or more Amazon EC2 instances (also referred to as **container instances**) with your cluster to run tasks on them. Or, you can use the serverless infrastructure that Fargate provides to run tasks. When your tasks are run on Fargate, your cluster resources are also managed by Fargate.
 
@@ -541,32 +541,30 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 
 ### Tasks
 
-> A **task** is the instantiation of a task definition within a cluster. After you have created a task definition for your application, you can specify the number of tasks that will run on your cluster.
-
-After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks to run on your cluster.
+- A **task** is the instantiation of a task definition within a cluster.
+- After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks to run on your cluster.
+- Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount EFS file systems.
 
 ### Tasks Definitions
 
-> Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
-
-**Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
+- Task definitions specify various parameters for your application. It is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
+- **Your entire application stack does not need to be on a single task definition, and in most cases it should not.** Your application can span multiple task definitions. You can do this by combining related containers into their own task definitions, each representing a single component.
 
 ### Task Scheduler
 
-> The task scheduler is responsible for placing tasks within your cluster.
-
-**Amazon ECS tasks running on both Amazon EC2 and AWS Fargate can mount Amazon Elastic File System (EFS) file systems.**
+- The task scheduler is responsible for placing tasks within your cluster.
 
 ## Container Agent
 
-**The container agent runs on each container instance within an Amazon ECS Cluster.**
-The agent sends information about the resource's **current running tasks and resource utilization to Amazon ECS.** The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
+- **The container agent runs on each container instance within an Amazon ECS Cluster.**
+- The agent sends information about the resource's **current running tasks and resource utilization to Amazon ECS.**
+- The Container Agent starts and stops tasks whenever it receives a request from Amazon ECS.
 
 ## Deployment
 
 ### Task Placement Strategy
 
-> **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
+- **Task placement strategy** is an algorithm for selecting instances for task placement or tasks for termination.
 
 - **Amazon ECS supports the following task placement strategies:**
   - **binpack**: tasks are placed on container instances so as to leave the least amount of unused CPU or memory. This strategy minimizes the number of container instances in use. When this strategy is used and a scale-in action is taken, Amazon ECS terminates tasks. It does this based on the amount of resources that are left on the container instance after the task is terminated. The container instance that has the most available resources left after task termination has that task terminated.
@@ -579,29 +577,33 @@ The agent sends information about the resource's **current running tasks and res
 - What is a Task Definition?
 - What language are Task Definitions written in?
 - What is the maximum number of containers that a Task Definition can describe?
-- If the Task Definition is used to describe one or more containers, what is a Task?
+- What is a Task?
+- Where is a Task Definition, as a Task, instantiated?
 - What does the Task Scheduler do?
+- Can EC2 and Fargate Tasks mount EFS?
 - What is an Container?
 - What is the name of the _read-only_ template that Containers are created from?
 - What workloads is Fargate suitable for?
-- When using Fargate with ECS, it's important to determine what architecting decision regarding Task Definitions?
-- What four conditions are suitable for running multiple containers in the _same_ Task Definition?
-- If your Task Definitions underlying containers share the same resources and/or volumes, should they exist in the same Task Definition?
+- What four conditions are suitable for deploying multiple containers in the _same_ Task Definition?
+- If your Task Definition's underlying containers will share the same resources and/or volumes, should they exist in the same Task Definition?
 - What is a Batch Workload?
 - The EC2 Launch type is suitable for what type of workloads?
-- If you're using the EC2 Launch type, do you need to register one _or more_ EC2 instances to your Cluster to run tasks on them?
+- EC2 instances being used in a Cluster are also called what?
+- Can a Cluster contain tasks hosted on Fargate, EC2 instances, and external instances?
 - What is another name for EC2 instances that are attached to Clusters?
 - Are Clusters region specific?
-- Can a Cluster contain tasks hosted on Fargate, EC2 instances, and external instances?
-- Before you delete a cluster, do you need to delete the services and deregister the container instances running inside that Cluster?
-- Does the Container Agent run on each container instance within an ECS Cluster?
-- What does the Container Agent do?
-- In addition to reporting on the current running tasks and resource utilization, can the Container Agent also be used to start and stop tasks whenever it receives a request from ECS?
+- Before you delete a cluster, do you need to delete the services?
+- Before you delete a cluster, do you need to deregister the container instances running inside that Cluster?
+- What runs on each container instance within an ECS cluster?
+- What information does the Container Agent send to ECS regarding the container it's on?
+- Is the Container Agent responsible for starting and stopping tasks when it receives requests from ECS?
 - What is an ECS task placement strategy?
 - What are the three ECS task placement strategies?
 - Describe the `binpack` task placement strategy.
+- What is the scale-in approach for the `binpack` task placement strategy?
 - Describe the `random` task placement strategy.
 - Describe the `spread` task placement strategy.
+- The objective of the `spread` strategy is to provide what?
 
 ---
 
@@ -1118,7 +1120,7 @@ The two main components of Amazon Cognito are **user pools** and **identity pool
 
 ### An Amazon Cognito user pool and identity pool used together:
 
-- The goal is to authenticate your user, and then grant your user access to another AWS service.
+- Example: The goal is to authenticate your user, and then grant your user access to another AWS service.
   - In the first step **your app user signs in through a user pool and receives user pool tokens** after a successful authentication.
   - Next, **your app exchanges the user pool tokens for AWS credentials** through an identity pool.
   - Finally, **your app user can then use those AWS credentials to access other AWS services** such as Amazon S3 or DynamoDB.
@@ -1159,9 +1161,13 @@ The two main components of Amazon Cognito are **user pools** and **identity pool
 - What are the two main components of Cognito?
 - In the example provided, what is the flow to authenticate a user?
 - Can a user pool be considered as a _user directory_?
-- Do all members of the user pool have a directory profile that I can access through an SDK regardless of how they sign in?
-- Do user pools provide security features such as MFA, checks for compromised credentials, account takeover protection, and phone and email verification?
-- What can your users obtain with Identity pools?
+- Do all members of the user pool have a directory profile that can be accessed through an SDK regardless of how they sign in?
+- Do user pools provide MFA?
+- Do user pools provide checks for compromised credentials?
+- Do user pools provide account takeover protection?
+- Do user pools provide phone verification?
+- Do user pools provide email verification?
+- Do your users gain _temporary or permanent_ AWS credentials through Identity pools?
 - Do Identity pools support anonymous guest users?
 - To save user profile information, does your identity pool need to be integrated with a user pool?
 
@@ -1169,7 +1175,7 @@ The two main components of Amazon Cognito are **user pools** and **identity pool
 
 # X-Ray <a name="X-Ray"></a>
 
-AWS X-Ray is a service that **collects data about requests that your application serves**, and provides tools that you can use to view, filter, and gain insights into that data to identify issues and opportunities for optimization.
+**AWS X-Ray is a service that collects data about requests that your application serves**, and provides tools that you can use to view, filter, and gain insights into that data to identify issues and opportunities for optimization.
 
 For any _traced request_ to your application, you can see detailed information not only about the request and response, but also about **calls that your application makes to downstream AWS resources, microservices, databases, and web APIs.**
 
@@ -1312,28 +1318,32 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 ## X-Ray Questions
 
 - What does Amazon X-Ray collect data on?
+- What utility can X-Ray provide to your application?
 - **For any traced request**, you can see detailed information not only about the request and response, but what else?
-- Does X-Ray receive traces from your application and AWS services your application uses that are already integrated with X-Ray?
 - _Instrumenting_ your application involves what?
 - Can AWS services integrated with X-Ray add tracing headers to incoming requests?
-- Can AWS services integrated with X-Ray send trace data to X-Ray?
+- Can AWS services integrated with X-Ray send trace data to the X-Ray service?
 - Can AWS services integrated with X-Ray run the X-Ray daemon?
 - Can AWS Lambda send trace data about your requests to your Lambda functions thus allowing the X-Ray daemon on workers have simpler X-Ray SDK integrations?
 - When daemons are being used, is trace data sent directly to X-Ray?
 - Do daemon processes listen for UDP traffic?
-- Do X-Ray daemons buffer segments in a queue and then upload them to X-Ray in batches?
-- Is the X-Ray daemon available for Linux, Windows, and MacOS systems?
+- How do daemons handle the segments they receive before sending them to X-Ray?
+- Daemons sending the segments to X-Ray in what?
+- What Operating Systems is the X-Ray daemon available for?
 - Is the X-Ray daemon included on Elastic Beanstalk and Lambda platforms?
-- Does the service graph show your frontend service _and_ the backend services that your frontend service calls to process requests and persist data?
+- Does the service graph show your frontend services?
+- Does the service graph show backend services that your frontend calls to process requests and persist data?
 - What usage does the service graph provide towards improving performance in your applications?
 - What is a **service graph**?
 - The data X-Ray receives from services is called what?
-- X-Ray groups the incoming segments that have a common request into what?
+- X-Ray groups the incoming segments that have a _common request_ into what?
 - The traces that X-Ray processes generate a what?
 - Compute resources, running your application logic, send data about their work as what?
 - What three pieces of information does a segment provide?
-- When an HTTP request reaches your application, can you capture information about the host, request, response, work done, and possible issues?
-- Does the X-Ray SDK gather information from request and response headers, the code in your application, and metadata about the AWS resources on which it runs?
+- When an HTTP request reaches your application, what information (5) can you capture from it?
+- Can the X-Ray SDK gather information from request and response headers?
+- Can the X-Ray SDK gather information about the code in your application?
+- Can the X-Ray SDK gather information regarding metadata on the AWS resources on which it runs?
 - Can you, the developer, choose what data the X-Ray SDK collects?
 - Can a **segment field** be used as a filter expression?
 - Segment documents can be up to how many kB in size?
@@ -1364,16 +1374,19 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 - Are all requests traced, up to a configurable minimum (maximum???)?
 - After reaching the tracing minimum, are a percentage of requests traced to avoid unnecessary cost?
 - What **two** attributes are added to `HTTP` requests in tracing headers named `X-Amzn-Trace-Id`?
-- Which X-Ray-integrated service adds a tracing header?
+- Within the request flow, which X-Ray-instrumented service adds a tracing header?
 - What does a tracing header with root trace ID and sampling decision look like?
-- Can a tracing header also contain a parent segment ID? What causes this?
 - How can **filter expressions** be used to help with navigating through data?
+- Can filter expressions be used to find traces related to specific paths?
+- Can filter expressions be used to find traces related to specific users?
 - What is an example of a filter expression used to find traces related to specific paths or users?
 - Describe the X-Ray **group** feature.
-- Can groups be called by name, or ARN, and show its own service graph, trace summaries, and Amazon CloudWatch metrics?
-- Once a group is created, are incoming traces checked against the group's **filter expression**?
-- How frequently are Metrics for the number of traces matching each criteria published to CloudWatch?
+- Can groups be called by name?
+- Can groups be called by their ARN?
+- Do groups have their own service graph, trace summaries, and Amazon CloudWatch metrics?
+- As they are being stored in the X-Ray service, incoming traces are checked against a groups what?
 - Does updating a groups filter expression change the data thats already been recorded?
+- What is a **merged graph?**
 - Should you delete the old group and create a new one to avoid a _merged graph_?
 - You can add additional information to a segmented document as what?
 - Annotations and metadata can be aggregated at what level?
