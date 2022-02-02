@@ -809,6 +809,12 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 
 - In **Lambda non-proxy (or custom) integration**, you can specify how the incoming request data is mapped to the integration request and how the resulting integration response data is mapped to the method response.
 
+### Deployment Package
+
+- If your deployment package is larger than **50 MB**, we recommend uploading your function code and dependencies to an Amazon S3 bucket.
+- There is a **hard limit of 50MB for compressed deployment package** with AWS Lambda and an **uncompressed AWS Lambda hard limit of 250MB.**
+- If we put these large binaries into an AWS Lambda Layer and attach it to our AWS Lambda function. **We still can’t escape the 250mb hard limit.**
+
 ### Errors
 
 - The `InvalidParameterValueException` will be returned if one of the parameters in the request is invalid. For example, if you provided an IAM role in the CreateFunction API which AWS Lambda is unable to assume.
@@ -917,6 +923,9 @@ When you write your function code, **do not assume that Lambda automatically reu
 - Describe a **published version** of a lambda function.
 - Describe a lambda function **alias**.
 - What is the Execution Context in a lambda function and what use cases can it provide?
+- What is the hard limit for a _compressed_ deployment package?
+- What is the hard limit for an _uncompressed_ deployment package?
+- Can layers be used to get around the hard limit of 250MB?
 - Describe the `InvalidParameterValueException` error.
 - Describe the `CodeStorageExceededException` error.
 - Describe the `ResourceConflictException` error.
@@ -925,6 +934,7 @@ When you write your function code, **do not assume that Lambda automatically reu
 - Layers help keep supporting code out of what?
 - What languages can you develop your function code in within the lambda console, what is max size for the deployment package?
 - How many layers can a lambda function have at a time?
+- What is the max size for deployment package when you develop your code in the lambda console?
 - What is the max unzipped deployment package size for a lambda function and all of its layers?
 - Are you able to create layers and also use layers published by AWS and AWS Customers?
 - What directory are layers extracted from in the function execution environment?
@@ -940,7 +950,7 @@ When you write your function code, **do not assume that Lambda automatically reu
 - Is an lambda execution environment a secure and isolated environment?
 - When you setup a Lambda function, do you provide configuration info such as available memory and maximum execution time for your function?
 - What two processes run within a functions execution environment?
-- Do functions and extensions share permissions, resources, credentials, and environment variables between them?
+- Does the function's runtime _and_ extensions share permissions, resources, credentials, and environment variables between them?
 - The lifecycle of an execution environment consists of what three phases?
 - Is the **Init** phase able to unfreeze previous execution environments?
 - What triggers the **Shutdown** phase?
@@ -960,13 +970,13 @@ When you write your function code, **do not assume that Lambda automatically reu
 - What happens if the runtime, or any extension, does not respond to the shutdown phase?
 - Does lambda temporarily maintain the execution environment after the function, and all extensions, have completed?
 - The process of preserving your runtime environment is called what?
-- Reusing an execution environment has what implications?
 - What is an example of objects declared outside of a functions handler remaining initialized?
 - Should you include logic in your code to check if a connection exists before creating a new one?
 - Each execution environment provides how many MB of disk space in the `/tmp` directory?
 - Does the `/tmp` directory content remain when the execution environment freezes, thus serving as a transient cache between multiple invocations?
 - Do background processes or callbacks that were initiated by your Lambda function and did not complete when the function ended resume if Lambda reuses the execution environment?
-- Should make sure that any background processes or callbacks in your code are **complete** before your code exits?
+- Should you make sure that any background processes or callbacks in your code are **complete** before your code exits?
+- Reusing an execution environment has what (3) implications?
 
 ---
 
@@ -1015,9 +1025,7 @@ When you start to use CloudFormation for establishing your infrastructure, you m
 - If you need to make changes to the running resources in a stack, you update the stack. Before making changes to your resources, you can generate a change set, **which is a summary of your proposed changes.** Change sets allow you to see how your changes might impact your running resources, especially for critical resources, before implementing them.
 - Change Sets are similar to a `git diff`. It shows the _before_ and _after_ changes of the set it's referencing.
 - For example, **if you change the name of an Amazon RDS database instance, CloudFormation will create a new database and delete the old one. You will lose the data in the old database unless you've already backed it up.** If you generate a change set, you will see that your change will cause your database to be replaced, and you will be able to plan accordingly before you update your stack.
-
 - When you specify a transform, **you can use AWS SAM syntax to declare resources in your template.** The model defines the syntax that you can use and how it is processed. More specifically, the `AWS::Serverless` transform, **which is a macro hosted by AWS CloudFormation**, takes an entire template written in the AWS Serverless Application Model (AWS SAM) syntax and transforms and expands it into a compliant AWS CloudFormation template.
-
 - `Transform` section specifies the version of the AWS SAM to use. This is used for serverless applications (also referred to as Lambda-based applications).
 - `Mappings` section lists a mapping of keys and associated values that you can use to specify conditional parameter values, similar to a lookup table.
 - `Resources` section is primarily used to specify the stack resources and their properties.
@@ -1072,14 +1080,14 @@ When you start to use CloudFormation for establishing your infrastructure, you m
 - What Cloudformation parameter do you use to paste lambda code directly into a CloudFormation script?
 - The `ZipFile` parameter is within what CloudFormation section?
 - Can you store your code in S3 and reference it through CloudFormation?
-- Are changes to a lambda deployment package, stored in S3, automatically detected during CloudFormation stack updates?
-- Is creating a zip file, storing it in S3, and then providing that S3 file path back to the CloudFormation template's `ZipFile` parameter a suitable approach for the `ZipFile` parameter?
+- Are changes to a lambda deployment package, that is stored in S3, automatically detected during CloudFormation stack updates?
+- When updating a stack, how can you detect a change to your function code stored in S3 within a CloudFormation template?
+- Does the `Zipfile` parameter in the `AWS:Lambda:Function` want or accept your code from S3 as a zip file?
 - What is a StackSet?
 - Do StackSets enable you to create, update, and delete stacks across multiple accounts and regions.
-- Are stack sets regional?
+- Are StackSets regional?
 - Does CloudFormation have the ability to locally build, test, and debug your application?
 - What is a **Change Set**?
-- What is a **Stack Instance**?
 
 ---
 
