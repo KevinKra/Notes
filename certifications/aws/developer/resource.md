@@ -22,6 +22,10 @@ h. [Cognito](#Cognito)
 
 i. [X-Ray](#X-Ray)
 
+j. [CloudFront](#CloudFront)
+
+k. [AWS Systems Manager](#AWS-Systems-Manager)
+
 # DynamoDB <a name="DynamoDB"></a>
 
 ## Core Components
@@ -151,6 +155,20 @@ You can use **PartiQL** - A SQL-Compatible Query Language for Amazon DynamoDB, t
 
 - `DeleteItem`: Deletes a single item from a table.
 - `BatchWriteItem`: **Deletes up to 25 items from one or more tables.** This is more efficient than calling DeleteItem multiple times because your application only needs a single network round trip to delete the items. _You can also use BatchWriteItem for adding multiple items to one or more tables._
+
+### Expressions
+
+- `Projection Expression`: A `projection expression` is a string that identifies the attributes you want. To retrieve a single attribute, specify its name. For multiple attributes, the names must be comma-separated.
+
+```
+aws dynamodb get-item \
+    --table-name ProductCatalog \
+    --key '{"Id":{"N":"1"}}' \
+    --projection-expression "Description, RelatedItems[0], ProductReviews.FiveStar"
+```
+
+- `Condition Expression`: this is primarily used to determine which items should be modified for data manipulation operations such as `PutItem`, `UpdateItem`, and `DeleteItem` calls.
+- `Filter expressions`: simply determines which **items** within the Query results should be returned to you.
 
 ### DynamoDB Streams
 
@@ -627,7 +645,7 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 
 - **Each environment runs only one application version at a time**, however, you can run the same application version or different application versions in many environments simultaneously.
 
-### Environment Tier
+## Environment Tier
 
 - The environment is the heart of the application. The Environment Tier designates the **_type of application_** that the environment runs, and determines what resources Elastic Beanstalk provisions to support it.
 
@@ -635,38 +653,43 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 
 - There are two environment tiers in Elastic Beanstalk: **Web Server Tier** and **Worker Environment Tier**.
 
-#### _Web Server Tier_
+### _Web Server Tier_
 
 > An application that serves HTTP requests runs in a **web server environment tier**.
 
 - When you create an environment, **Elastic Beanstalk provisions the resources required to run your application.** AWS resources created for an environment include: one ELB, an Auto Scaling group, and one or more EC2 instances.
-
 - Every environment has a CNAME (URL) that points to a load balancer.
-
 - **The environment has a URL**, such as `myapp.us-west-2.elasticbeanstalk.com`. **This URL is aliased in Amazon Route 53 to an Elastic Load Balancing URL**—something like `abcdef-123456.us-west-2.elb.amazonaws.com` -—by using a CNAME record.
-
 - The software stack running on the EC2 instances is dependent on the **_Container Type_**. A container type defines the infrastructure topology and software stack to be used for that environment.
-
   > For example, an Elastic Beanstalk environment with an Apache Tomcat container uses the Amazon Linux operating system, Apache web server, and Apache Tomcat software.
-
 - A software component called the **Host Manager (HM) runs on each Amazon EC2 instance**. The Host Manager reports metrics, errors, events, and server instance status, which are available via the Elastic Beanstalk console, APIs, and CLIs.
 
-#### _Worker Environment Tier_
+### _Worker Environment Tier_
 
 > A backend environment that pulls tasks from an SQS queue runs in a **worker environment tier.**
 
 - AWS resources created for a worker environment tier include: an Auto Scaling group, one or more Amazon EC2 instances, and an IAM role.
-
 - For the worker environment tier, **Elastic Beanstalk also creates and provisions an Amazon SQS queue if you don’t already have one.**
-
 - When you launch a worker environment, **Elastic Beanstalk installs the necessary support files for your programming language of choice** _and_ **a daemon on each EC2 instance in the Auto Scaling group.**
   - The daemon reads messages from an Amazon SQS queue.
   - The daemon sends data from each message that it reads to the web application running in the worker environment for processing.
   - If you have multiple instances in your worker environment, each instance has its own daemon, but they all read from the same Amazon SQS queue.
+- You can define periodic tasks in a file named `cron.yaml` in your source bundle to add jobs to your worker environment's queue automatically at a regular interval.
+
+#### Dead-Letter Queues
+
+- Elastic Beanstalk worker environments support Amazon Simple Queue Service (Amazon SQS) dead-letter queues. A **dead-letter queue** is a queue where other (source) queues can send messages that for some reason could not be successfully processed.
+- A primary benefit of using a dead-letter queue is **the ability to sideline and isolate the unsuccessfully processed messages.** You can then analyze any messages sent to the dead-letter queue to try to determine why they were not successfully processed.
 
 ### Environment Configuration
 
 - An **_environment configuration_** identifies a collection of parameters and settings that define how an environment and its associated resources behave.
+
+#### Docker Configuration
+
+- There are **two** generic configurations for Docker with EB:
+  - **Single Container:** Used to deploy a Docker image and source code inside a **single container per instance.**
+  - **Multicontainer:** Used to deploy _multiple_ containers per instance. Uses ECS to deploy a cluster in the EB environment.
 
 ### Saved Configuration
 
@@ -741,6 +764,11 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 - Describe the `Rolling with additional batch` deployment option.
 - Describe the `Immutable` deployment option.
 - Describe the `Traffic Splitting` deployment option.
+- What is a dead-letter queue?
+- What is the primary benefit of dead-letter queues?
+- What are the two generic configurations for Docker with Elastic Beanstalk?
+- Describe the Docker single container EB configuration.
+- Describe the Docker multicontainer EB configuration.
 
 ---
 
@@ -832,9 +860,15 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 - You can create layers, or use layers published by AWS and other AWS customers.
 - Layers are extracted to the `/opt` directory in the function execution environment. Each runtime looks for libraries in a different location under `/opt`, depending on the language. Structure your layer so that function code can access libraries without additional configuration.
 
-### Aliases
+### Aliases & Versioning
 
 - Aliases allow you to point to two different versions of the Lambda function and dictate what percentage of incoming traffic is sent to each version.
+- Each Lambda function has a unique ARN.
+- Each alias has a unique ARN.
+- The latest version of a function is tagged as `$LATEST`.
+- After you _publish_ a version, it cannot be changed.
+- Aliases _can_ be modified.
+- You can update an alias to point do a different version.
 
 ### Concurrency
 
@@ -977,6 +1011,10 @@ When you write your function code, **do not assume that Lambda automatically reu
 - Do background processes or callbacks that were initiated by your Lambda function and did not complete when the function ended resume if Lambda reuses the execution environment?
 - Should you make sure that any background processes or callbacks in your code are **complete** before your code exits?
 - Reusing an execution environment has what (3) implications?
+- Does each Lambda function have a unique ARN?
+- Does each Lambda alias have a unique ARN?
+- The latest lambda version has what tag?
+- Can aliases be modified, ie updating an alias to point to a different version?
 
 ---
 
@@ -1103,6 +1141,21 @@ When you start to use CloudFormation for establishing your infrastructure, you m
   - The `sam deploy` command uses this file to deploy your application.
   - To deploy an application that contains one or more nested applications, you must include the `CAPABILITY_AUTO_EXPAND` capability in the `sam deploy` command.
   - `sam publish` publishes an AWS SAM application to the AWS Serverless Application Repository and does not generate the template file.
+- A serverless application can include one or more **nested applications**. You can deploy a nested application as a stand-alone artifact or as a component of a larger application.
+  - As serverless architectures grow, common patterns emerge in which the same components are defined in multiple application templates. You can now separate out common patterns as dedicated applications, and then nest them as part of new or existing application templates. With nested applications, you can stay more focused on the business logic that's unique to your application.
+  - To define a nested application in your serverless application, use the `AWS::Serverless::Application` resource type.
+
+### Resource Types
+
+- `AWS::Serverless::Function` resource type describes configuration information for creating a Lambda function. You can describe any event source that you want to attach to the Lambda function—such as Amazon S3, Amazon DynamoDB Streams, and Amazon Kinesis Data Streams.
+- `AWS::Serverless::LayerVersion` resource type creates a Lambda layer version (LayerVersion) that contains library or runtime code that's needed by a Lambda function. When a serverless layer version is transformed, AWS SAM also transforms the logical ID of the resource so that old layer versions aren't automatically deleted by AWS CloudFormation when the resource is updated.
+- `AWS::Serverless::Api` is incorrect because this resource type describes an API Gateway resource. It's useful for advanced use cases where you want full control and flexibility when you configure your APIs. For most scenarios, it is recommended that you create APIs by specifying this resource type as an event source of your `AWS::Serverless::Function` resource.
+
+### CodeDeploy Integration
+
+If you use AWS SAM to create your serverless application, **it comes built-in with CodeDeploy to help ensure safe Lambda deployments.**
+
+- `CodeDeployDefault.LambdaCanary10Percent5Minutes`: 10 percent of your customer traffic is immediately shifted to your new version. After 5 minutes, all traffic is shifted to the new version. This means that the entire deployment time will only take 5 minutes
 
 ## AWS SAM Questions
 
@@ -1115,6 +1168,7 @@ When you start to use CloudFormation for establishing your infrastructure, you m
 - What does the `sam deploy` command do?
 - What does the `sam publish` command do?
 - If you're trying to deploy an application that contains one or more nested applications, what capability do you need to include in the `sam deploy` command?
+- Can a serverless application include one, or more, nested applications?
 
 ---
 
@@ -1182,6 +1236,8 @@ The two main components of Amazon Cognito are **user pools** and **identity pool
 ---
 
 # X-Ray <a name="X-Ray"></a>
+
+> X-Ray provides an end-to-end view of requests as they travel through your application, and shows a map of your application’s underlying components.
 
 **AWS X-Ray is a service that collects data about requests that your application serves**, and provides tools that you can use to view, filter, and gain insights into that data to identify issues and opportunities for optimization.
 
@@ -1409,3 +1465,43 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
 - Can metadata be used for searching traces?
 - X-Ray tracks errors that occur where?
 - What three categories are errors categorized as?
+
+---
+
+# CloudFront <a name="CloudFront"></a>
+
+### Security
+
+- For web distributions, you can configure CloudFront to require that viewers **use HTTPS to request your objects**, so connections are encrypted when CloudFront communicates with viewers.
+- You can also configure CloudFront to **use HTTPS to get objects from your origin** so connections are encrypted when CloudFront communicates with your origin.
+- If you configure CloudFront to require HTTPS both to communicate with viewers and to communicate with your origin, here's what happens when CloudFront receives a request for an object. The process works basically the same way whether your origin is an Amazon S3 bucket or a custom origin such as an HTTP/S server:
+  - A viewer submits an HTTPS request to CloudFront. There's some SSL/TLS negotiation here between the viewer and CloudFront. In the end, the viewer submits the request in an encrypted format.
+  - _If the object is in the CloudFront edge cache_, CloudFront encrypts the response and returns it to the viewer, and the viewer decrypts it.
+  - If the object is not in the CloudFront cache, CloudFront performs SSL/TLS negotiation with your origin and, when the negotiation is complete, forwards the request to your origin in an encrypted format.
+  - Your origin decrypts the request, encrypts the requested object, and returns the object to CloudFront.
+  - CloudFront decrypts the response, re-encrypts it, and forwards the object to the viewer. CloudFront also saves the object in the edge cache so that the object is available the next time it's requested.
+  - The viewer decrypts the response.
+- You can configure one or more cache behaviors to **allow both HTTP and HTTPS**, so that CloudFront requires HTTPS for some objects but not for others.
+
+---
+
+# AWS Systems Manager <a name="AWS-Systems-Manager"></a>
+
+---
+
+# CloudWatch <a name="CloudWatch"></a>
+
+## CloudWatch Alarms
+
+- When you create an alarm, you **specify three settings** to enable CloudWatch to evaluate when to change the alarm state:
+  - **Period** is the length of time to evaluate the metric or expression to create each individual data point for an alarm. It is expressed in seconds. If you choose one minute as the period, there is one datapoint every minute.
+  - **Evaluation Period** is the number of the most recent periods, or data points, to evaluate when determining alarm state.
+  - **Datapoints to Alarm** is the number of data points within the evaluation period that must be breaching to cause the alarm to go to the `ALARM` state. The breaching data points do not have to be consecutive, they just must all be within the last number of data points equal to **Evaluation Period**.
+
+---
+
+# API Gateway <a name="API-Gateway"></a>
+
+---
+
+# SQS <a name="SQS"></a>
