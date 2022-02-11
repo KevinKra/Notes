@@ -32,6 +32,22 @@ k. [AWS Systems Manager](#AWS-Systems-Manager)
 
 In DynamoDB, tables, items, and attributes are the core components that you work with. A table is a collection of items, and each item is a collection of attributes. DynamoDB uses primary keys to uniquely identify each item in a table and secondary indexes to provide more querying flexibility. You can use DynamoDB Streams to capture data modification events in DynamoDB tables.
 
+### Optimizations
+
+While using the DynamoDB Accelerator (DAX) will improve the scalability and read performance of the database, it adds a significant cost in maintaining your application. Using `Query` operations and reducing the page size of your query are more cost-effective.
+
+#### Scans
+
+In general, Scan operations are less efficient than other operations in DynamoDB. **A Scan operation always scans the entire table or secondary index. It then filters out values to provide the result you want, essentially adding the extra step of removing data from the result set.**
+
+- As a table or index grows, the `Scan` operation slows. **The `Scan` operation examines every item for the requested values and can use up the provisioned throughput for a large table or index in a single operation.**
+- For faster response times, design your tables and indexes so that your applications can use `Query` instead of `Scan`.
+
+#### Reduce page size
+
+- Because a `Scan` operation reads an entire page (by default, 1 MB), you can reduce the impact of the scan operation by setting a smaller page size.
+- The `Scan` operation provides a **_Limit_** parameter that you can use to set the page size for your request.
+
 ### Tables, Items, and Attributes
 
 - **Tables** – Similar to other database systems, DynamoDB stores data in tables. A table is a collection of data.
@@ -378,6 +394,9 @@ To read all of the items with an `AnimalType` of _Dog_, you can issue a Query op
 
 ## DynamoDB Questions
 
+- What are two cost-effective alternatives to DAX for improving read performance on a table or index?
+- How does the `Scan` operation work?
+- What parameter can you use on `Scan` operations to limit page size?
 - DynamoDB's data structures are divided into three what levels?
 - A row in DynamoDB is called what?
 - A column in DynamoDB is called what?
@@ -837,6 +856,27 @@ You can register one or more Amazon EC2 instances (also referred to as **contain
 
 - In **Lambda non-proxy (or custom) integration**, you can specify how the incoming request data is mapped to the integration request and how the resulting integration response data is mapped to the method response.
 
+### Lambda VPC configurations
+
+- AWS Lambda uses the VPC information you provide **to set up ENIs** that allow your Lambda function to access VPC resources. Each **ENI is assigned a private IP address from the IP address range within the subnets you specify** but is not assigned any public IP addresses.
+- If your Lambda function requires Internet access (for example, to access AWS services that don't have VPC endpoints ), **you can configure a NAT instance inside your VPC or you can use the Amazon VPC NAT gateway.**
+- You cannot use an Internet gateway attached to your VPC to communicate with your Lambda, since that requires the ENI to have public IP addresses.
+- You should also ensure that the associated security group of the Lambda function allows outbound connections.
+
+### Sync & Async lambda functions
+
+- AWS Lambda supports synchronous and asynchronous invocation of a Lambda function. **You can control the invocation type only when you invoke a Lambda function (referred to as on-demand invocation).** The following examples illustrate on-demand invocations:
+
+  - Your custom application invokes a Lambda function.
+  - You manually invoke a Lambda function (for example, using the AWS CLI) for testing purposes.
+
+- When you use AWS services as a trigger, **the invocation type is predetermined for each service.** **You have no control over the invocation type that these event sources use** when they invoke your Lambda function.
+
+- In the `Invoke` API, you have 3 options to choose from for the `InvocationType`:
+  - `RequestResponse` (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.
+  - `Event` - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.
+  - `DryRun` - Validate parameter values and verify that the user or role has permission to invoke the function.
+
 ### Deployment Package
 
 - If your deployment package is larger than **50 MB**, we recommend uploading your function code and dependencies to an Amazon S3 bucket.
@@ -948,6 +988,16 @@ When you write your function code, **do not assume that Lambda automatically reu
 
 ## Lambda Questions
 
+- Lambda uses the VPC information you provide to setup what?
+- The ENI used by lambda is assigned a public or private IP address?
+- If your Lambda function within your VPC requires internet access what can you use?
+- What Lambda support both synchronous and asynchronous invocations?
+- And what circumstance can _you_ determine the invocation type?
+- When you use AWS services as the trigger, do you have any control over the lambda invocation type?
+- In the Lambda `Invoke` API, you have 3 options to choose for `InvocationType`. What are they?
+- Which lambda invocation type is the default variant?
+- Which lambda invocation type is synchronous?
+- Which lambda invocation type is asynchronous?
 - What two elements are _required_ when you create a lambda function?
 - what does the **deployment package** provide?
 - What does the **execution role** provide?
@@ -1147,9 +1197,9 @@ When you start to use CloudFormation for establishing your infrastructure, you m
 
 ### Resource Types
 
-- `AWS::Serverless::Function` resource type describes configuration information for creating a Lambda function. You can describe any event source that you want to attach to the Lambda function—such as Amazon S3, Amazon DynamoDB Streams, and Amazon Kinesis Data Streams.
+- `AWS::Serverless::Function` resource type describes configuration information for **creating a Lambda function.** You can describe any event source that you want to attach to the Lambda function—such as Amazon S3, Amazon DynamoDB Streams, and Amazon Kinesis Data Streams.
 - `AWS::Serverless::LayerVersion` resource type creates a Lambda layer version (LayerVersion) that contains library or runtime code that's needed by a Lambda function. When a serverless layer version is transformed, AWS SAM also transforms the logical ID of the resource so that old layer versions aren't automatically deleted by AWS CloudFormation when the resource is updated.
-- `AWS::Serverless::Api` is incorrect because this resource type describes an API Gateway resource. It's useful for advanced use cases where you want full control and flexibility when you configure your APIs. For most scenarios, it is recommended that you create APIs by specifying this resource type as an event source of your `AWS::Serverless::Function` resource.
+- `AWS::Serverless::Api` is incorrect because **s** It's useful for advanced use cases where you want full control and flexibility when you configure your APIs. For most scenarios, it is recommended that you create APIs by specifying this resource type as an event source of your `AWS::Serverless::Function` resource.
 
 ### CodeDeploy Integration
 
@@ -1159,6 +1209,8 @@ If you use AWS SAM to create your serverless application, **it comes built-in wi
 
 ## AWS SAM Questions
 
+- `AWS::Serverless::Function` is used for what?
+- `AWS::Serverless::Api` is used for what?
 - What does SAM stand for?
 - What is AWS SAM?
 - What service is AWS SAM an extension of?
@@ -1498,9 +1550,27 @@ Example Tracing header with root trace ID, parent segment ID and sampling decisi
   - **Evaluation Period** is the number of the most recent periods, or data points, to evaluate when determining alarm state.
   - **Datapoints to Alarm** is the number of data points within the evaluation period that must be breaching to cause the alarm to go to the `ALARM` state. The breaching data points do not have to be consecutive, they just must all be within the last number of data points equal to **Evaluation Period**.
 
+**High-Resolution metrics** provide _**sub-minute**_ monitoring. You can specify an alarm of 10 seconds or 30 seconds.
+
 ---
 
 # API Gateway <a name="API-Gateway"></a>
+
+- **Stage variables** are name-value pairs that you can define as configuration attributes associated with a deployment stage of a REST API. They act like environment variables and can be used in your API setup and mapping templates.
+
+### Lambda Proxy Integration
+
+Amazon API Gateway Lambda proxy integration is a simple, powerful, and nimble mechanism to build an API with a setup of a single API method. The Lambda proxy integration allows the client to call a single Lambda function in the backend. The function accesses many resources or features of other AWS services, including calling other Lambda functions.
+
+In Lambda proxy integration, when a client submits an API request, API Gateway passes the raw request as-is to the integrated Lambda function, except that the order of the request parameters is not preserved. This request data includes the request headers, query string parameters, URL path variables, payload, and API configuration data. The configuration data can include current deployment stage name, stage variables, user identity, or authorization context (if any). The backend Lambda function parses the incoming request data to determine the response that it returns.
+
+- For API Gateway to pass the Lambda output as the API response to the client, the Lambda function must return the result in JSON (not XML) format.
+- If a Lambda function returns the result in `XML` format, it will cause `502 Bad Gateway` errors in the API Gateway.
+
+### Caching
+
+- A client of your API can invalidate an existing cache entry and reload it from the integration endpoint for individual requests. The client must send a request that contains the `Cache-Control: max-age=0` header.
+- Ticking the `Require authorization` checkbox ensures that not every client can invalidate the API cache. If most or all of the clients invalidate the API cache, this could significantly increase the latency of your API.
 
 ---
 
