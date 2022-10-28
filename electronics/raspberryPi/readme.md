@@ -9,6 +9,62 @@
 
 ---
 
+## General Questions
+
+### general questions
+
+1. what is a compiled language, what is the (general) flow, and what are examples?
+1. what is an interpreted language, what is the (general) flow, and what are examples?
+1. where are errors detected in compiled languages vs. interpreted languages?
+1. how does the python interpreter work?
+1. is javascript compiled, is typescript?
+1. explain the initial python compilation of your python source code.
+1. once your python code is compiled and translated into python byte code, what happens?
+1. what is a virtual machine?
+1. what is compiling?
+1. what is transpiling?
+1. what is function overloading?
+1. what are OOP's 4 pillars?
+1. describe OOP polymorphism.
+1. describe OOP abstraction.
+1. describe OOP encapsulation.
+1. what is a statement?
+1. what is an expression?
+1. what is static typing?
+1. what is dynamic typing?
+1. what is duck typing, examples?
+1. what is shimming?
+1. what is a pure function?
+1. what are side effects?
+1. what is an idempotent function?
+1. what is a non-idempotent function?
+1. what is an operand?
+1. what are class attributes?
+1. what are instance attributes?
+1. what is postponed evaluation (python)?
+1. describe a class method.
+1. describe a static method.
+1. what does the constructor do?
+1. what does `super()` do?
+1. describe a getter/setter.
+1. what is a scalar type?
+1. what is a non-scalar type?
+1. what is a generator function?
+1. what is a system language?
+1. what is an application language?
+
+### general answers
+
+1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`
+1. An interpreted language is one where the **instructions are not directly executed by the target machine**, but instead, read and executed by some other program. Interpreted language ranges – `JavaScript`, `Perl`, `Python`, `BASIC`, etc. `language > ready to run > interpreted by virtual machine > machine code`
+1. with compiled languages, compilation errors prevent the code from compiling. Interpreted languages all the debugging occurs at run-time.
+1. **An interpreter is a kind of program that executes other programs.** When you write Python programs, it converts source code written by the developer into **intermediate language** (byte code potentially) which is again translated into the native language/ machine language that is executed.
+1. The python code you write is compiled into python byte code, which creates file with extension `.pyc`. The byte code compilation happens internally, and almost completely hidden from developer. **Compilation is simply a translation step**, and byte code is a lower-level, and platform-independent, representation of your source code. Generally, each of your source code statements are translated into a group of byte code instructions. This byte code translation is performed to speed up execution since byte code can be run much quicker than the original source code statements.
+1. The `.pyc` file , **created in compilation step**, is then executed by appropriate virtual machines. **The Virtual Machine just a big loop that iterates through your byte code instructions, one by one, to carry out their operations.** The Virtual Machine is the **runtime engine** (like Spidermonkey or V8 in browsers --javascript) of Python and it is always present as part of the Python system, and is the component that truly runs the Python scripts. Technically, it’s just the last step of what is called the Python interpreter.
+1. The virtual machine is the runtime engine of Python that runs the scripts after they've been compiled from python source code into `.pyc` byte code. The Virtual Machine just a big loop that iterates through your byte code instructions, one by one, to carry out their operations.
+
+---
+
 #### Component Questions
 
 1. what is a `HAT`?
@@ -48,33 +104,6 @@
 
 ---
 
-#### SBC Questions
-
-1. what is an SBC?
-1. what is a CPU?
-1. how does SBC work?
-1. explain `CPU/SoC`
-1. explain `Clock/Timer`
-1. explain `I/O port`
-1. explain `Serial Ports`
-1. explain `ADC/DAC`
-1. explain `Wireless Connectivity`
-
-#### SBC Answers
-
-1. an `SBC` is a Single Board Computer. Single Board Computers are small computing devices that have all of the elements of a complete computer contained within one single circuit board. It is a low cost, self-contained, simple that could be easily connected to other hardware.
-1. CPU is the core component in a computing unit, which is responsible for processing and executing instructions. It runs the operating system and applications, constantly receiving input from the user or active software programs.
-1. SBCs uses a **System-on-Chip (SoC)**, which integrates all or most components of a computer or other electronic system. It works exactly like how an MPU does but even more, such as signal processing, wireless communication, artificial intelligence etc., on top of transmitting data.
-1. `CPU/SoC:` Brain of the SBC, responsible for fetching the instruction, decodes it, then execute it.
-   Memory: Similar to how it functions in MPU and MCU, used to store data and program. However, unlike the previous 2, there are RAM and ROM or flash memories for storing program source codes.
-1. `Clock/Timer:` Provides all timing and counting functions inside the microcontroller. It is used to perform clock functions, modulations etc.
-1. `I/O port:` It allows you to drive/interface various devices such as LCD’S, LED’S, printers, memories, etc to a microcontroller.
-1. `Serial Ports:` Provides various serial interfaces between a microcontroller and other peripherals like parallel ports.
-1. `ADC/DAC:` Analog to Digital Converter (ADC), which converts the analog signal into the digital signal. Digital to Analog Converter (DAC) and it converts the Digital signal into an analog signal.
-1. `Wireless Connectivity:` Consists of Bluetooth and WiFi
-
----
-
 #### MPU Questions
 
 1. what is an MPU?
@@ -89,7 +118,7 @@
 
 1. an `MPU` is a Microprocessor (or Micro Processing Unit). It is the central unit of a computer system that performs arithmetic and logic operations. It also incorporates the function of a CPU on an integrated circuit.
 1. MPU basically accepts binary data as the input, processes the data according to instructions stored in its memory, and provides results (also in binary form) as output.
-1. `Bus:` Describe the set of conductors that transmit data or that address or control information to the microprocessor’s different elements. (MPU usually has 3 types: data bus, the address bus, and control bus.)
+1. `Bus:` Describes the set of conductors that transmit data or that address or control information to the microprocessor’s different elements. (MPU usually has 3 types: data bus, the address bus, and control bus.)
 1. `Clock Speed:` Normally measured in Hertz and expressed in measurements like MHz (megahertz) and GHz (gigahertz), refers to the speed at which a microprocessor could execute instructions.
 1. `Instruction Set:` A series of commands that a microprocessor can understand, basically the interface between hardware and software.
 1. `Word Length:` The number of bits in the processor’s internal data bus, an 8-bit MPU can process 8-bit data at one time.
@@ -120,6 +149,33 @@
 1. `Serial Ports:` Provides various serial interfaces between a microcontroller and other peripherals like parallel ports.
 1. `Interrupt control:` Provides interrupt (delay) for a working program, it could occur internally or externally.
 1. 8-bit (cheapest and most common), 16-bit, 32-bit.
+
+---
+
+#### SBC Questions
+
+1. what is an `SBC`?
+1. what is a CPU?
+1. how does SBC work?
+1. explain `CPU/SoC`
+1. explain `Clock/Timer`
+1. explain `I/O port`
+1. explain `Serial Ports`
+1. explain `ADC/DAC`
+1. explain `Wireless Connectivity`
+
+#### SBC Answers
+
+1. an `SBC` is a Single Board Computer. Single Board Computers are small computing devices that have all of the elements of a complete computer contained within one single circuit board. It is a low cost, self-contained, and simple computer, that could be easily connected to other hardware.
+1. CPU is the core component in a computing unit, which is responsible for processing and executing instructions. It runs the operating system and applications, constantly receiving input from the user or active software programs.
+1. SBCs uses a **System-on-Chip (SoC)**, which integrates all or most components of a computer or other electronic system. It works exactly like how an MPU does, but provides even more features, such as signal processing, wireless communication, artificial intelligence etc., on top of transmitting data.
+1. `CPU/SoC:` Brain of the SBC, responsible for fetching the instruction, decodes it, then execute it.
+1. `Memory:` Similar to how it functions in `MPU` and `MCU`, used to store data and program. However, unlike the previous 2, there are RAM and ROM or flash memories for storing program source codes.
+1. `Clock/Timer:` Provides all timing and counting functions inside the microcontroller. It is used to perform clock functions, modulations etc.
+1. `I/O port:` It allows you to drive/interface various devices such as LCD’S, LED’S, printers, etc to a microcontroller.
+1. `Serial Ports:` Provides various serial interfaces between a microcontroller and other peripherals like parallel ports.
+1. `ADC/DAC:` Analog to Digital Converter (ADC), which converts the analog signal into the digital signal. Digital to Analog Converter (DAC) and it converts the Digital signal into an analog signal.
+1. `Wireless Connectivity:` Consists of Bluetooth and WiFi.
 
 ## Resources:
 
