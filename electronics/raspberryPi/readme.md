@@ -17,22 +17,27 @@
 1. what is an interpreted language, what is the (general) flow, and what are examples?
 1. where are errors detected in compiled languages vs. interpreted languages?
 1. how does the python interpreter work?
-1. is javascript compiled, is typescript?
 1. explain the initial python compilation of your python source code.
 1. once your python code is compiled and translated into python byte code, what happens?
 1. what is a virtual machine?
-1. what is compiling?
+1. is javascript compiled?
+1. regarding javascript, what converts (compiles) your source code into machine readable language?
+1. what is the simplest description for compiling?
+1. what is the simplest description for interpreting?
+1. is typescript compiled, how is it different from javascript
 1. what is transpiling?
-1. what is function overloading?
+1. what is function overloading in Typescript?
 1. what are OOP's 4 pillars?
 1. describe OOP polymorphism.
+1. what is the difference between polymorphism and inheritance?
 1. describe OOP abstraction.
 1. describe OOP encapsulation.
-1. what is a statement?
-1. what is an expression?
-1. what is static typing?
-1. what is dynamic typing?
+1. what is the difference between an expression and a statement?
+1. what is the difference between dynamically and statically type languages?
 1. what is duck typing, examples?
+1. explain strong-typing vs static-typing.
+1. what is weak/loose typing?
+1. is Typescript strongly typed or statically typed?
 1. what is shimming?
 1. what is a pure function?
 1. what are side effects?
@@ -55,13 +60,31 @@
 
 ### general answers
 
-1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`
-1. An interpreted language is one where the **instructions are not directly executed by the target machine**, but instead, read and executed by some other program. Interpreted language ranges – `JavaScript`, `Perl`, `Python`, `BASIC`, etc. `language > ready to run > interpreted by virtual machine > machine code`
+1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. A compiler is computer software that transforms computer code written in one programming language (the source language, like JavaScript, Python, etc.) into another programming language (the target language, like machine code, python byte code, etc). Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`
+1. An interpreted language is one where the **instructions are not directly executed by the target machine**, but instead, read and executed by some other program. An interpreter is a computer program that directly executes instructions written in a programming or scripting language without requiring them previously to have been compiled into a machine language program. It translates one statement at a time. Interpreted language ranges – `JavaScript`, `Perl`, `Python`, `BASIC`, etc. `language > ready to run > interpreted by virtual machine > machine code`
 1. with compiled languages, compilation errors prevent the code from compiling. Interpreted languages all the debugging occurs at run-time.
 1. **An interpreter is a kind of program that executes other programs.** When you write Python programs, it converts source code written by the developer into **intermediate language** (byte code potentially) which is again translated into the native language/ machine language that is executed.
 1. The python code you write is compiled into python byte code, which creates file with extension `.pyc`. The byte code compilation happens internally, and almost completely hidden from developer. **Compilation is simply a translation step**, and byte code is a lower-level, and platform-independent, representation of your source code. Generally, each of your source code statements are translated into a group of byte code instructions. This byte code translation is performed to speed up execution since byte code can be run much quicker than the original source code statements.
 1. The `.pyc` file , **created in compilation step**, is then executed by appropriate virtual machines. **The Virtual Machine just a big loop that iterates through your byte code instructions, one by one, to carry out their operations.** The Virtual Machine is the **runtime engine** (like Spidermonkey or V8 in browsers --javascript) of Python and it is always present as part of the Python system, and is the component that truly runs the Python scripts. Technically, it’s just the last step of what is called the Python interpreter.
 1. The virtual machine is the runtime engine of Python that runs the scripts after they've been compiled from python source code into `.pyc` byte code. The Virtual Machine just a big loop that iterates through your byte code instructions, one by one, to carry out their operations.
+1. **Javascript is compiled**. The browser engine servers as the interpreter that takes the source code you provided, **tokenizes it**, **parses it (Abstract Syntax Tree)**, and then performs **code generation** with the AST is used as input, and an executable byte-code is generated that is understood by the environment (or platform) where the executable code will be running.
+1. The browser engine, V8 (Chrome) or Spidermonkey (Firefox), takes your javascript source code and compiles it into machine readable byte code. Then the JS virtual machine/engine serves as the interpreters it. To conclude, JavaScript code indeed gets compiled. It is closer to Compiled than Interpreted. **It is compiled every time.** Next time, if someone asks the question, Does JavaScript really Compiles? The answer is a loud YES. **After the compilation process produces a binary byte code, the JS virtual machine executes it.**
+1. A compiler is a _"program that translates computer code written in one programming language (the source language) into another language (the target language)"_. Note that there is no constraint on the output being any specific language, e.g. assembly or machine code.
+1. An interpreter is a _"program that directly executes instructions written in a programming or scripting language, without requiring them previously to have been compiled"_
+1. TypeScript is a "compiled language". Right now in 2021, at least, that's how almost everyone in the world is using it. **The compiler takes TypeScript code, removes the type information, and generates JavaScript code.** The fact that the target of this compilation is itself a "source language" (javascript) makes this a special case of compilation: **source-to-source compilation.** This is often called 'transpilation' because it is translating from one source language to another. Make no mistake, transpilation is a form of compilation, as per our earlier definition.
+1. Transpiling is translating (or compiling) one **source language** to another. Typescript is compiled/transpiled into javascript.
+1. TypeScript provides the concept of function overloading. **You can have multiple functions with the same name but different parameter types and return type.** However, (specifically regarding TS) the number of parameters must be the same.
+1. OOP 4 pillars are: **Inheritance, Encapsulation, Abstraction, Polymorphism,** or _APIE_.
+1. Polymorphism, similar to inheritance, is the overriding of methods derived from a parent (or super) class. Parent `Vehicle.getWheels()` returns 4, child `Truck.getWheels()` returns 18.
+1. In inheritance, we create new classes that inherit features of the superclass while polymorphism decides what form of method to execute. Inheritance applies to classes, whereas polymorphism applies to methods. Polymorphism deals with how the program decides which methods it should use, depending on what type of thing it has. If you have a `Person`, which has a `read` method, and you have a `Student` which extends `Person`, which has its own implementation of `read`, which method gets called is determined for you by the runtime, depending if you have a `Person` or a `Student`. Thats the polymorphism in action.
+1. Through the process of abstraction, a programmer hides all but the relevant data about an object in order to reduce complexity and increase efficiency.
+1. encapsulation refers to the bundling of data with the methods that operate on that data, or the restricting of direct access to some of an object's components. Encapsulation is used to hide the values or state of a structured data object inside a class, preventing direct access to them by clients in a way that could expose hidden implementation details or violate state invariance maintained by the methods.
+1. at its simplest: an expression evaluates to a value. A statement does something.
+1. Dynamically-typed languages perform type checking at runtime, while statically typed languages perform type checking at compile time. **This means that scripts written in dynamically-typed languages can compile even if they contain errors that will prevent the script from running properly (if at all).** If a script written in a statically-typed language (such as Java, Golang) contains errors, **it will fail to compile until the errors have been fixed.**
+1. Duck typing is a concept related to **dynamic typing**, where the type or the class of an object is less important than the methods it defines. **When you use duck typing, you do not check types at all. Instead, you check for the presence of a given method or attribute.** `duck` and `cat` are both objects. Both of them respond to the method `type()`. Therefore as far as JavaScript is concerned both objects are of the same type. Dynamic languages, like `Ruby`, `Python`, `Javascript`, are all duck-typed languages, we don't check the types.
+1. **Strongly typed** means that there are restrictions between conversions between types. **Statically typed** means that the types are not dynamic - you can not change the type of a variable once it has been created.
+1. A programming language is loosely typed, or weakly typed, when it does not require the explicit specification of different types of objects and variables.
+1. Typescript is **strongly typed**, there are restrictions on type conversion, but it can still happen. Statically typed languages, like Golang, once a variable is declared its type **cannot** be changed.
 
 ---
 
@@ -181,3 +204,7 @@
 
 [https://www.seeedstudio.com/blog/2020/10/27/all-about-cpus-microprocessor-microcontroller-and-single-board-computer/](https://www.seeedstudio.com/blog/2020/10/27/all-about-cpus-microprocessor-microcontroller-and-single-board-computer/)
 [https://www.raspberrypi.com/news/introducing-raspberry-pi-hats/](https://www.raspberrypi.com/news/introducing-raspberry-pi-hats/)
+
+## General Resources:
+
+[https://blog.greenroots.info/javascript-interpreted-or-compiled-the-debate-is-over](https://blog.greenroots.info/javascript-interpreted-or-compiled-the-debate-is-over)
