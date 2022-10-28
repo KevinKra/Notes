@@ -16,6 +16,10 @@
 1. what is a compiled language, what is the (general) flow, and what are examples?
 1. what is an interpreted language, what is the (general) flow, and what are examples?
 1. whats the key difference in error handling between compiled languages and interpreted languages?
+1. what is a benefit of compiled languages?
+1. what is a disadvantage of compiled languages?
+1. what is a benefit of interpreted languages?
+1. what is a disadvantage of interpreted languages?
 1. how does the python interpreter work?
 1. explain the initial python compilation of your python source code.
 1. once your python code is compiled and translated into python byte code, what happens?
@@ -61,9 +65,13 @@
 
 ### general answers
 
-1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. A compiler is computer software that transforms computer code written in one programming language (the source language, like JavaScript, Python, etc.) into another programming language (the target language, like machine code, python byte code, etc). Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`
+1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. In languages that don't have an interpreter, when the project is built, a module is created with machine-readable instructions. More generally, a compiler is computer software that transforms computer code written in one programming language (the source language, like JavaScript, Python, etc.) into another programming language (the target language, like machine code, python byte code, etc). Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`.
 1. An interpreted language is one where the **instructions are not directly executed by the target machine**, but instead, read and executed by some other program. An interpreter is a computer program that directly executes instructions written in a programming or scripting language without requiring them previously to have been compiled into a machine language program. It translates one statement at a time. Interpreted language ranges – `JavaScript`, `Perl`, `Python`, `BASIC`, etc. `language > ready to run > interpreted by virtual machine > machine code`
 1. with compiled languages, compilation errors prevent the code from compiling. Interpreted languages all the debugging occurs at run-time.
+1. An advantage for compiled programs, that are compiled into native machine code, is that they tend to be faster than interpreted code. This is because the process of translating code at run time (via the interpreter) adds to the overhead, and can cause the program to be slower overall.
+1. Disadvantages of compiled languages include additional time needed to complete the entire compilation step before testing and platform dependence of the generated binary code.
+1. Interpreted languages tend to be more flexible, and often offer features like dynamic typing and smaller program size. Also, because interpreters execute the source program code themselves, the code itself is platform independent.
+1. The most notable disadvantage for interpreted languages is typical execution speed compared to compiled languages.
 1. **An interpreter is a kind of program that executes other programs.** When you write Python programs, it converts source code written by the developer into **intermediate language** (byte code potentially) which is again translated into the native language/machine language that is executed.
 1. The python code you write is compiled into python bytecode, which creates file with extension `.pyc`. **`.pyc` files are bytecode.** Python source code was parsed, optimized and compiled to create them. The bytecode compilation happens internally, and almost completely hidden from developer. **Compilation is simply a translation step**, and byte code is a lower-level, platform-independent, representation of your source code. Generally, each of your source code statements are translated into a group of byte code instructions. This byte code translation is performed to speed up execution since byte code can be run much quicker than the original source code statements.
 1. The `.pyc` file , **created in the initial compilation step**, is then executed by an appropriate virtual machine. **The Virtual Machine is simply a loop that iterates through your byte code instructions, one by one, to carry out their operations.** The Virtual Machine is the **runtime engine** of Python (like Spidermonkey or V8 in browsers --javascript) and it is always present as part of the Python system, and is the component that truly runs the Python scripts. Technically, it’s just the last step of what is called the Python interpreter.
