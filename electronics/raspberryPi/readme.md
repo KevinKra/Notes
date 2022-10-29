@@ -56,11 +56,8 @@
 1. what is the difference between `yielding` and `returning` from a generator function?
 1. what is a system language?
 1. what is an application language?
-1. what are class attributes?
-1. what are instance attributes?
-1. what is postponed evaluation (python)?
-1. describe a class method.
-1. describe a static method.
+1. describe the difference between a class and instance attribute.
+1. describe a static method vs an instance method.
 1. what does the constructor do?
 1. what does `super()` do?
 1. describe a getter/setter.
@@ -108,6 +105,11 @@
 1. _"Imagine you are reading a nail-biting techno-thriller. All engrossed in the pages of the book, you barely hear your doorbell ring. It’s the pizza delivery guy. You get up to open the door. However, before doing that, you set a bookmark at the last page you read. You mentally save the events of the plot. Then, you go and get your pizza. Once you return back to your room, you begin the book from the page that you set the bookmark on. You don’t begin it from the first page again. In a sense, you acted as a generator function."_
 1. A normal function such as this one cannot be stopped before it finishes its task i.e its last line is executed. It follows something called **run-to-completion model**. In contrast, a generator is a function that can stop midway and then continue from where it stopped. In JavaScript, a generator is a function which returns an object on which you can call `next()`. Every invocation of `next()` will return an object of shape — `{ value: Any, done: true|false }`
 1. yielding _does not_ necessarily end the iteration process through the generator. Future `.next()` calls will continue to progress through the function. To `return` from a generator ends the iteration process and all subsequent code (yields for instance) are unreachable.
+1. Class attributes are variables of a class that are shared between all of its instances. They differ from instance attributes in that instance attributes are owned by one specific instance of the class only, and ​are not shared between instances.
+1. A static method (or static function) is a method defined as a member of an object but is accessible directly from an API object's constructor, rather than from an object instance created via the constructor. `MyClass.hasAStaticMethod()` vs `instanceOfMyClass.instanceMethod()`
+1. A constructor creates an Object of the class that it is in by initializing all the instance variables and creating a place in memory to hold the Object.
+1. The `super` keyword is used to call the constructor of its parent class to access the parent's properties and methods.
+1. Getters and setters are used to protect your data, particularly when creating classes. For each instance variable, a getter method returns its value while a setter method sets or updates its value. Given this, getters and setters are also known as accessors and mutators, respectively.
 
 ---
 
