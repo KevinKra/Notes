@@ -43,12 +43,19 @@
 1. explain strong-typing vs static-typing.
 1. what is weak/loose typing?
 1. is Typescript strongly typed or statically typed?
-1. what is shimming?
+1. what is a shim, what is a polyfill?
 1. what is a pure function?
+1. what is function composition?
 1. what are side effects?
 1. what is an idempotent function?
-1. what is a non-idempotent function?
 1. what is an operand?
+1. describe scalar and non-scalar types.
+1. what is a generator function?
+1. what is an example of a generator behavior?
+1. describe the contrast between a normal function and a generator function.
+1. what is the difference between `yielding` and `returning` from a generator function?
+1. what is a system language?
+1. what is an application language?
 1. what are class attributes?
 1. what are instance attributes?
 1. what is postponed evaluation (python)?
@@ -57,24 +64,19 @@
 1. what does the constructor do?
 1. what does `super()` do?
 1. describe a getter/setter.
-1. what is a scalar type?
-1. what is a non-scalar type?
-1. what is a generator function?
-1. what is a system language?
-1. what is an application language?
 
 ### general answers
 
-1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. In languages that don't have an interpreter, when the project is built, a module is created with machine-readable instructions. More generally, a compiler is computer software that transforms computer code written in one programming language (the source language, like JavaScript, Python, etc.) into another programming language (the target language, like machine code, python byte code, etc). Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`.
+1. A compiled language is a programming language where the program, once compiled, is expressed in the **instructions of the target machine**; this machine code is undecipherable by humans. A compiler is computer software that transforms computer code written in one programming language (the source language, like JavaScript, Python, etc.) into another programming language (the target language, like machine code, python byte code, etc). Types of compiled language – `C`, `C++`, `C#`, `CLEO`, `COBOL`, etc. `language > compiled > machine code > read to run`.
 1. An interpreted language is one where the **instructions are not directly executed by the target machine**, but instead, read and executed by some other program. An interpreter is a computer program that directly executes instructions written in a programming or scripting language without requiring them previously to have been compiled into a machine language program. It translates one statement at a time. Interpreted language ranges – `JavaScript`, `Perl`, `Python`, `BASIC`, etc. `language > ready to run > interpreted by virtual machine > machine code`
 1. with compiled languages, compilation errors prevent the code from compiling. Interpreted languages all the debugging occurs at run-time.
 1. An advantage for compiled programs, that are compiled into native machine code, is that they tend to be faster than interpreted code. This is because the process of translating code at run time (via the interpreter) adds to the overhead, and can cause the program to be slower overall.
 1. Disadvantages of compiled languages include additional time needed to complete the entire compilation step before testing and platform dependence of the generated binary code.
 1. Interpreted languages tend to be more flexible, and often offer features like dynamic typing and smaller program size. Also, because interpreters execute the source program code themselves, the code itself is platform independent.
 1. The most notable disadvantage for interpreted languages is typical execution speed compared to compiled languages.
-1. **An interpreter is a kind of program that executes other programs.** When you write Python programs, it converts source code written by the developer into **intermediate language** (byte code potentially) which is again translated into the native language/machine language that is executed.
-1. The python code you write is compiled into python bytecode, which creates file with extension `.pyc`. **`.pyc` files are bytecode.** Python source code was parsed, optimized and compiled to create them. The bytecode compilation happens internally, and almost completely hidden from developer. **Compilation is simply a translation step**, and byte code is a lower-level, platform-independent, representation of your source code. Generally, each of your source code statements are translated into a group of byte code instructions. This byte code translation is performed to speed up execution since byte code can be run much quicker than the original source code statements.
-1. The `.pyc` file , **created in the initial compilation step**, is then executed by an appropriate virtual machine. **The Virtual Machine is simply a loop that iterates through your byte code instructions, one by one, to carry out their operations.** The Virtual Machine is the **runtime engine** of Python (like Spidermonkey or V8 in browsers --javascript) and it is always present as part of the Python system, and is the component that truly runs the Python scripts. Technically, it’s just the last step of what is called the Python interpreter.
+1. **An interpreter is a kind of program that executes other programs.** When you write Python programs, it converts source code written by the developer into **intermediate language** (bytecode potentially) which is again translated into the native language/machine language that is executed.
+1. The python code you write is compiled into python bytecode, which creates file with extension `.pyc`. **`.pyc` files are bytecode.** Python source code was parsed, optimized and compiled to create them. The bytecode compilation happens internally, and almost completely hidden from developer. **Compilation is simply a translation step**, and bytecode is a lower-level, platform-independent, representation of your source code. Generally, each of your source code statements are translated into a group of bytecode instructions. This bytecode translation is performed to speed up execution since bytecode can be run much quicker than the original source code statements.
+1. The `.pyc` file , **created in the initial compilation step**, is then executed by an appropriate virtual machine. **The Virtual Machine is simply a loop that iterates through your bytecode instructions, one by one, to carry out their operations.** The Virtual Machine is the **runtime engine** of Python (like Spidermonkey or V8 in browsers --javascript) and it is always present as part of the Python system, and is the component that truly runs the Python scripts. Technically, it’s just the last step of what is called the Python interpreter.
 1. The virtual machine is the runtime engine of Python that runs the scripts after they've been compiled from python source code into `.pyc` byte code. The Virtual Machine just a big loop that iterates through your byte code instructions, one by one, to carry out their operations.
 1. **Javascript is compiled**. The browser (runtime) engine serves as the interpreter that takes the source code you provided, **tokenizes it**, **parses it (into an Abstract Syntax Tree)**, and then performs **code generation** with the AST used as the input. Following these operations, an executable byte-code is generated that is understood by the environment (or platform) where the executable code will be running.
 1. The browser engine, V8 (Chrome) or Spidermonkey (Firefox), takes your javascript source code and compiles it into machine readable byte code. Then the JS virtual machine/engine serves it to the machine. To conclude, JavaScript code gets compiled. **It is compiled every time.** Next time, if someone asks the question, Does JavaScript really compile? The answer is a loud YES. **After the compilation process produces a binary byte code, the JS virtual machine executes it.**
@@ -94,7 +96,18 @@
 1. Duck typing is a concept related to **dynamic typing**, where the type or the class of an object is less important than the methods it defines. **When you use duck typing, you do not check types at all. Instead, you check for the presence of a given method or attribute.** `duck` and `cat` are both objects. Both of them respond to the method `type()` (which you defined). Therefore as far as JavaScript is concerned both objects are of the same type. Dynamic languages, like `Ruby`, `Python`, `Javascript`, are all duck-typed languages, in which we don't check the types.
 1. **Strongly typed** means that there are restrictions between conversions between types. **Statically typed** means that the types are not dynamic - you can not change the type of a variable once it has been created.
 1. A programming language is loosely typed, or weakly typed, when it does not require the explicit specification of different types of objects and variables.
-1. Typescript is **strongly or statically typed**.
+1. Typescript is **strongly aka statically typed**.
+1. A shim is a piece of code used to correct the behavior of code that already exists, usually by adding new API that works around the problem. This differs from a polyfill, which implements a new API that is not supported by the stock browser as shipped.
+1. a **pure function** has two requirements: given the same input, always returns the same output _and_ it produces no side effects. `double(5)` is a pure function, however `Math.random()` is not.
+1. **Function composition** is the process of combining two or more functions to produce a new function. Composing functions together is like snapping together a series of pipes for our data to flow through.
+1. A pure function produces no side effects, which means that it can’t alter any external state.
+1. Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application. `.toString()` is an example of an idempotent function, calling it multiple times does not change the output.
+1. operand is the quantity on which an operation is to be done. `5(operand) +(operator) 7(operand)`
+1. Scalars are typically contrasted with _compounds_, such as arrays, maps, sets, structs, etc. A scalar is a "single" value - integer, boolean, perhaps a string - while a compound is made up of multiple scalars (and possibly references to other compounds). "Scalar" is used in contexts where the relevant distinction is between single/simple/atomic values and compound values.
+1. A generator is a function that can stop midway and then continue from where it stopped. In short, a generator appears to be a function but it behaves like an iterator.
+1. _"Imagine you are reading a nail-biting techno-thriller. All engrossed in the pages of the book, you barely hear your doorbell ring. It’s the pizza delivery guy. You get up to open the door. However, before doing that, you set a bookmark at the last page you read. You mentally save the events of the plot. Then, you go and get your pizza. Once you return back to your room, you begin the book from the page that you set the bookmark on. You don’t begin it from the first page again. In a sense, you acted as a generator function."_
+1. A normal function such as this one cannot be stopped before it finishes its task i.e its last line is executed. It follows something called **run-to-completion model**. In contrast, a generator is a function that can stop midway and then continue from where it stopped. In JavaScript, a generator is a function which returns an object on which you can call `next()`. Every invocation of `next()` will return an object of shape — `{ value: Any, done: true|false }`
+1. yielding _does not_ necessarily end the iteration process through the generator. Future `.next()` calls will continue to progress through the function. To `return` from a generator ends the iteration process and all subsequent code (yields for instance) are unreachable.
 
 ---
 
@@ -218,3 +231,4 @@
 ## General Resources:
 
 [https://blog.greenroots.info/javascript-interpreted-or-compiled-the-debate-is-over](https://blog.greenroots.info/javascript-interpreted-or-compiled-the-debate-is-over)
+[https://codeburst.io/understanding-generators-in-es6-javascript-with-examples-6728834016d5](https://codeburst.io/understanding-generators-in-es6-javascript-with-examples-6728834016d5)
