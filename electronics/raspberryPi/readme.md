@@ -152,6 +152,52 @@
 
 ---
 
+#### Electronics Questions
+
+1. what is an `anode`?
+1. what is a `cathode`?
+1. what is a `main circuit` and a `control circuit`?
+1. what is a `switch`?
+1. what is a `semiconductor`?
+1. what is "doping" in relation to `semiconductors`?
+1. describe the difference between a `p-type semiconductor` and an `n-type semiconductor`
+1. what is a `transistor`?
+1. describe the atomic characteristics that make an `insulator` different from a `conductor`.
+1. how does a `semiconductor` behave in comparison to `insulators` and `conductors`?
+1. describe `low resistance` and `high resistance` in electrical circuits.
+1. what is an `ohm`?
+1. what does a `resistor` do?
+1. what is "voltage drop"?
+1. what calculation can you use to determine `ohms`? -- `voltage / amps = ohms`
+1. what calculation can you use to determine `amps`? -- `voltage / ohms = amps`
+1. what is a use case for an `infrared emitter` and `receiver`?
+1. what is a `capacitor`?
+1. what is a `capacitor` like, how is it different?
+
+#### Electronics Answers
+
+1. an `anode` is the `electrode` where electricity moves into.
+1. The `cathode` is the `electrode` where electricity is given out or flows out.
+1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're divided.
+1. In electrical engineering, a `switch` is an electrical component that can disconnect or connect the conducting path in an electrical circuit
+1. A `semiconductor` is a substance that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
+1. A `semiconductors` conductivity and other properties can be altered with the introduction of impurities, **called doping**, to meet the specific needs of the electronic component in which it resides.
+1. A `transistor` is a type of a semiconductor device that can be used to both conduct and insulate electric current or voltage. A `transistor` basically acts as a switch and an amplifier. **In simple words, we can say that a `transistor` is a miniature device that is used to control or regulate the flow of electronic signals.**
+1. in a `p-type semiconductor`, the majority charge carriers are holes (which are positive), thus moves from higher potential to lower potential. The majority charge carries in an `n-type semiconductor` are electrons (which are negative), thus moves from lower potential to higher potential.
+1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons (nucleus) have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a circuit's conductive material from one atom to the next.
+1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of it's electrons** and it performs like an `conductor`.
+1. Typically, `low resistance` in the electrical testing industry is referring to any resistance values below 1 ohm. **The lower the resistance, the higher the current flow.**
+1. an `ohm` is a unit of electric resistance equal to the resistance of a circuit in which a potential difference of one volt produces a current of one ampere.
+1. a `resistor` is a passive two-terminal electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages, bias active elements, and terminate transmission lines, among other uses.
+1. voltage drop is the reduction in voltage as components along a closed circuit use it.
+1. to calculate `ohms`: `voltage / amps = ohms`
+1. to calculate `amps`: `voltage / ohms = amps`
+1. using an `infrared emitter` and `receiver` can help simplify testing and development since you don't need to protect against visible light.
+1. a `capacitor` stores electric charge.
+1. a `capacitor` is like a `battery`, however it stores electric charge in an **electric field** as opposed to in a **chemical solution**.
+
+---
+
 #### MPU Questions
 
 1. what is an MPU?
