@@ -40,27 +40,26 @@
 1. what is the difference between dynamically and statically type languages?
 1. do dynamic languages have to have an interpreter?
 1. what is duck typing, examples?
-1. explain strong-typing vs static-typing.
-1. what is weak/loose typing?
-1. is Typescript strongly typed or statically typed?
+1. explain strong/static-typing.
+1. what is weak/loose-typing?
+1. is Typescript strongly typed?
 1. what is a shim, what is a polyfill?
 1. what is a pure function?
 1. what is function composition?
-1. what are side effects?
+1. what are side-effects?
 1. what is an idempotent function?
+1. what is an non-idempotent function?
 1. what is an operand?
 1. describe scalar and non-scalar types.
 1. what is a generator function?
 1. what is an example of a generator behavior?
 1. describe the contrast between a normal function and a generator function.
 1. what is the difference between `yielding` and `returning` from a generator function?
-1. what is a system language?
-1. what is an application language?
-1. describe the difference between a class and instance attribute.
-1. describe a static method vs an instance method.
-1. what does the constructor do?
+1. describe the difference between a `class` and `instance attribute`.
+1. describe a `static method` vs an `instance method`.
+1. what does the `constructor()` do?
 1. what does `super()` do?
-1. describe a getter/setter.
+1. describe a `getter`/`setter`, what is their purpose?
 
 ### general answers
 
@@ -87,7 +86,7 @@
 1. In inheritance, we create new classes that inherit features of the superclass while polymorphism decides what form of method to execute. Inheritance applies to classes, whereas polymorphism applies to methods. Polymorphism deals with how the program decides which methods it should use, depending on what type of thing it has. If you have a `Person`, which has a `read` method, and you have a `Student` which extends `Person`, which has its own implementation of `read`, which method gets called is determined for you by the runtime, depending if you have a `Person` or a `Student`. Thats the polymorphism in action.
 1. Through the process of abstraction, a programmer hides all but the relevant data about an object in order to reduce complexity and increase efficiency.
 1. encapsulation refers to the bundling of data with the methods that operate on that data, or the restricting of direct access to some of an object's components. Encapsulation is used to hide the values or state of a structured data object inside a class, preventing direct access to them by clients in a way that could expose hidden implementation details or violate state invariance maintained by the methods.
-1. at its simplest: an expression evaluates to a value. A statement does something.
+1. at its simplest: an expression evaluates to a value. A statement does something (returns a value).
 1. Dynamically-typed languages perform type checking at runtime, while statically typed languages perform type checking at compile time. **This means that scripts written in dynamically-typed languages can compile even if they contain errors that will prevent the script from running properly (if at all).** If a script written in a statically-typed language (such as Java, Golang) contains errors, **it will fail to compile until the errors have been fixed.**
 1. No, dynamic languages _do not_ have to have an interpreter. The relationship between having an interpreter, or just outright compiling source code, is independent from from the typing characteristics of the source code itself. Traditionally, and most commonly through convention, strongly typed languages (Java, Golang, C++) don't have an interpreter because they decided to provide strong/static typing instructions to the compiler for optimization. Dynamically, or weakly, typed languages like Python or Javascript, simply hand off their source code to an interpreter which than _interprets_ the code and converts it into machine readable code. "_If you write Python on a whiteboard, it's still called Python! It's the implementation that can be an interpreter or a compiler. Being statically-typed or dynamically-typed (of kind of a hybrid of both) is a property of the language, while executing a program by interpreting or compilation is a property of the implementation."_
 1. Duck typing is a concept related to **dynamic typing**, where the type or the class of an object is less important than the methods it defines. **When you use duck typing, you do not check types at all. Instead, you check for the presence of a given method or attribute.** `duck` and `cat` are both objects. Both of them respond to the method `type()` (which you defined). Therefore as far as JavaScript is concerned both objects are of the same type. Dynamic languages, like `Ruby`, `Python`, `Javascript`, are all duck-typed languages, in which we don't check the types.
@@ -99,6 +98,7 @@
 1. **Function composition** is the process of combining two or more functions to produce a new function. Composing functions together is like snapping together a series of pipes for our data to flow through.
 1. A pure function produces no side effects, which means that it can’t alter any external state.
 1. Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application. `.toString()` is an example of an idempotent function, calling it multiple times does not change the output.
+1. a non-idempotent function changes it's return value each time its called. `Math.random()` is a non-idempotent function.
 1. operand is the quantity on which an operation is to be done. `5(operand) +(operator) 7(operand)`
 1. Scalars are typically contrasted with _compounds_, such as arrays, maps, sets, structs, etc. A scalar is a "single" value - integer, boolean, perhaps a string - while a compound is made up of multiple scalars (and possibly references to other compounds). "Scalar" is used in contexts where the relevant distinction is between single/simple/atomic values and compound values.
 1. A generator is a function that can stop midway and then continue from where it stopped. In short, a generator appears to be a function but it behaves like an iterator.
@@ -107,9 +107,9 @@
 1. yielding _does not_ necessarily end the iteration process through the generator. Future `.next()` calls will continue to progress through the function. To `return` from a generator ends the iteration process and all subsequent code (yields for instance) are unreachable.
 1. Class attributes are variables of a class that are shared between all of its instances. They differ from instance attributes in that instance attributes are owned by one specific instance of the class only, and ​are not shared between instances.
 1. A static method (or static function) is a method defined as a member of an object but is accessible directly from an API object's constructor, rather than from an object instance created via the constructor. `MyClass.hasAStaticMethod()` vs `instanceOfMyClass.instanceMethod()`
-1. A constructor creates an Object of the class that it is in by initializing all the instance variables and creating a place in memory to hold the Object.
+1. A `constructor` creates an object of the class that it is in by initializing all the instance variables and creating a place in memory to hold the object.
 1. The `super` keyword is used to call the constructor of its parent class to access the parent's properties and methods.
-1. Getters and setters are used to protect your data, particularly when creating classes. For each instance variable, a getter method returns its value while a setter method sets or updates its value. Given this, getters and setters are also known as accessors and mutators, respectively.
+1. `getters` and `setters` are **used to protect your data**, particularly when creating classes. For each instance variable, a getter method returns its value while a setter method sets or updates its value. Given this, getters and setters are also known as **accessors and mutators**, respectively.
 
 ---
 
@@ -166,6 +166,7 @@
 1. how does a `semiconductor` behave in comparison to `insulators` and `conductors`?
 1. describe `low resistance` and `high resistance` in electrical circuits.
 1. what is an `ohm`?
+1. how does resistance occur? what does it generate?
 1. what does a `resistor` do?
 1. what is "voltage drop"?
 1. what calculation can you use to determine `ohms`? -- `voltage / amps = ohms`
@@ -173,11 +174,28 @@
 1. what is a use case for an `infrared emitter` and `receiver`?
 1. what is a `capacitor`?
 1. what is a `capacitor` like, how is it different?
+1. what charges and discharges faster, a `capacitor` or a `battery`?
+1. what utility does a `capacitor` provide to an electrical circuit?
+1. what is the physical structure of a `capacitor`?
+1. what is a `dielectric` material?
+1. what is a `electrode` material?
+1. on a `capacitor`, what indicates the negative terminal?
+1. what is `potential`?
+1. how can `voltage` be described as pressure (and measured with a multimeter)?
+1. what needs to happen for the `capacitor` to stop supplying charge?
+1. what is `capacitance` and how is it measured?
+1. the voltage (V) value on the capacitor describes what?
+1. what happens to a `capacitor` if you exceed its maximum voltage?
+1. why do we use `capacitors`?
+1. what is `induction`?
+1. should you be careful when working with `capacitors`?
+1. what is a `volt`?
+1. one `amp` equals how many `coulombs`?
 
 #### Electronics Answers
 
-1. an `anode` is the `electrode` where electricity moves into.
-1. The `cathode` is the `electrode` where electricity is given out or flows out.
+1. an `anode`, positive charge, is the `electrode` where electricity moves into.
+1. The `cathode`, negative charge, is the `electrode` where electricity is given out or flows out.
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're divided.
 1. In electrical engineering, a `switch` is an electrical component that can disconnect or connect the conducting path in an electrical circuit
 1. A `semiconductor` is a substance that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
@@ -187,7 +205,8 @@
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons (nucleus) have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a circuit's conductive material from one atom to the next.
 1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of it's electrons** and it performs like an `conductor`.
 1. Typically, `low resistance` in the electrical testing industry is referring to any resistance values below 1 ohm. **The lower the resistance, the higher the current flow.**
-1. an `ohm` is a unit of electric resistance equal to the resistance of a circuit in which a potential difference of one volt produces a current of one ampere.
+1. an `ohm` is a unit of electric resistance. The width of a wire, it's length, even it's material, helps determine it's resistance measured in `ohms`.
+1. resistance occurs as electrons travel down a circuit and collide with atoms in a given material. This frequency of collisions varies across materials and materials that have more collisions (like iron), generate more heat (and light when it reaches a certain temperature) than materials with less collisions (like copper).
 1. a `resistor` is a passive two-terminal electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages, bias active elements, and terminate transmission lines, among other uses.
 1. voltage drop is the reduction in voltage as components along a closed circuit use it.
 1. to calculate `ohms`: `voltage / amps = ohms`
@@ -195,6 +214,23 @@
 1. using an `infrared emitter` and `receiver` can help simplify testing and development since you don't need to protect against visible light.
 1. a `capacitor` stores electric charge.
 1. a `capacitor` is like a `battery`, however it stores electric charge in an **electric field** as opposed to in a **chemical solution**.
+1. a `capacitor` charges and discharges faster than a `battery`.
+1. `capacitors` help to smooth out disruptions of electrical supply. In an abstract sense, it serves like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current for a duration until the outside source returns.
+1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum. The layers (from outside in) consist of a protective case, a `dielectric` material (often ceramic), and an `electrode`.
+1. a `dielectric` material is a poor conductor of electricity (electrons cant pass through) but an efficient supporter of electrostatic fields. It can store electrical charges, have a high specific resistance, and a negative temperature coefficient of resistance. _"It will polarize when it comes in contact with an electric field."_
+1. `Electrodes` and `electrode materials` are metals and other substances used as the makeup of electrical components. They are used to make contact with a nonmetallic part of a circuit, and are the materials in a system through which an electrical current is transferred.
+1. a stripe on a `capacitor` indicates the negative terminal.
+1. electrical `potential` is the difference in charge between the positive and negative side of a component.
+1. a `multimeter` can be used to detect voltage. Using pressure as an analogy, one end of a battery has more pressure then the other end, like water in a barrel.
+1. when the positive and negative charges on the electrodes are equal, the flow of electrons motivated by the `capacitor` stop moving (no more current).
+1. `capacitance` is the measurement of energy stored in a `capacitor` and they're measured in `Farads (F)` though usually in `microfarads (uF)`.
+1. the voltage value on a `capacitor` describes \*\*the maximum number of volts a `capacitor` can handle.
+1. it explodes.
+1. one of the most common applications in large buildings is to use a `capacitor bank` to provide "power factor correction". They're also used to smooth out peaks between ac-to-dc conversion.
+1. when enough current passes through a coil it creates `induction` which is the process of creating a magnetic field.
+1. yes, `capacitors` hold large voltages even for a long time after being disconnected from a circuit.
+1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
+1. 1 amp = 1 coulomb.
 
 ---
 
