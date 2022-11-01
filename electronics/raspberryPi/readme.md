@@ -162,6 +162,7 @@
 1. what is "doping" in relation to `semiconductors`?
 1. describe the difference between a `p-type semiconductor` and an `n-type semiconductor`
 1. what is a `transistor`?
+1. what is the place where the two semiconductor materials (p and n type) come into contact called?
 1. describe the atomic characteristics that make an `insulator` different from a `conductor`.
 1. how does a `semiconductor` behave in comparison to `insulators` and `conductors`?
 1. describe `low resistance` and `high resistance` in electrical circuits.
@@ -191,17 +192,40 @@
 1. should you be careful when working with `capacitors`?
 1. what is a `volt`?
 1. one `amp` equals how many `coulombs`?
+1. what is a `conduction band`?
+1. how does a `semiconductor's` electrons interact with conduction bands?
+1. what are the two main types of `transistors`?
+1. what does the `bipolar transistor` (BJT) acronym break out to?
+1. what are the two functions `transistors` perform?
+1. what are the protective case differences between small low power `transistors` and their higher power versions?
+1. higher power `transistors` are usually connected to what in order to dissipate heat?
+1. `transistors` have 3 pins, what are their letters and names?
+1. why do we use `transistors`?
+1. what is `current gain`?
+1. how can you use the `current gain` measurement to calculate the `Base` and `Collector` currents?
+1. what are the two (main) types of bi-polar transistors?
+1. describe the `NPN` transistor.
+1. describe the `PNP` transistor.
+1. what is `conventional current`?
+1. is `conventional current` correct? What is the correct flow and name?
+1. designs and diagrams always use what current flow?
+1. the `NPN` and `PNP` transistor types refer back to the semiconductor materials doped to create them. Which pins fit into which semiconductor materials in the two designs.
+1. what is `covalent bonding`?
+1. explain `p-type` and `n-type` doping.
+1. what `p-n junction`, where the `p` and `n` type materials meet is also called what? What happens there automatically?
+1. what happens when we connect a voltage source (like a battery) to the semiconductor? What special factors need to be considered regarding its voltage?
 
 #### Electronics Answers
 
 1. an `anode`, positive charge, is the `electrode` where electricity moves into.
 1. The `cathode`, negative charge, is the `electrode` where electricity is given out or flows out.
-1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're divided.
-1. In electrical engineering, a `switch` is an electrical component that can disconnect or connect the conducting path in an electrical circuit
-1. A `semiconductor` is a substance that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
-1. A `semiconductors` conductivity and other properties can be altered with the introduction of impurities, **called doping**, to meet the specific needs of the electronic component in which it resides.
+1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
+1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
+1. A `semiconductor` is a material that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
+1. A `semiconductor's` conductivity and other properties can be altered with the introduction of impurities, **called doping**, to meet the specific needs of the electronic component in which it resides.
 1. A `transistor` is a type of a semiconductor device that can be used to both conduct and insulate electric current or voltage. A `transistor` basically acts as a switch and an amplifier. **In simple words, we can say that a `transistor` is a miniature device that is used to control or regulate the flow of electronic signals.**
-1. in a `p-type semiconductor`, the majority charge carriers are holes (which are positive), thus moves from higher potential to lower potential. The majority charge carries in an `n-type semiconductor` are electrons (which are negative), thus moves from lower potential to higher potential.
+1. the space where a `p` and an `n` type semiconductor materials touch is the `p-n junction`?
+1. in a `p-type semiconductor`, the semiconductor material is "doped" so that there is space for electrons to move. When surrounded by `n-type semiconductor` material (which is "doped" to have too many electrons), photons from emitted light hit the semiconductor material and electrons move across the n-type to p-type to n-type which creates a flow of electrons. The majority charge carries in an `n-type semiconductor` are electrons (which are negative), thus moves from lower potential to higher potential.
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons (nucleus) have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a circuit's conductive material from one atom to the next.
 1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of it's electrons** and it performs like an `conductor`.
 1. Typically, `low resistance` in the electrical testing industry is referring to any resistance values below 1 ohm. **The lower the resistance, the higher the current flow.**
@@ -224,13 +248,35 @@
 1. a `multimeter` can be used to detect voltage. Using pressure as an analogy, one end of a battery has more pressure then the other end, like water in a barrel.
 1. when the positive and negative charges on the electrodes are equal, the flow of electrons motivated by the `capacitor` stop moving (no more current).
 1. `capacitance` is the measurement of energy stored in a `capacitor` and they're measured in `Farads (F)` though usually in `microfarads (uF)`.
-1. the voltage value on a `capacitor` describes \*\*the maximum number of volts a `capacitor` can handle.
+1. the voltage value on a `capacitor` describes **the maximum number of volts** a `capacitor` can handle.
 1. it explodes.
 1. one of the most common applications in large buildings is to use a `capacitor bank` to provide "power factor correction". They're also used to smooth out peaks between ac-to-dc conversion.
 1. when enough current passes through a coil it creates `induction` which is the process of creating a magnetic field.
 1. yes, `capacitors` hold large voltages even for a long time after being disconnected from a circuit.
 1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
 1. 1 amp = 1 coulomb.
+1. the `conduction band` is a band near the outer `valence shell` of an atom. If an electron is able to reach the `conduction band` it has the potential the break away from the atom it is bound to. In practical terms, a conductive material like copper has a `conductive band` that overlaps with it's `valence shell`, as a consequence the other electron can detach. Insulators, by contrast, have a packed outer shell (no room for outside electrons to join), the nucleus has a tight grip on the electrons, and the `conduction band` does not overlap with the `valence shell`.
+1. a `semiconductor` has **one too many electrons** in its outer shell, so it acts like an insulator. However, it's `conduction band` is close to the outer shell, so if we provide an outside force, like light (it's photons), we can knock the extra electron free and generate electricity.
+1. the two main types of `transistors` are `bipolar` and `field effect` transistors.
+1. Bipolar Junction Transistor.
+1. `transistors` switch circuits on and off **and** amplify signals.
+1. both the lower and higher power transistors have a resin case to help protect the internal parts of the `transistor`. However, the higher power `transistors` will have a partial metal case to help dissipate heat.
+1. higher power `transistors` are often attached to `heat sinks` to help dissipate their heat.
+1. the three pins on a `transistor` are **E (emitter) B (base) C (collector)**.
+1. we use `transistors` to help control (at an interval for example) the switch behavior of a circuit. An outside circuit can connect to the **B (base)** pin of the transistor and when a current is sent the transistor allows its primary current to travel across it.
+1. current gain is `beta (symbol) = collector current / base current`
+1. to find the `Base` current: `Collector current / gain`. To find the `Collector` current: `gain * Base current`
+1. `NPN` and `PNP`
+1. current **combines** in `NPN` transistors. `Collector (C)` is connected to the `cathode (-)` of the battery with conventional current flowing through it. The `Collector (C)` and `Base (B)` pins and outputs (a combined current) in the `Emitter (E)` pin.
+1. current **divides** in `PNP` transistors. `Emitter (E)` is connected to the `anode (+)` of the battery with conventional current flowing through it. Current flow in through the `E` pin, and divides among the `C` and `B` pins.
+1. `conventional current` is the flow of electrical current from + positive to - negative.
+1. it was assumed that `conventional current` was correct, or electrons flow from `+` to `-`. However, it was proven that electrons _actually_ flow from `-` to `+`. This is called `electron flow`.
+1. designs and diagrams always show `conventional current`, however engineers really know that `electron flow` (the opposite) current is what's truly happening.
+1. in `NPN` transistors, (n and p referring to the semiconductor type), the B pin is connected to the `P-type semiconductor`.
+1. `covalent bonding` is when two atoms (silicon for instance) want to satisfy their outer shells (valence) electron count. To do this, they pair --or share, a bond with the silicon next to it which also potentially also has missing electrons. Together, through sharing, the reach their desired electron count.
+1. doping in electronics typically occurs with silicon, so we will use that example. Silicon wants to satisfy it's outer valence shell's electron count. It can do this through `covalent bonding`. We can dope the **(n-type)** semiconductor with phosphorus atoms, which has enough outer electrons satisfy the four surrounding silicon atoms' valence electron needs, and also have the extra free flowing electron freely move around the material. Conversely, with **(p-type)** doping, we add a material like aluminum that has one too few electrons in its outer shell. This means that for the four surrounding silicon atoms, one won't be able to satisfy its valence shell electron count and now there is a "hole" where an electron should be.
+1. the "Depletion region". In this region, a few of the electrons, and holes, swap spaces. Due to their charge differences (electrons being negatively charged and the holes being considered positively charged) they create a respective slightly negatively and positively charged region. This process creates a small electrical field which **prevents** more electrons from passing across. The `potential difference` in this region is typically around 0.7V.
+1. when we add a voltage source, like a battery (+ to p-type and - to n-type), to a semiconductor material, we are able to create a **forward bias**. So long as the added voltage sourced from the battery is **greater than** the `potential difference` of the `depletion region` (say 0.7V) the electrons will be able to move through the region and we will have a current. If the voltage source is too low, the electrons will lack the sufficient power to pass through the barrier of the depletion region.
 
 ---
 
