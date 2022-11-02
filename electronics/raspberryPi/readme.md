@@ -213,7 +213,9 @@
 1. what is `covalent bonding`?
 1. explain `p-type` and `n-type` doping.
 1. what `p-n junction`, where the `p` and `n` type materials meet is also called what? What happens there automatically?
-1. what happens when we connect a voltage source (like a battery) to the semiconductor? What special factors need to be considered regarding its voltage?
+1. what happens when we connect a voltage source (like a battery) to the semiconductor? What special factors need to be considered regarding its voltage to create `forward bias`?
+1. explain `reverse bias` and how it's created.
+1. explain how the `NPN` transistor works at the semiconductor level.
 
 #### Electronics Answers
 
@@ -276,7 +278,9 @@
 1. `covalent bonding` is when two atoms (silicon for instance) want to satisfy their outer shells (valence) electron count. To do this, they pair --or share, a bond with the silicon next to it which also potentially also has missing electrons. Together, through sharing, the reach their desired electron count.
 1. doping in electronics typically occurs with silicon, so we will use that example. Silicon wants to satisfy it's outer valence shell's electron count. It can do this through `covalent bonding`. We can dope the **(n-type)** semiconductor with phosphorus atoms, which has enough outer electrons satisfy the four surrounding silicon atoms' valence electron needs, and also have the extra free flowing electron freely move around the material. Conversely, with **(p-type)** doping, we add a material like aluminum that has one too few electrons in its outer shell. This means that for the four surrounding silicon atoms, one won't be able to satisfy its valence shell electron count and now there is a "hole" where an electron should be.
 1. the "Depletion region". In this region, a few of the electrons, and holes, swap spaces. Due to their charge differences (electrons being negatively charged and the holes being considered positively charged) they create a respective slightly negatively and positively charged region. This process creates a small electrical field which **prevents** more electrons from passing across. The `potential difference` in this region is typically around 0.7V.
-1. when we add a voltage source, like a battery (+ to p-type and - to n-type), to a semiconductor material, we are able to create a **forward bias**. So long as the added voltage sourced from the battery is **greater than** the `potential difference` of the `depletion region` (say 0.7V) the electrons will be able to move through the region and we will have a current. If the voltage source is too low, the electrons will lack the sufficient power to pass through the barrier of the depletion region.
+1. when we add a voltage source, like a battery **(+ to p-type and - to n-type)**, to a semiconductor material, we are able to create a `forward bias`. So long as the added voltage sourced from the battery is **greater than** the `potential difference` of the `depletion region` (say 0.7V) the electrons will be able to move through the region and we will have a current. If the voltage source is too low, the electrons will lack the sufficient power to pass through the barrier of the depletion region.
+1. `reverse bias` is when the source (a battery for instance) is connected to the semiconductor in a **(- to p-type and + to n-type)** configuration. The `reverse bias` results in the **electrons being pulled back to the positive terminal** and the **holes being pulled back to the negative terminal.**
+1. You have **two junctions** (both sides of the N where it meets the P material) in which the `potential difference` between the regions creates a field, or `depletion region`.
 
 ---
 
