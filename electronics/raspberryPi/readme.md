@@ -193,17 +193,17 @@
 1. what is a `volt`?
 1. one `amp` equals how many `coulombs`?
 1. what is a `conduction band`?
-<!-- 1. how does a `semiconductor's` electrons interact with conduction bands? -->
+1. how does a `semiconductor's` electrons interact with conduction bands?
 1. what are the two main types of `transistors`?
 1. what does the `bipolar transistor` (BJT) acronym break out to?
-1. what are the two functions `transistors` perform?
+1. what are the two functions `transistors` can provide?
 1. what are the protective case differences between small low power `transistors` and their higher power versions?
 1. higher power `transistors` are usually connected to what in order to dissipate heat?
 1. `transistors` have 3 pins, what are their letters and names?
 1. why do we use `transistors`?
 1. what is `current gain`?
 1. how can you use the `current gain` measurement to calculate the `Base` and `Collector` currents?
-1. what are the two (main) types of bi-polar transistors?
+1. what are the two (main) types of **bi-polar transistors**?
 1. describe the `NPN` transistor.
 1. describe the `PNP` transistor.
 1. what is `conventional current`?
@@ -257,7 +257,7 @@
 1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
 1. 1 amp = 1 coulomb.
 1. the `conduction band` is a band near the outer `valence shell` of an atom. If an electron is able to reach the `conduction band` it has the potential the break away from the atom it is bound to. In practical terms, a conductive material like copper has a `conduction band` that overlaps with it's `valence shell`, and as a consequence, the outer electron _can_ detach. Insulators, by contrast, have packed outer shells (no room for outside electrons to join), the nucleus has a tight grip on the electrons, and the `conduction band` does not overlap with the `valence shell`.
-<!-- 1. a `semiconductor` has **one too many electrons** in its outer shell, so it acts like an insulator. However, it's `conduction band` is close to the outer shell, so if we provide an outside force, like photons from light, we can knock the extra electron free and generate electricity. -->
+1. a `semiconductor` has **one too many electrons** in its outer shell, so it acts like an insulator. However, it's `conduction band` is close to the outer shell, so if we provide an outside force, like photons from light, we can knock the extra electron free and generate electricity. Therefor, this material can act as _both_ an insulator and a conductor.
 1. the two main types of `transistors` are `bipolar` and `field effect` transistors.
 1. BJT = Bipolar Junction Transistor.
 1. `transistors` can switch circuits on and off **and** amplify signals.
@@ -266,7 +266,7 @@
 1. the three pins on a `transistor` are **E (emitter) B (base) C (collector)**.
 1. we use `transistors` to help control (at an interval for example) the switch behavior of a circuit. An outside circuit can connect to the **B (base)** pin of the transistor and when a current is sent the transistor, it allows its primary current to travel across it.
 1. current **gain** is `beta (symbol) = collector current / base current`
-1. to find the `Base` current: `Collector current / gain`. To find the `Collector` current: `gain * Base current`.
+1. to find the `Base` current: `Collector current / current gain`. To find the `Collector` current: `current gain * Base current`.
 1. `NPN` and `PNP`.
 1. current **combines** in `NPN` transistors. `Collector (C)` is connected to the `cathode (-)` of the battery with conventional current flowing through it. The `Collector (C)` and `Base (B)` pins and outputs (a combined current) in the `Emitter (E)` pin.
 1. current **divides** in `PNP` transistors. `Emitter (E)` is connected to the `anode (+)` of the battery with conventional current flowing through it. Current flow in through the `E` pin, and divides among the `C` and `B` pins.
@@ -276,7 +276,7 @@
 1. in `NPN` transistors, (`n` and `p` referring to the semiconductor type), the `B (Base) pin` is connected to the `P-type semiconductor`.
 1. `covalent bonding` is when two atoms (silicon for instance) want to satisfy their outer (valence) shell's electron count. To do this, they pair --or share, a bond with the silicon next to it which also has missing electrons. Together, through sharing, the reach their desired electron count.
 1. doping in electronics typically occurs with silicon, so we will use that example. Silicon wants to satisfy it's valence shell's electron count. It can do this through `covalent bonding`. We can dope the **(n-type)** semiconductor with phosphorus atoms, which has enough outer electrons satisfy the four surrounding silicon atoms' valence electron needs, and also have the extra free flowing electron freely move around the material. Conversely, with **(p-type)** doping, we add a material like aluminum that has one too few electrons in its outer shell. This means that for the four surrounding silicon atoms, one won't be able to satisfy its valence shell electron count and now there is a "hole" where an electron should be.
-1. the **"Depletion region"**. In this region, the extra free-floating electrons from the `n-type` semiconductor material translate over to the `p-type` semiconductor material to satisfy the missing electron requirements of the semiconductor material's silicon valence shells (the holes created by the doping of aluminum and silicon). Due to their charge differences they create slightly negatively and positively charged region. This process creates a small electrical field which **prevents** more electrons from translating across. The `potential difference` in this region is typically around 0.7V.
+1. the **"Depletion region"**. In this region, the extra free-floating electrons from the `n-type` semiconductor material translate over to the `p-type` semiconductor material to satisfy the missing electron requirements of the semiconductor material's silicon valence shells (the holes created by the doping of aluminum and silicon). Due to their charge differences they create slightly negatively and positively charged region, or an **electric field**. This process creates a small **electrical field** which **prevents** more electrons from translating across. The `potential difference` in this region is typically around 0.7V.
 1. when we add a voltage source, like a battery **(+ to p-type and - to n-type)**, to a semiconductor material, we are able to create a `forward bias`. So long as the added voltage sourced from the battery is **greater than** the `potential difference` of the `depletion region` (say 0.7V) the electrons will be able to move through the region and we will have a current. If the voltage source is too low, the electrons will lack the sufficient power to overcome the `potential difference` and no longer pass through the barrier of the depletion region.
 1. `reverse bias` is when the source (a battery for instance) is connected to the semiconductor in a **(- to p-type and + to n-type)** configuration. The `reverse bias` results in the **electrons being pulled back to the positive terminal** and the **holes being pulled back to the negative terminal.**
 1. You have **two junctions** (both sides of the N where it meets the P material) in which the `potential difference` between the regions creates a field, or `depletion region`.
