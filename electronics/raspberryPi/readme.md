@@ -152,17 +152,12 @@
 
 ---
 
-#### Electronics Questions
+## Electronics Questions
 
 1. what is an `anode`?
 1. what is a `cathode`?
 1. what is a `main circuit` and a `control circuit`?
 1. what is a `switch`?
-1. what is a `semiconductor`?
-1. what is "doping" in relation to `semiconductors`?
-1. describe the difference between a `p-type semiconductor` and an `n-type semiconductor`
-1. what is a `transistor`?
-1. what is the place where the two semiconductor materials (p and n type) come into contact called?
 1. describe the atomic characteristics that make an `insulator` different from a `conductor`.
 1. how does a `semiconductor` behave in comparison to `insulators` and `conductors`?
 1. describe `low resistance` and `high resistance` in electrical circuits.
@@ -192,41 +187,13 @@
 1. should you be careful when working with `capacitors`?
 1. what is a `volt`?
 1. one `amp` equals how many `coulombs`?
-1. what is a `conduction band`?
-1. how does a `semiconductor's` electrons interact with conduction bands?
-1. what are the two main types of `transistors`?
-1. what does the `bipolar transistor` (BJT) acronym break out to?
-1. what are the two functions `transistors` can provide?
-1. what are the protective case differences between small low power `transistors` and their higher power versions?
-1. higher power `transistors` are usually connected to what in order to dissipate heat?
-1. `transistors` have 3 pins, what are their letters and names?
-1. why do we use `transistors`?
-1. what is `current gain`?
-1. how can you use the `current gain` measurement to calculate the `Base` and `Collector` currents?
-1. what are the two (main) types of **bi-polar transistors**?
-1. describe the `NPN` transistor.
-1. describe the `PNP` transistor.
-1. what is `conventional current`?
-1. is `conventional current` correct? What is the correct flow and name?
-1. designs and diagrams always use what current flow?
-1. the `NPN` and `PNP` transistor types refer back to the semiconductor materials doped to create them. Which pins fit into which semiconductor materials in the two designs.
-1. what is `covalent bonding`?
-1. explain `p-type` and `n-type` doping.
-1. regarding the `p-n junction`, where the `p` and `n` type semiconductor materials meet is also called what? What happens there automatically?
-1. what happens when we connect a voltage source (like a battery) to the semiconductor? What special factors need to be considered regarding its voltage to create `forward bias`?
-1. explain `reverse bias` and how it's created.
-1. explain how the `NPN` transistor works at the semiconductor level.
 
-#### Electronics Answers
+## Electronics Answers
 
 1. an `anode`, positive charge, is the `electrode` where electricity moves into.
 1. The `cathode`, negative charge, is the `electrode` where electricity is given out or flows out.
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
 1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
-1. A `semiconductor` is a material that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
-1. A `semiconductor's` conductivity and other properties can be altered with the introduction of impurities, **called doping**, to meet the specific needs of the electronic component in which it resides.
-1. A `transistor` is a type of a semiconductor device that can be used to both conduct and insulate electric current or voltage. A `transistor` basically acts as a switch and an amplifier. **In simple words, we can say that a `transistor` is a miniature device that is used to control or regulate the flow of electronic signals.**
-1. the space where a `p` and an `n` type semiconductor materials touch is the `p-n junction`.
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from conductive atom to conductive atom.
 1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of it's electrons** and it performs like an `conductor`.
 1. Typically, `low resistance` in the electrical testing industry is referring to any resistance values below 1 ohm. **The lower the resistance, the higher the current flow.**
@@ -256,6 +223,44 @@
 1. yes, `capacitors` hold large voltages even for a long time after being disconnected from a circuit.
 1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
 1. 1 amp = 1 coulomb.
+
+### Transistor Questions
+
+1. what is a `semiconductor`?
+1. what is **"doping"** in relation to `semiconductors`?
+1. what is a `transistor`?
+1. what is the place where the two semiconductor materials (p and n type) come into contact called?
+1. what is a `conduction band`?
+1. how does a `semiconductor's` electrons interact with conduction bands?
+1. what are the two main types of `transistors`?
+1. what does the `bipolar transistor` (BJT) acronym break out to?
+1. what are the two functions `transistors` can provide?
+1. what are the protective case differences between small low power `transistors` and their higher power versions?
+1. higher power `transistors` are usually connected to what in order to dissipate heat?
+1. `transistors` have 3 pins, what are their letters and names?
+1. why do we use `transistors`?
+1. what is `current gain`?
+1. how can you use the `current gain` measurement to calculate the `Base` and `Collector` currents?
+1. what are the two (main) types of **bi-polar transistors**?
+1. describe the `NPN` transistor.
+1. describe the `PNP` transistor.
+1. what is `conventional current`?
+1. is `conventional current` correct? What is the correct flow and name?
+1. designs and diagrams always use what current flow?
+1. the `NPN` and `PNP` transistor types refer back to the semiconductor materials doped to create them. Which pins fit into which semiconductor materials in the two designs.
+1. what is `covalent bonding`?
+1. explain `p-type` and `n-type` doping.
+1. regarding the `p-n junction`, where the `p` and `n` type semiconductor materials meet is also called what? What happens there automatically?
+1. what happens when we connect a voltage source (like a battery) to the semiconductor? What special factors need to be considered regarding its voltage to create `forward bias`?
+1. explain `reverse bias` and how it's created.
+1. explain how the `NPN` transistor works at the semiconductor level.
+
+### Transistor Answers
+
+1. A `semiconductor` is a material that has specific electrical properties that enable it to serve as a foundation for computers and other electronic devices. A `semiconductor` is a material product **usually comprised of silicon**, which conducts electricity _more_ than an insulator, such as glass, but _less_ than a pure conductor, such as copper or aluminum.
+1. A `semiconductor's` conductivity and other properties can be altered with the introduction of impurities, **called doping**, to meet the specific needs of the electronic component in which it resides.
+1. A `transistor` is a type of a semiconductor device that can be used to both conduct and insulate electric current or voltage. A `transistor` basically acts as a switch and/or an amplifier. **In simple words, we can say that a `transistor` is a miniature device that is used to control or regulate the flow of electronic signals.**
+1. the space where a `p` and an `n` type semiconductor materials touch is the `p-n junction`.
 1. the `conduction band` is a band near the outer `valence shell` of an atom. If an electron is able to reach the `conduction band` it has the potential the break away from the atom it is bound to. In practical terms, a conductive material like copper has a `conduction band` that overlaps with it's `valence shell`, and as a consequence, the outer electron _can_ detach. Insulators, by contrast, have packed outer shells (no room for outside electrons to join), the nucleus has a tight grip on the electrons, and the `conduction band` does not overlap with the `valence shell`.
 1. a `semiconductor` has **one too many electrons** in its outer shell, so it acts like an insulator. However, it's `conduction band` is close to the outer shell, so if we provide an outside force, like photons from light, we can knock the extra electron free and generate electricity. Therefor, this material can act as _both_ an insulator and a conductor.
 1. the two main types of `transistors` are `bipolar` and `field effect` transistors.
