@@ -238,6 +238,7 @@
 1. what are the protective case differences between small low power `transistors` and their higher power versions?
 1. higher power `transistors` are usually connected to what in order to dissipate heat?
 1. `transistors` have 3 pins, what are their letters and names?
+1. do **all** transistors use the EBC pin configuration
 1. why do we use `transistors`?
 1. what is `current gain`?
 1. how can you use the `current gain` measurement to calculate the `Base` and `Collector` currents?
@@ -269,8 +270,9 @@
 1. both the low and high power transistors have a resin case to help protect the internal parts of the `transistor`. However, the higher power `transistors` will have a partial metal case to help dissipate heat.
 1. higher power `transistors` are often attached to `heat sinks` to help dissipate their heat.
 1. the three pins on a `transistor` are **E (emitter) B (base) C (collector)**.
+1. no, some transistors _can_ have different PIN configurations. Check the manufacturers datasheet to confirm.
 1. we use `transistors` to help control (at an interval for example) the switch behavior of a circuit. An outside circuit can connect to the **B (base)** pin of the transistor and when a current is sent the transistor, it allows its primary current to travel across it.
-1. current **gain** is `beta (symbol) = collector current / base current`
+1. `current gain` is `beta (symbol) = collector current / base current`. We can use `current gain` to measure the amount of gain (or amplification) between a circuit connected to the base pin and it's gain via the collector circuit.
 1. to find the `Base` current: `Collector current / current gain`. To find the `Collector` current: `current gain * Base current`.
 1. `NPN` and `PNP`.
 1. current **combines** in `NPN` transistors. `Collector (C)` is connected to the `cathode (-)` of the battery with conventional current flowing through it. The `Collector (C)` and `Base (B)` pins and outputs (a combined current) in the `Emitter (E)` pin.
@@ -285,6 +287,52 @@
 1. when we add a voltage source, like a battery **(+ to p-type and - to n-type)**, to a semiconductor material, we are able to create a `forward bias`. So long as the added voltage sourced from the battery is **greater than** the `potential difference` of the `depletion region` (say 0.7V) the electrons will be able to move through the region and we will have a current. If the voltage source is too low, the electrons will lack the sufficient power to overcome the `potential difference` and no longer pass through the barrier of the depletion region.
 1. `reverse bias` is when the source (a battery for instance) is connected to the semiconductor in a **(- to p-type and + to n-type)** configuration. The `reverse bias` results in the **electrons being pulled back to the positive terminal** and the **holes being pulled back to the negative terminal.**
 1. You have **two junctions** (both sides of the N where it meets the P material) in which the `potential difference` between the regions creates a field, or `depletion region`.
+
+### Battery Questions
+
+1. how is energy stored in a battery, how is it output when needed?
+1. when connecting a battery's terminals to a circuit, what happens?
+1. battery life depends on what two factors?
+1. what is load?
+1. what is the positive terminal of a battery called?
+1. what is the negative terminal of a battery called?
+1. are the anode and cathode electrically isolated from each other?
+1. what is the general anatomy of a battery?
+1. do the positive and negative terminals on a battery touch?
+1. how is voltage important regarding electrons?
+1. what is an `ion`?
+1. whats the difference between a neutral, positive, and negative ion?
+1. the chemical reactions in the battery cause what?
+1. do the electrons returning back into the `cathode` do anything?
+1. what two ways can batteries be combined?
+1. what happens when we connect batteries in a `series`?
+1. what happens when we connect batteries in a `parallel`?
+1. what benefits does `parallel` battery configuration have?
+1. what does `2500 mAH` mean?
+1. what formula can you use to determine battery life?
+
+### Battery Answers
+
+1. batteries store energy as **chemical energy** and release it as **electrical energy**.
+1. provided there is sufficient chemical energy stored, the battery provides pushing energy (volts) to move electrons across the circuit.
+1. battery life depends on how much energy is stored in the battery and how much energy is demanded by the load.
+1. load is any component along a circuit that requires electricity to work.
+1. the positive terminal of a battery is called the `cathode`.
+1. the negative terminal of a battery is called the `anode`.
+1. yes, the anode and cathode are electrically isolated from each other.
+1. typically, from the outside in, you have a steel casing with nickle plating which servers as a barrier from outside elements. Then, you have the **anode material** along the internal outside of the battery (often comprised of manganese oxide and graphite). The next layer is a thin fibrous barrier that prevents the previously mentioned anode and deeper cathode materials from coming in contact. This fibrous material has microscopic holes that allows ions to pass through it. During manufacture, alkaline material (hence name) is sprayed inside the fibrous material. Lastly, the cathode or core of the battery is added comprised of a zinc powder and gelling agent. A nylon cap is added to the bottom of the battery (anode terminal) with a brass pin and a steel cap.
+1. no, the positive terminal (cathode) accounts for nearly the entire steel casing. However, the nylon casing added to the bottom of the battery provides a separation between the anode's steel casing the steel casing of the battery proper.
+1. without voltage, free floating electrons will move around in random directions. Voltage provides a current or force to move the previously free floating electrons down a controlled path.
+1. `ions` are simply atoms with an **unequal** amount of protons or neutrons.
+1. a neutral ion has equal protons and electrons, positive has more protons, and negative has more elections.
+1. the chemical reactions in the battery cause a build up of electrons in the brass pin of the `anode` or negative terminal. This build up of electrons in the `anode` results in a voltage difference between the `anode` and `cathode`. Electrons repel eachother (- -), they want to spread out, they need a route to reach the `cathode` --a conductive path, or circuit allows that.
+1. yes, the electrons returning back through the `cathode` trigger chemical reactions that eventually result in more electrons being moved into the brass pin and passed into the `anode` and thus back into the conductive wire.
+1. batteries can be combined in `series` (vertically) or in `parallel` (side-by-side in same orientation).
+1. when we connect batteries in a `series` (vertically) the voltage of each battery is added together.
+1. when we connect batteries in a `parallel` (side-by-side in same orientation) the voltage of each battery remains the same. This happens because the **paths merge at the supply (anodes connected together) and then splits at the return (path splits into each cathode)**
+1. `parallel` configuration provides longer lifespan (higher capacity) of batteries with a larger current.
+1. the battery can provide 2,500 milliamps of power for one hour, or 1,250 milliamps of power for 2 hours, and so on. However, this measurements are perfectly accurate since, as time goes on, the chemical reaction of the battery slows. Age, temperature, etc. also impact the lifespan.
+1. `battery life = Capacity (mAh) / Circuit Current (mA)`
 
 ---
 
