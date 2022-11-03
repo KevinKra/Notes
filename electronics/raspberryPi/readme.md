@@ -190,8 +190,8 @@
 
 ## Electronics Answers
 
-1. an `anode`, positive charge, is the `electrode` where electricity moves into.
-1. The `cathode`, negative charge, is the `electrode` where electricity is given out or flows out.
+1. an `anode`, negative charge, is the `electrode` where electricons flow out.
+1. The `cathode`, positive charge, is the `electrode` where electricity is given in or flows in.
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
 1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from conductive atom to conductive atom.
