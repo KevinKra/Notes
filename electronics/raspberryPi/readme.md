@@ -224,6 +224,34 @@
 1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
 1. 1 amp = 1 coulomb.
 
+### Inductor Questions
+
+1. what is an `inductor`?
+1. what is an `inductors` main utility?
+1. regarding, water, what is an `inductor` like?
+1. explain the relation, in terms of water, of the `inductor` and a resistive path.
+1. what causes `inductors` to work?
+1. what happens if we change the flow of current in a wire?
+1. what happens if we add more current to a wire?
+1. coiling an `inductor` does what?
+1. what do `inductors` look like?
+1. what can `inductors` be used for?
+1. how is `inductance` measured?
+
+### Inductor Answers
+
+1. an `inductor` is a component in an electrical circuit that stores energy in its magnetic field. It can release this energy almost instantly.
+1. `inductors` can release energy almost instantly.
+1. an `inductor` is like a water wheel, where it takes time to move but gradually collects energy and captures it in it's spin.
+1. using the water analogy and the `inductor` serving as a water wheel, as water flows through a split in the pipe it has two choices, the path with resistance, or the path with the `inductor`. At first, the `inductor` requires too much energy to spin (water wheel), so the water flows through the resistive path (think an LED). Eventually, the water is able to push the wheel and flow freely; once that happens the path with the wheel (inductor) provides less resistance than the resistive path and now the resistive path becomes secondary to the `induction` supporting path. If the water source is turned off, the `inductor` while continue to work (and move the current) for a short period of time due to the energy stored.
+1. when we pass current (electrons) through a conductive path it generates a magnetic field (all those negatively charged electrons) and increase in size up to its maximum.
+1. if we change the flow of current, the magnetic fields reverse.
+1. if we add more current, the magnetic field gets larger.
+1. by coiling a wire (`inductor`) we create a larger magnetic field around the wire.
+1. in circuit boards, inductors look like copper wire wrapped around a ring. Sometimes they have casing to shield the magnetic current and prevent interacting with other components.
+1. `inductors` can be used to boost converters to increase DC voltage output. They can be used to choke AC supply and allow only DC to pass. They can be used to filter and separate difference frequencies. Used in transformers, motors, and relays.
+1. in units of **Henry (H)**. `1H = 1V of EMF cross the inductor with 1 Ampere of current.`
+
 ### Transistor Questions
 
 1. what is a `semiconductor`?
