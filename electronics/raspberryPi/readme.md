@@ -156,6 +156,7 @@
 
 1. what is an `anode`?
 1. what is a `cathode`?
+1. what is an `electrode`?
 1. what is a `main circuit` and a `control circuit`?
 1. what is a `switch`?
 1. describe the atomic characteristics that make an `insulator` different from a `conductor`.
@@ -190,8 +191,10 @@
 
 ## Electronics Answers
 
-1. an `anode`, negative charge, is the `electrode` where electricons flow out.
+1. an `anode`, negative charge, is the `electrode` where electrons flow out.
 1. The `cathode`, positive charge, is the `electrode` where electricity is given in or flows in.
+1. an `electrode` is a conductor through which electricity enters or leaves an object, substance, or region. `anode` and `cathode` are used to describe current flow in relation to the `electrode`.
+1. a `dielectric` material is a material which serves as an insulator. There are solid, liquid, and gas `dielectric` materials. Ceramic, plastic, distilled water, nitrogen, vacuum, so on.
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
 1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from conductive atom to conductive atom.
@@ -208,7 +211,7 @@
 1. a `capacitor` is like a `battery`, however it stores electric charge in an **electric field** as opposed to in a **chemical solution**.
 1. a `capacitor` charges and discharges faster than a `battery`.
 1. `capacitors` help to smooth out disruptions of electrical supply. In an abstract sense, it serves like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current for a duration until the outside source returns.
-1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum. The layers (from outside in) consist of a protective case, a `dielectric` material (often ceramic), and an `electrode`.
+1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum, sandwiching a `dielectric` material (often ceramic). The layers (from outside in) consist of a protective case, an `electrode`, a dielectric layer, and an `electrode`.
 1. a `dielectric` material is a poor conductor of electricity (electrons cant pass through) but an efficient supporter of electrostatic fields. It can store electrical charges, have a high specific resistance, and a negative temperature coefficient of resistance. _"It will polarize when it comes in contact with an electric field."_
 1. `Electrodes` and `electrode materials`, are metals and other substances used in the makeup of electrical components. They are used to make contact with a nonmetallic part of a circuit, and are the materials in a system through which an electrical current is transferred.
 1. a stripe on a `capacitor` indicates the negative terminal.
