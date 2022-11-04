@@ -198,6 +198,8 @@
 1. what utility does a `capacitor` provide to an electrical circuit?
 1. what is the physical structure of a `capacitor`?
 1. on a `capacitor`, what indicates the negative terminal?
+1. when we pass electrons into the negative terminal of a `capacitor` what happens?
+1. at what point will electrons stop flowing from the `battery` to the `capacitor`?
 1. what is `potential`?
 1. what is a `multimeter` and how can `voltage` be described as pressure?
 1. what needs to happen for the `capacitor` to stop supplying charge?
@@ -219,6 +221,8 @@
 1. `capacitors` help to smooth out disruptions of electrical supply. In an abstract sense, it serves like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current for a duration until the outside source returns.
 1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum, sandwiching a `dielectric` material (often ceramic). The layers (from outside in) consist of a protective case, an `electrode`, a dielectric layer, and an `electrode`.
 1. a stripe on a `capacitor` indicates the negative terminal.
+1. when we connect a `battery` to a `capacitor`, current moves from the `anode` of the battery to one plate on the capacitor. The electrons will build up on that plate while `electrons` on the other plate discharge from the `capacitor`. Electrons can't pass across the `capacitor` because of the insulating material.
+1. once the `capacitor` has the **same voltage** as the `battery`, electrons will stop flowing. Now that one of the `capacitor's` plates is full of electrons (charge), we can release this stored energy later. This gives us a difference in **potential**, or a **voltage difference** between both sides (- electron filled plate and empty positive plate),
 1. electrical `potential` is the difference in charge between the positive and negative sides of a component.
 1. a `multimeter` can be used to detect voltage and other electrical characteristics like resistance and current. Using pressure as an analogy, one end of a battery has more pressure then the other end, like water in a pipe.
 1. when the positive and negative charges on the electrodes are equal, the flow of electrons motivated by the `capacitor` stop moving (no more current).
