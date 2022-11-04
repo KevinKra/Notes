@@ -154,9 +154,6 @@
 
 ## Electronics Questions
 
-1. what is an `anode`?
-1. what is a `cathode`?
-1. what is an `electrode`?
 1. what is a `main circuit` and a `control circuit`?
 1. what is a `switch`?
 1. describe the atomic characteristics that make an `insulator` different from a `conductor`.
@@ -169,32 +166,11 @@
 1. what calculation can you use to determine `ohms`? -- `voltage / amps = ohms`
 1. what calculation can you use to determine `amps`? -- `voltage / ohms = amps`
 1. what is a use case for an `infrared emitter` and `receiver`?
-1. what is a `capacitor`?
-1. what is a `capacitor` like, how is it different?
-1. what charges and discharges faster, a `capacitor` or a `battery`?
-1. what utility does a `capacitor` provide to an electrical circuit?
-1. what is the physical structure of a `capacitor`?
-1. what is a `dielectric` material?
-1. what is a `electrode` material?
-1. on a `capacitor`, what indicates the negative terminal?
-1. what is `potential`?
-1. what is a `multimeter` and how can `voltage` be described as pressure?
-1. what needs to happen for the `capacitor` to stop supplying charge?
-1. what is `capacitance` and how is it measured?
-1. the voltage (V) value on the capacitor describes what?
-1. what happens to a `capacitor` if you exceed its maximum voltage?
-1. why do we use `capacitors`?
-1. what is `induction`?
-1. should you be careful when working with `capacitors`?
 1. what is a `volt`?
 1. one `amp` equals how many `coulombs`?
 
 ## Electronics Answers
 
-1. an `anode`, negative charge, is the `electrode` where electrons flow out.
-1. The `cathode`, positive charge, is the `electrode` where electricity is given in or flows in.
-1. an `electrode` is a conductor through which electricity enters or leaves an object, substance, or region. `anode` and `cathode` are used to describe current flow in relation to the `electrode`.
-1. a `dielectric` material is a material which serves as an insulator. There are solid, liquid, and gas `dielectric` materials. Ceramic, plastic, distilled water, nitrogen, vacuum, so on.
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
 1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
 1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from conductive atom to conductive atom.
@@ -207,13 +183,41 @@
 1. to calculate `ohms`: `voltage / amps = ohms`
 1. to calculate `amps`: `voltage / ohms = amps`
 1. using an `infrared emitter` and `receiver` can help simplify testing and development since you don't need to protect against visible light.
+1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
+1. 1 amp = 1 coulomb.
+
+### Capacitor Questions
+
+1. what is a `capacitor`?
+1. what is a `capacitor` like, how is it different?
+1. what is an `anode`?
+1. what is a `cathode`?
+1. what is an `electrode`?
+1. what is a `dielectric` material?
+1. what charges and discharges faster, a `capacitor` or a `battery`?
+1. what utility does a `capacitor` provide to an electrical circuit?
+1. what is the physical structure of a `capacitor`?
+1. on a `capacitor`, what indicates the negative terminal?
+1. what is `potential`?
+1. what is a `multimeter` and how can `voltage` be described as pressure?
+1. what needs to happen for the `capacitor` to stop supplying charge?
+1. what is `capacitance` and how is it measured?
+1. the **voltage (V)** value on the capacitor describes what?
+1. what happens to a `capacitor` if you exceed its maximum voltage?
+1. why do we use `capacitors`?
+1. should you be careful when working with `capacitors`?
+
+### Capacitor Answers
+
 1. a `capacitor` stores electric charge.
 1. a `capacitor` is like a `battery`, however it stores electric charge in an **electric field** as opposed to in a **chemical solution**.
+1. an `anode`, negative charge, is the `electrode` where electrons flow out.
+1. The `cathode`, positive charge, is the `electrode` where electricity is given in or flows in.
+1. an `electrode` is a conductor through which electricity enters or leaves an object, substance, or region. `anode` and `cathode` are used to describe current flow in relation to the `electrode`.
+1. a `dielectric` material is a material which serves as an insulator, or electrons cannot pass. There are solid, liquid, and gas `dielectric` materials. Ceramic, plastic, distilled water, nitrogen, vacuum, so on.
 1. a `capacitor` charges and discharges faster than a `battery`.
 1. `capacitors` help to smooth out disruptions of electrical supply. In an abstract sense, it serves like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current for a duration until the outside source returns.
 1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum, sandwiching a `dielectric` material (often ceramic). The layers (from outside in) consist of a protective case, an `electrode`, a dielectric layer, and an `electrode`.
-1. a `dielectric` material is a poor conductor of electricity (electrons cant pass through) but an efficient supporter of electrostatic fields. It can store electrical charges, have a high specific resistance, and a negative temperature coefficient of resistance. _"It will polarize when it comes in contact with an electric field."_
-1. `Electrodes` and `electrode materials`, are metals and other substances used in the makeup of electrical components. They are used to make contact with a nonmetallic part of a circuit, and are the materials in a system through which an electrical current is transferred.
 1. a stripe on a `capacitor` indicates the negative terminal.
 1. electrical `potential` is the difference in charge between the positive and negative sides of a component.
 1. a `multimeter` can be used to detect voltage and other electrical characteristics like resistance and current. Using pressure as an analogy, one end of a battery has more pressure then the other end, like water in a pipe.
@@ -222,10 +226,7 @@
 1. the voltage value on a `capacitor` describes **the maximum number of volts** a `capacitor` can handle.
 1. it explodes.
 1. one of the most common applications in large buildings is to use a `capacitor bank` to provide "power factor correction". They're also used to smooth out peaks between ac-to-dc conversion.
-1. when enough current passes through a coil it creates `induction` which is the process of creating a magnetic field.
 1. yes, `capacitors` hold large voltages even for a long time after being disconnected from a circuit.
-1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
-1. 1 amp = 1 coulomb.
 
 ### Inductor Questions
 
@@ -240,6 +241,7 @@
 1. what do `inductors` look like?
 1. what can `inductors` be used for?
 1. how is `inductance` measured?
+1. what is `induction`?
 
 ### Inductor Answers
 
@@ -254,6 +256,7 @@
 1. in circuit boards, inductors look like copper wire wrapped around a ring. Sometimes they have casing to shield the magnetic current and prevent interacting with other components.
 1. `inductors` can be used to boost converters to increase DC voltage output. They can be used to choke AC supply and allow only DC to pass. They can be used to filter and separate difference frequencies. Used in transformers, motors, and relays.
 1. in units of **Henry (H)**. `1H = 1V of EMF cross the inductor with 1 Ampere of current.`
+1. when enough current passes through a coil it creates `induction` which is the process of creating a magnetic field.
 
 ### Transistor Questions
 
