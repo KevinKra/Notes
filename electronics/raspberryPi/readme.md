@@ -186,6 +186,29 @@
 1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
 1. 1 amp = 1 coulomb.
 
+### Solenoid Valve Questions
+
+1. what do `solenoid valves` do?
+1. a `solenoid valve` is comprised of two parts, what are they?
+1. how does the `solenoid` work?
+1. what dictates the shape variations in a solenoid valve?
+1. how does a "direct operated valve" work?
+1. what is an `NO valve` and a `NC valve`?
+1. how does the electromagnetic field work with a `NC valve`?
+1. how does the electromagnetic field work with a `NO valve`?
+
+### Solenoid Valve Answers
+
+1. `solenoid valves` are used to convert electrical energy into mechanical energy.
+1. a `solenoid valve` consists of a `solenoid` and a `valve`.
+1. what do the shape variations of a `solenoid valve` depend on?
+1. the `solenoid` allows an electric current to pass through and move through a `solenoid coil` which generates an **electromagnetic field**.
+1. the shape variations of a `solenoid valve` depend on the capacity of the valve, the pressure its working on, and the different internal mechanisms.
+1. a "direct operated valve has a `solenoid coil` in the solenoid and either a `NO valve` or a `NC valve`. The coil completely surrounds a pillar called an `armature` so that it's located at the center of the electromagnetic field. Inside the `armature` is a `plunger` and `spring`.
+1. `NO valve` is a normally open valve, whereas a `NC valve` is a normally closed valve.
+1. the electromagnetic field, generated via induction by the coil, passes into the `plunger` and pulls it upwards against the `spring`, thus opening the valve. The `plunger` is placed in the center of the `armature` because the EF is strongest there.
+1. the electromagnetic field, generated via induction by the coil, passes into the `spring` (which normally holds the plunger up) and pushes the `plunger` down.
+
 ### Diode Questions
 
 1. what does a `diode` look like?
