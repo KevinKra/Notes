@@ -201,7 +201,6 @@
 
 1. `solenoid valves` are used to convert electrical energy into mechanical energy.
 1. a `solenoid valve` consists of a `solenoid` and a `valve`.
-1. what do the shape variations of a `solenoid valve` depend on?
 1. the `solenoid` allows an electric current to pass through and move through a `solenoid coil` which generates an **electromagnetic field**.
 1. the shape variations of a `solenoid valve` depend on the capacity of the valve, the pressure its working on, and the different internal mechanisms.
 1. a "direct operated valve has a `solenoid coil` in the solenoid and either a `NO valve` or a `NC valve`. The coil completely surrounds a pillar called an `armature` so that it's located at the center of the electromagnetic field. Inside the `armature` is a `plunger` and `spring`.
