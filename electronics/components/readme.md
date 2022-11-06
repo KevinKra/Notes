@@ -412,12 +412,40 @@
 1. what does a `FWBR` look like?
 1. what configuration do `FWBR` diodes often come in?
 1. an `FWBR` converts current from what, to what?
+1. what would you use to convert DC to AC?
+1. what is a `half-wave rectifier circuit`?
+1. is a `half-wave rectifier` circuit useful at all?
+1. how could a `center tapped transformer` be used within a `full-wave rectifier` using two `diodes`?
+1. what is the most common form of a `full-wave rectifier`?
+1. what can you use to smooth a DC ripple?
+1. how does a `capacitor` even out the DC ripples?
+1. will adding a `capacitor` completely smooth out the DC ripples?
+1. what should we place following a `capacitor`, to keep us safe?
+1. why would the voltage drop from the AC input to the DC output?
+1. if we place a `capacitor` after the `rectifier`, would the output DC voltage now be higher than the input AC voltage? How is that possible?
+1. what other components could you use to even out the DC voltage?
 
 ### Full Wave Bridge Rectifier Answers
 
 1. `FWBR` have many different appearances, but typically consist of 4 `diodes`.
 1. `FWBR` diodes typically form in a diamond pattern, but they can be aligned in other ways.
 1. `FWBR` converts AC to DC (opposite of an `inverter`).
+1. an `inverter`.
+1. a `half-wave rectifier` circuit is a circuit where a `diode` blocks one of the AC patterns from the AC generator. The output is _technically_ DC because electrons are only flowing along the circuit in **one direction** (due to the `diode` preventing both directions of AC). Using an `oscilloscope` you would only see the positive, or the negative (`diode` orientation), parts of the sine wave from the AC current. Note: whatever orientation (negative or positive) of DC current we have, it wouldn't be very good DC current due to it _not_ being a flat positive line.
+1. while not ideal universally, a `half-wave rectifier` circuit _could_ be useful for simple circuits where you're powering a lightbulb or battery. Though, it is **not** useful for circuit boards that need a constant DC current.
+1. a `center tapped transformer` just has another wire on the secondary side of the `transformer` that is connected to the **center** of the coil. The current flows in through the first `diode`, through the `load`, and out trough the `center tapped transformer`. We can use another `diode` to prevent the AC from traveling back through the `center tapped transformer`. With this setup, **only half** of the `transformer` coil is therefor being used at a given time. As the current alternates, the current flows in just one direction to the `load` creating a positive-only sine wave (still not flat) where the negative half of the AC has been converted into a positive half.
+1. the most common form of a `full-wave rectifier` is a rectifier using **four** diodes.
+1. you can use a `capacitor`, in parallel to the load, to smooth a DC ripple.
+1. as the voltage decreases in the DC ripple, the capacitor having a higher voltage, discharges electrons which helps even out the wave. As the wave increases, it stores the extra electrons.
+1. no, adding a `capacitor` will only _help_ reduce the crests and troughs of a wave. Adding a larger `capacitor`, and/or multiple `capacitors`, only further reduces it. The approach **does not** result in a fully smooth DC current.
+1. following the `capacitor` we should place a `bleeder resistor` across the output; this is a high-value capacitor that will drain the `capacitor` as the circuit is off for safety. Effectively, the `bleeder resistor` rapidly discharges the `capacitor` much faster than otherwise.
+1. the `diodes` used in the rectifier have a `load`, or cause "voltage drop".
+1. it's not really higher, it's simply the format used to measure AC voltage (RMS) doesn't return the **peak voltage**. A `multimeter` reads the **Vrms not peak voltage** (Vrms is like an average from the sine wave) from an AC input. Capacitors charge up to the **peak voltage** and then release. Note: this **peak voltage** is less than the original **peak voltage** because of the voltage drop caused by the `diodes` earlier in the circuit.
+1. `inductors` and voltage `regulators` can also be used to even out the DC voltage.
+
+### Transformer Questions
+
+### Transformer Answers
 
 ---
 
