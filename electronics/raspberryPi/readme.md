@@ -359,8 +359,8 @@
 1. `current gain` is `beta (symbol) = collector current / base current`. We can use `current gain` to measure the amount of gain (or amplification) between a circuit connected to the base pin and it's gain via the collector circuit.
 1. to find the `Base` current: `Collector current / current gain`. To find the `Collector` current: `current gain * Base current`.
 1. `NPN` and `PNP`.
-1. current **combines** in `NPN` transistors. `Collector (C)` is connected to the `cathode (-)` of the battery with conventional current flowing through it. The `Collector (C)` and `Base (B)` pins and outputs (a combined current) in the `Emitter (E)` pin.
-1. current **divides** in `PNP` transistors. `Emitter (E)` is connected to the `anode (+)` of the battery with conventional current flowing through it. Current flow in through the `E` pin, and divides among the `C` and `B` pins.
+1. current **combines** in `NPN` transistors. The `Collector (C)` pin is connected to the `cathode (+)` of the battery **creating a reverse bias**. The higher the voltage of the `Base (B)` pin, the more "open" the transistor becomes meaning more electrons and current moving into the p-type (B pin) layer and also more electrons are pulled across the reverse bias and out the `Collector`; we also see more electrons flowing in through the `emitter` then out the `collector`. The `Collector (C)` and `Base (B)` pins current combines and outputs via the `Emitter (E)` pin.
+1. current **divides** in `PNP` transistors. `Emitter (E)` is connected to the `anode (-)` of the battery. Current flow in through the `E` pin, and divides among the `C` and `B` pins.
 1. `conventional current` is the flow of electrical current from + positive to - negative.
 1. it was assumed that `conventional current` was correct, aka electrons flow from `+` to `-`. However, it was proven that electrons _actually_ flow from `-` to `+`. This is called `electron flow`.
 1. designs and diagrams always show `conventional current`, however engineers really know that `electron flow` (the opposite) current is what's truly happening.
