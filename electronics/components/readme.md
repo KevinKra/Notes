@@ -445,7 +445,55 @@
 
 ### Transformer Questions
 
+1. what is a `transformer`?
+1. do `transformers` work with alternating **and** direct current?
+1. what are `transformers` comprised of?
+1. what are the two sides of a `transformer`, what are they connected to?
+1. what are two types of `transformers`?
+1. what does a "step up transformer" do?
+1. what does a "step down transformer" do?
+1. what is a use case for a "step up transformer"?
+1. what is a use case for a "step down transformer"?
+1. energy loss from a cable depends on what two things?
+1. why can we transmit power farther and more efficiently at higher voltages?
+1. when we pass current through a wire, what does it generate?
+1. what happens if we change the direction of current in a wire?
+1. does the input frequency change from the output frequency in a `transformer`, what can we change?
+1. if we place a coil (connected to an AC generator) next to another coil what happens?
+1. what is `electro motive force`?
+1. can you create `electro motive force` with a DC power supply?
+1. can a DC current _ever_ be used to create an `electro motive force`?
+1. why do we use an iron core in a `transformer`?
+1. why is the iron core made up of thin laminated sheets instead of a solid core?
+1. in a `transformer` we have **copper losses** and **iron losses**, what does this mean?
+1. what causes the humming sound in transformers?
+1. between the step up and step down transformers, does power get created or lost?
+
 ### Transformer Answers
+
+1. a `transformer` is a device used to transfer electrical energy, where it can change the voltage and current in the process.
+1. no. `transformers` only work with alternating current (AC).
+1. `transformers` are two separated copper coils wrapped around by an iron core.
+1. the generator, or supply, is connected to one coil, aka the **primary side** of the `transformer`. The **secondary side** is connected to the `load`.
+1. the two types are a "Step Up Transformer" and a "Step Down Transformer".
+1. a "step up transformer" results in voltage increase and current decrease `(current = watts / voltage)`. **More turns of the wire on the secondary side, less on primary.**
+1. a "step down transformer" results in voltage decrease and current increase `(current = watts / voltage)`. **More turns of wires on the primary side, less on secondary.**
+1. a power station (14k volts) has a lot of distance to cover to reach your house (120-240 volts). All the resistance in the wiring between the two points would result in a huge decrease in voltage. A "step up transformer" could be used near the power station to increase the volts to 400k volts, so there is enough voltage to travel across the wires.
+1. a "step down transformer" can be used to reduce the voltage that was previously increased by a "step up transformer" to transmit the current across long distances to reach your house (where another "step down transformer" can be used to lower again for an appropriate voltage for your home).
+1. energy loss from a cable depends on **electrical current** and **material resistance**.
+1. the current loss with higher voltage is lower at higher voltages (current = watts / voltage, or `10kW / 400k V = 0.025A` versus `10kW / 240V V = 41.67A` --much amount of current loss)
+1. when we pass current through a wire it generates an electromagnetic field.
+1. when we change the direction of current in a wire the magnetic field also reverses.
+1. with a `transformer`, the frequency in matches the frequency out. The only thing we can change is the voltage (same frequency, but higher sine waves).
+1. the **magnetic field** from the first coil, if placed in close proximity, will **induce a voltage** in the second coil (and its circuit) due to the **magnetic field** pushing and pulling electrons in the second coil forcing them to move. This is therefor a transformer.
+1. `electro motive force` is caused by AC current creating a magnetic field that is constantly changing **polarity as well as intensity**, which then disturbs the free electrons in the nearby coil thus creation voltage through induction.
+1. no. while DC will create a magnetic field around the coil, **it will have constant (fixed) polarity and intensity.** This means electrons _will not_ be disturbed on the secondary side.
+1. yes, a DC current _could_ create `electro motive force` if it's modified through electronic components and `pulse width modulation` to **mimic AC current.**
+1. the iron core concentrates and guides the magnetic field through the coils making it much more efficient than just placing the coils together.
+1. the thin laminated iron sheets that comprise the iron core help reduce **eddy currents** that flow around the core and heat up the transformer and waste energy.
+1. **copper losses** and **iron losses** refer to the energy loss through leakage flux, disturbances, coil and wire material resistance, etc. These losses reduce efficiency and often generate heat.
+1. AC frequency causes the iron core sheets to expand and contract by tiny amounts causing vibration and the humming sound.
+1. No, power is not created or lost in either `transformer` type. The VA (VoltAmp) power remains the same since if voltage is halved current doubles and vice versa. When the voltage and amps are multiplied together we get VA.
 
 ---
 
