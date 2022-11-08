@@ -24,18 +24,18 @@
 ## Electronics Answers
 
 1. A `control circuit` is a special type of circuit used to control the operation of a completely separate power circuit. A `main circuit` may have much higher voltage or current than what is appropriate for a `control circuit`, so they're isolated.
-1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit
-1. `insulators` consist of atoms with a stable outer atomic (valence) shell. By contrast, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from conductive atom to conductive atom.
-1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of it's electrons** and it performs like an `conductor`.
+1. In electrical engineering, a `switch` is an electrical component that can connect, or disconnect, the conducting path in an electrical circuit.
+1. `insulators` consist of atoms with a stable outer atomic (valence) shell. Meanwhile, a `conductor's` protons have a loose, or weak bond, with the electrons in their outer valence shell. As consequence of this weak bond, electrons can translate across a conductive path and move from one conductive atom to the next.
+1. a `semiconductor` has properties of both a `conductor` and `insulator`. It typically serves as an insulator **until some outside force alters the behaviors of its electrons** and then it performs like an `conductor`.
 1. Typically, `low resistance` in the electrical testing industry is referring to any resistance values below 1 ohm. **The lower the resistance, the higher the current flow.**
-1. an `ohm` is a unit of electric resistance. The width of a wire, it's length, even it's material, helps determine it's resistance measured in `ohms`.
-1. resistance occurs as electrons travel down a conductive path and collide with atoms in a given material. This frequency of collisions varies across materials, and materials that have more collisions (like iron), generate more heat (and light when it reaches a certain temperature) than materials with less collisions (like copper).
+1. an `ohm` is a unit of electric resistance. The width of a wire, its length, even its material, helps determine its resistance measured in `ohms`.
+1. resistance occurs as electrons travel down a conductive path and collide with atoms in a given material. The frequency of collisions varies across materials, and materials that have more collisions (like iron) generate more heat and light than materials with less collisions (like copper).
 1. a `resistor` is a passive two-terminal electrical component that implements electrical resistance as a circuit element. In electronic circuits, resistors are used to reduce current flow, adjust signal levels, to divide voltages, bias active elements, and terminate transmission lines, among other uses.
-1. voltage drop is the reduction in voltage as components along a closed circuit use it.
+1. voltage drop is the decrease of electrical potential along the path of a current flowing in an electrical circuit as caused by electrical components.
 1. to calculate `ohms`: `voltage / amps = ohms`
 1. to calculate `amps`: `voltage / ohms = amps`
 1. using an `infrared emitter` and `receiver` can help simplify testing and development since you don't need to protect against visible light.
-1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is a group of flowing electrons.
+1. a `volt = joule / coulomb`, where a `joule` is a measurement of work and a `coulomb` is the amount of flowing electrons (amps).
 1. 1 amp = 1 coulomb.
 
 ---
@@ -46,7 +46,7 @@
 1. a `solenoid valve` is comprised of two parts, what are they?
 1. how does the `solenoid` work?
 1. what dictates the shape variations in a solenoid valve?
-1. how does a "direct operated valve" work?
+1. how does a **"direct operated valve"** work?
 1. what is an `NO valve` and a `NC valve`?
 1. how does the electromagnetic field work with a `NC valve`?
 1. how does the electromagnetic field work with a `NO valve`?
@@ -55,9 +55,9 @@
 
 1. `solenoid valves` are used to convert electrical energy into mechanical energy.
 1. a `solenoid valve` consists of a `solenoid` and a `valve`.
-1. the `solenoid` allows an electric current to pass through and move through a `solenoid coil` which generates an **electromagnetic field**.
-1. the shape variations of a `solenoid valve` depend on the capacity of the valve, the pressure its working on, and the different internal mechanisms.
-1. a "direct operated valve has a `solenoid coil` in the solenoid and either a `NO valve` or a `NC valve`. The coil completely surrounds a pillar called an `armature` which is purposely located at the center of the electromagnetic field. Inside the `armature` is a `plunger` and `spring`.
+1. wires pass through the `solenoid` and form an `induction coil` that surrounds an `armature`. The `induction coil` (aka solenoid coil) leverages the **electromagnetic field** of the tightly packed electrons to perform an appropriate physical action on the contents inside the `armature`; like a plunger and spring for instance.
+1. the shape variations of a `solenoid valve` depend on the capacity of the valve, the pressure it's working on, and the different internal mechanisms.
+1. a **"direct operated valve"** has an `inductor` in the `solenoid` and either a `NO valve` or a `NC valve`. The `induction coil` completely surrounds a pillar, called an `armature`, which is purposely located at the center of the electromagnetic field in order to leverage the `induction coil's` magnetic forces. Inside the `armature` is a `plunger` and `spring`.
 1. `NO valve` is a normally open valve, whereas a `NC valve` is a normally closed valve.
 1. the electromagnetic field, generated via induction by the coil, passes into the `plunger` and pulls it upwards against the `spring`, thus opening the valve. The `plunger` is placed in the center of the `armature` because the EF is strongest there.
 1. the electromagnetic field, generated via induction by the coil, passes into the `spring` (which normally holds the plunger up) and pushes the `plunger` down.
@@ -67,6 +67,7 @@
 ### Diode Questions
 
 1. what does a `diode` look like?
+1. the white line found on the `diode's` casing is located next to which lead/electrode?
 1. what is another example of `diode` besides a standard `diode`.
 1. what does a `diode` do?
 1. how can a `diode` be used?
@@ -76,13 +77,14 @@
 
 ### Diode Answers
 
-1. a `diode` typically has a black cylinder body with a stripe at one end with two leads --anode and cathodes terminals (cathode on the same side as the stripe).
+1. a `diode` typically has a black cylinder body with a stripe at one end with two leads --anode and cathodes terminals.
+1. the white line found on the `diode's` casing is located next to the `cathode`.
 1. an `LED` or Light Emitting Diode, is an example.
 1. a `diode` allows current to only flow in one direction within a circuit.
-1. a `diode` can be used as both an insulator and a conductor along a circuit depending on it's orientation. With the `cathode` facing the same direction as the electron flow, it creates a forward bias; if reversed with the `anode` facing against the incoming current (- -) it repels it and creates a reverse bias. These biases either pull or push incoming electrons away.
+1. a `diode` can be used as both an insulator and a conductor along a circuit depending on its orientation. With the `cathode` facing the same direction as the electron flow, it creates a **forward bias**; if reversed with the `anode` facing against the incoming current (- -) it repels it and creates a **reverse bias**. These biases either pull or push incoming electrons away.
 1. `copper` has a lot of free electrons that makes it very easy for electrons to move through it.
-1. inside a `diode` it has `n-type` and `p-type` semiconductor materials. The `cathode` terminal connects with the `n-type` semiconductor and as electrons from the circuit flow in, they are able to overcome the potential difference generated within the `p-n junction`'s **"depletion region"** (specifically the electric field generated by the swapped holes and electrons) and push the current through the `diode` and out the `anode`. This pushing force requires sufficient voltage (typically 0.7V) and is an example of forward bias.
-1. yes, each `diode` has a varying range with how much current and voltage they can support before the `diode` is overwhelmed, breaks, and potentially destroys your circuit as well. So make sure you stay within acceptable bounds.
+1. inside a `diode`, there is an `n-type` and `p-type` semiconductor material. The `cathode` terminal connects with the `n-type` semiconductor and as electrons from the circuit flow in, they are able to overcome the electrical potential difference within the `p-n junction`'s **"depletion region"** and push the current through the `diode` and out through the `anode`. This pushing force requires sufficient voltage (typically 0.7V) and is an example of **forward bias**.
+1. yes, each `diode` has a varying range with how much current and voltage they can support before the `diode` is overwhelmed, breaks, and potentially destroys your circuit as well. Make sure you stay within acceptable bounds.
 
 ---
 
@@ -93,14 +95,14 @@
 1. what is an `anode`?
 1. what is a `cathode`?
 1. what is an `electrode`?
-1. what is a `dielectric` material?
+1. what is a `dielectric`?
 1. what charges and discharges faster, a `capacitor` or a `battery`?
 1. what utility does a `capacitor` provide to an electrical circuit?
 1. what is the physical structure of a `capacitor`?
 1. on a `capacitor`, what indicates the negative terminal?
 1. when we pass electrons into the negative terminal of a `capacitor` what happens?
 1. at what point will electrons stop flowing from the `battery` to the `capacitor`?
-1. what is `potential`?
+1. what is `electrical potential`?
 1. describe `electric field attraction` and how its used in capacitors.
 1. what happens with the `capacitor` when you reconnect the `battery` to the circuit?
 1. what is a `multimeter` and how can `voltage` be described as pressure?
@@ -114,26 +116,26 @@
 ### Capacitor Answers
 
 1. a `capacitor` stores electric charge.
-1. a `capacitor` is like a `battery`, however it stores electric charge in an **electric field** as opposed to in a **chemical solution**.
-1. an `anode`, negative charge, is the `electrode` where electrons flow out.
-1. The `cathode`, positive charge, is the `electrode` where electricity is given in or flows in.
+1. a `capacitor` is like a `battery`. However, it stores electric charge in an **electric field** as opposed to creating electric charge through a series of **chemical reactions**.
+1. an `anode`, negative charge, is the `electrode` where electrons flow out (in electron flow).
+1. The `cathode`, positive charge, is the `electrode` where electricity flows in (in electron flow).
 1. an `electrode` is a conductor through which electricity enters or leaves an object, substance, or region. `anode` and `cathode` are used to describe current flow in relation to the `electrode`.
-1. a `dielectric` material is a material which serves as an insulator, or electrons cannot pass. There are solid, liquid, and gas `dielectric` materials. Ceramic, plastic, distilled water, nitrogen, vacuum, so on.
-1. a `capacitor` charges and discharges faster than a `battery` due to them using an `electric field`, rather than a sequence of chemical reactions to hold and move electrons.
-1. `capacitors` help to smooth out disruptions of electrical supply. In an abstract sense, it serves like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current for a duration until the outside source returns.
-1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum, sandwiching a `dielectric` material (often ceramic). The layers (from outside in) consist of a protective case, an `electrode`, a dielectric layer, and another `electrode`.
-1. a stripe on a `capacitor` indicates the negative terminal.
-1. when we connect a `battery` to a `capacitor`, current moves from the `anode` of the battery to one plate on the capacitor. The electrons will build up on that plate while `electrons` on the other plate discharge from the `capacitor`. Electrons can't pass across the `capacitor` because of the insulating material.
-1. once the `capacitor` has the **same voltage** as the `battery`, electrons will stop flowing. Now that one of the `capacitor's` plates is full of electrons (charge), we can release this stored energy later. This gives us a difference in **potential**, or a **voltage difference** between both sides (- electron filled plate and empty positive plate),
+1. a `dielectric` material is a material which serves as an insulator, or a material in which electrons cannot pass through. There are solid, liquid, and gas `dielectric` materials. Ceramic, plastic, distilled water, nitrogen, vacuum, so on, are examples.
+1. a `capacitor` charges and discharges faster than a `battery` due to it using an `electric field`, rather than a sequence of chemical reactions, to hold onto and release energy.
+1. `capacitors` help to smooth out disruptions of electrical supply. In a sense, they serve like a water tank, if the outside supply of water is interrupted the `capacitor` can continue to supply electrical current (water) for a duration until the outside source returns.
+1. a `capacitor` is wrapped in a insulating container, which contains two conductive metal plates --typically of aluminum, sandwiching a `dielectric` material (often ceramic). The layers (from outside in) consist of a protective resin case, an `electrode`, a `dielectric` layer, and another `electrode`.
+1. a stripe on a `capacitor` typically indicates the negative terminal.
+1. when we connect a `battery` to a `capacitor`, current moves from the `anode` of the battery to one electrode plate on the `capacitor`. The electrons then build up on that plate while `electrons` on the other plate discharge from the `capacitor` (- -). Electrons can't pass across the `capacitor` because of the insulating `dielectric` material sandwiched between them.
+1. once the `capacitor` has the **same voltage** as the `battery`, electrons will stop flowing into it. Now that one of the `capacitor's` plates is full of electrons (charge), we can release this stored energy later. The build up of charge gives us a difference in **electrical potential**, or a **voltage difference**, between both sides (an electron filled plate and empty "positive" plate).
 1. `electrical potential` is the difference in charge between the positive and negative sides of a component.
-1. an `electric field` leverages the attraction of positively charged particles (or holes) and negatively charged particles (electrons). A dielectric material (in the capacitor for instance) keeps the attracted elements in the electrodes physically separated, however they still have the attraction pulling them together and thus a capacitor is able to hold charge until a suitable path is made that can connect the electrodes until the difference of potential equalizes and the voltage becomes zero.
+1. An `electric field` is the physical field that surrounds electrically charged particles and exerts force on all other charged particles in the field, either attracting or repelling them. A `dielectric` material (in the capacitor for instance) keeps the attracted elements in the electrodes physically separated from one another. However, the `electrodes` still have the `electric field` attraction pulling them together and thus a `capacitor` is able to hold charge until a suitable path is made that physically connects the `electrodes` and allows current to flow until the difference in potential equalizes and the voltage becomes zero.
 1. when you reconnect the `battery` to the circuit, the `capacitor` will begin to recharge as electrons flow in and the push the electrons out that had accumulated on the other electrode while the battery was disconnected (negatives repel).
 1. a `multimeter` can be used to detect voltage and other electrical characteristics like resistance and current. Using pressure as an analogy, one end of a battery has more pressure then the other end, like water in a pipe.
 1. when the positive and negative charges on the electrodes are equal, the flow of electrons motivated by the `capacitor` stop moving (no more current).
-1. `capacitance` is the measurement of energy stored in a `capacitor` and they're measured in `Farads (F)`, though usually in `microfarads (uF)`.
+1. `capacitance` is the measurement of energy stored in a `capacitor` and they're measured in `Farads (F)` or `microFarads (uF)`.
 1. the voltage value on a `capacitor` describes **the maximum number of volts** a `capacitor` can handle.
 1. it explodes.
-1. one of the most common applications in large buildings is to use a `capacitor bank` to provide "power factor correction". They're also used to smooth out peaks between ac-to-dc conversion.
+1. one of the most common applications in large buildings is to use a `capacitor bank` to provide "power factor correction". They're also used to smooth out peaks between AC to DC conversion.
 1. yes, `capacitors` hold large voltages even for a long time after being disconnected from a circuit.
 
 ---
@@ -141,13 +143,13 @@
 ### Inductor Questions
 
 1. what is an `inductor`?
-1. what is an `inductors` main utility?
-1. regarding, water, what is an `inductor` like?
-1. explain the relation, in terms of water, of the `inductor` and a resistive path.
+1. what is an `inductor's` main purpose?
+1. regarding water current, what is an `inductor` like?
+1. explain the relation, in terms of water current, of the `inductor` and a resistive path.
 1. what causes `inductors` to work?
-1. what happens if we change the flow of current in a wire?
+1. what happens if we change the flow of current in a wire, where do we always see this changing current?
 1. what happens if we add more current to a wire?
-1. coiling an `inductor` does what?
+1. the coiling of an `inductor` does what?
 1. what do `inductors` look like?
 1. what can `inductors` be used for?
 1. how is `inductance` measured?
@@ -157,13 +159,13 @@
 
 1. an `inductor` is a component in an electrical circuit that stores energy in its magnetic field. It can release this energy almost instantly.
 1. `inductors` can release energy almost instantly.
-1. an `inductor` is like a water wheel, where it takes time to move but gradually collects energy and captures it in it's spin.
-1. using the water analogy and the `inductor` serving as a water wheel, as water flows through a split in the pipe it has two choices, the path with resistance, or the path with the `inductor`. At first, the `inductor` requires too much energy to spin (water wheel), so the water flows through the resistive path (think an LED). Eventually, the water is able to push the wheel and flow freely; once that happens the path with the wheel (inductor) provides less resistance than the resistive path and now the resistive path becomes secondary to the `induction` supporting path. If the water source is turned off, the `inductor` while continue to work (and move the current) for a short period of time due to the energy stored.
-1. when we pass current (electrons) through a conductive path it generates a magnetic field (all those negatively charged electrons) and increase in size up to its maximum.
-1. if we change the flow of current, the magnetic fields reverse.
+1. an `inductor` is like a water wheel. While it takes time to starting moving, it gradually collects energy and captures it in it's spin.
+1. using the water analogy and the `inductor` serving as a water wheel, as water flows through a split in the pipe it has two choices, a path with resistance, or the path with the `inductor`. At first, the `inductor` requires too much energy to spin (water wheel), so the water flows through the resistive path. Eventually, the water is able to push the wheel and flow freely; once that happens the path with the wheel (inductor) provides less resistance than the resistive path and now the resistive path becomes secondary to the `induction` supporting path. If the water source is turned off, the `inductor` will continue to work (and move the current) for a short period of time due to the energy stored.
+1. when we pass current (electrons) through a conductive path it generates a magnetic field (due to negatively charged electrons) and increases in size up to its maximum.
+1. if we change the flow of current, the magnetic fields reverse. `Alternating Current (AC)` is often used with `inductors` due to the magnetic properties that result from the electrons rapidly moving back and forth within the coil.
 1. if we add more current, the magnetic field gets larger.
 1. by coiling a wire (`inductor`) we create a larger magnetic field around the wire.
-1. in circuit boards, inductors look like copper wire wrapped around a ring. Sometimes they have casing to shield the magnetic current and prevent interacting with other components.
+1. in circuit boards, `inductors` look like copper wire wrapped around in a coil. Sometimes they have resin casing to shield the magnetic current and prevent it from interacting with other components.
 1. `inductors` can be used to boost converters to increase DC voltage output. They can be used to choke AC supply and allow only DC to pass. They can be used to filter and separate difference frequencies. Used in transformers, motors, and relays.
 1. in units of **Henry (H)**. `1H = 1V of EMF cross the inductor with 1 Ampere of current.`
 1. when enough current passes through a coil it creates `induction` which is the process of creating a magnetic field.
@@ -302,7 +304,8 @@
 1. whats a better tool than an `ammeter` for measuring amps (among other things)?
 1. what does it mean to say a circuit is in "series"?
 1. what is the opposite of a `series circuit`?
-1. what how are amps measured differently between a series and parallel circuit?
+1. How does a `parallel circuit` distribute current?
+1. How does a `series circuit` contrast a `parallel circuit`?
 1. what is a simplified interpretation of `resistors` on a circuit?
 1. in addition to `resistors`, what else can we use to limit current?
 1. how does a `fuse` work?
@@ -311,26 +314,27 @@
 ### Electrical Current Answers
 
 1. current is the flow of electrons in a circuit.
-1. copper has an extra free electron in the outer (valence) shell that is very easy to move. In fact, it moves so easily that the extra electrons will move randomly across other copper atoms.
-1. voltage moves the free-floating copper electron (in this case) in a specific direction.
+1. copper has an extra free electron in the outer (valence) shell that is very easy to move. In fact, it moves so easily that the extra electrons will move randomly across to other copper atoms.
+1. voltage moves the free-floating copper electrons in a specific direction.
 1. it will burn out and break.
-1. Amperes or Amps (A).
+1. current is measured in Amperes or Amps (A).
 1. current flows back and forth along a circuit with AC.
 1. current flows in one direction in a circuit with DC.
 1. AC is much more efficient in transporting current over long distances. Additionally, voltage can be easily increased, or decreased, using transformers.
 1. DC is used in electronic devices because it's easier to control and allows devices to be more compact.
 1. Yes, some household appliances use **both** AC and DC. A washing machine for instance uses AC to power its AC `induction motor` and then DC to power the `control circuit board.`
 1. you can use an `inverter` to convert DC to AC.
-1. an `ammeter` can be used to measure the amount of current in a current.
-1. one amp equals one `coulomb`, with a `coulomb` equaling 6.242x10^18 electrons per second.
+1. an `ammeter` can be used to measure the amount of amps in a current.
+1. one `amp` equals one `coulomb`, with a `coulomb` equaling 6.242x10^18 electrons per second.
 1. a `digital multimeter` has more utility than an `ammeter`.
-1. if a circuit is in "series", that means that _all_ electrons are flowing along the same path.
+1. if a circuit is in "series" it means that **all electrons** are flowing along the same path.
 1. a `parallel circuit` is the opposite of a `series circuit`.
-1. in a parallel circuit, in the main wire (to and from the battery) we get the full amps, but on the branch of each lamp we get a division of the amps based on resistance. In series, the amps are measured the same across the circuit.
-1. `resistors` act like "speed bumps", or a kink in a garden hose, and can slow the current down.
+1. in a `parallel circuit`, the incoming and outgoing current (to and from the power source), will have the _total_ amps. However, each `parallel circuit` along the conductive path from the power source will have a division of the `amps`. This "division" is further modified by the amount of `resistance` on each `parallel circuit`. A `parallel circuit` with more `resistance` will allow _less current_ through it, thus the other `parallel circuits` (if there are any) will collect the current difference accordingly.
+1. a `series circuit` is much more simple than a `parallel circuit`. In a `series circuit`, current only flows along **one path** so there is no division of current across multiple paths.
+1. `resistors` act like a kink in a garden hose and reduce the amount of water (or electrons) coming through a path.
 1. a `fuse` can also be used to limit current.
-1. a `fuse` is a safety device that melts and breaks an electric circuit if the current exceeds a safe level. In a basic sense, fuses have a thin wire inside of them that is rated to handle a certain current, if exceed, it melts and breaks the circuit protecting the more expensive components.
-1. a `circuit breaker` behaves like a `fuse`, but instead of burning out, it serves as a `switch` and if too many amps are detected it breaking the closed circuit.
+1. a `fuse` is a safety device that melts and breaks an electric circuit if the current exceeds a safe level. Fuses have a thin wire inside of them that is rated to handle a certain current, if exceed, it melts and breaks the circuit protecting the more expensive components.
+1. a `circuit breaker` behaves like a `fuse`, but instead of burning out it serves as a `switch`. If too many amps are detected, it flips the switch, and interrupts the circuit.
 
 ### Inverter Questions
 
@@ -356,21 +360,21 @@
 ### Inverter Answers
 
 1. an `inverter` is used to convert DC into AC.
-1. you cna use a `full bridge rectifier` to convert AC into DC.
+1. you can use a `bridge rectifier` to convert AC into DC.
 1. batteries, solar panels, cars (their batteries), are DC power sources and need to be converted to AC for certain appliances that require AC load.
 1. you can use an `oscilloscope` to view the electrical wave form in a circuit.
-1. DC, when measured through an `oscilloscope`, looks like a flat line in the positive region.
-1. AC, when measured through an `oscilloscope`, looks like a wave the flows between the positive and negative regions.
-1. voltage is not constant in AC, a `multimeter` may show it as constant, but that is false, it fluctuates between positive and negative in the sine wave.
-1. AC current, and its back and forth current, is caused by a magnet within a generator that rotates and uses induction (specifically varying levels of magnetic intensity as it rotates) to move electrons, in nearby coils, back and forth.
+1. DC, when measured through an `oscilloscope`, looks like a flat line in the positive voltage region.
+1. AC, when measured through an `oscilloscope`, looks like a wave the flows between the positive and negative voltage regions.
+1. voltage is not constant in AC, a `multimeter` may show it as constant, but that is false, it actually fluctuates between positive and negative charges in the sine wave.
+1. AC, and its back and forth current, is caused by a magnet within a generator that rotates (very quickly at 50 or 60Hz) and uses `induction` to move electrons in nearby coils back and forth.
 1. in terms of AC sine waves, frequency refers to how many times the sine wave repeats per second and is measured in **Hertz (Hz)**.
 1. in North America, the sine wave repeats 60 times per second (60Hz). Polarity (+ and -) changes 120 times/second.
-1. in the rest of the world, the sine wave repeats 50 times per second (50Hz). Polarity (+ and -) changes 100 times/second.
-1. the `inverter` consists of several electronic **switches** called `IGTBs`, the opening and closing of these `IGTB` switches is controlled by a `controller`. `IGTBs` can open and close in pairs incredibly fast to control the flow of electricity. This path tweaking for electricity allows inverters to produce AC from a DC source.
+1. outside of North America, the sine wave repeats 50 times per second (50Hz). Polarity (+ and -) changes 100 times/second.
+1. the `inverter` consists of several electronic **switches** called `IGTBs`, the opening and closing of these `IGTB` switches is controlled by a `controller`. `IGTBs` can open and close in pairs incredibly fast to control the flow of electricity. The rapidly changing flow of electrons caused by these switches allows the DC current to replicate AC's back and forth alternative behavior.
 1. a "step-up" `transformer` can be used, following the inverter, to increase low AC voltage to high AC voltage.
-1. we can use `Pulse Width Modulation` to break the **flat** positive and negative waves into smaller segments of pulse width to create an **average** flow, or wave form, that imitates a sine wave. The more segments it has, the closer in mimics a sine wave.
+1. we can use `Pulse Width Modulation` to break the **flat** positive and negative waves generated from DC into smaller segments of pulse width to create an **average** flow, or wave form, that imitates a sine wave. The more segments it has, the closer in mimics a sine wave.
 1. we can control the output voltage by **controlling how long the switches are closed for** for each segment group. The less completely filled a segment group is, the lower the voltage.
-1. we can control the output frequency by **controlling the timing of the switches**. The more spread out the segment groups are, the lower the frequency.
+1. we can control the output frequency by **controlling the timing of the switches**. The more spread out the pulse segment groups are, the lower the frequency.
 1. a `single phase` would appear as a single sine wave, whereas a `three phase` would appear as three equally inter-spaced sine waves.
 1. a `three phase` has no (significant) gaps between positive and negative (the three sine waves overlap) and thus it has **more power**.
 
@@ -389,7 +393,7 @@
 1. will adding a `capacitor` completely smooth out the DC ripples?
 1. what should we place following a `capacitor`, to keep us safe?
 1. why would the voltage drop from the AC input to the DC output?
-1. if we place a `capacitor` after the `rectifier`, would the output DC voltage now be higher than the input AC voltage? How is that possible?
+1. why does voltage _appear_ higher following the AC to DC conversion when measured with a `multimeter`?
 1. what other components could you use to even out the DC voltage?
 
 ### Full Wave Bridge Rectifier Answers
@@ -407,7 +411,7 @@
 1. no, adding a `capacitor` will only _help_ reduce the crests and troughs of a wave. Adding a larger `capacitor`, and/or multiple `capacitors`, only further reduces it. The approach **does not** result in a fully smooth DC current.
 1. following the `capacitor` we should place a `bleeder resistor` across the output; this is a high-value capacitor that will drain the `capacitor` as the circuit is off for safety. Effectively, the `bleeder resistor` rapidly discharges the `capacitor` much faster than otherwise.
 1. the `diodes` used in the rectifier have a `load`, or cause "voltage drop".
-1. it's not really higher, it's simply the format used to measure AC voltage (RMS) doesn't return the **peak voltage**. A `multimeter` reads the **Vrms not peak voltage** (Vrms is like an average from the sine wave) from an AC input. Capacitors charge up to the **peak voltage** and then release. Note: this **peak voltage** is less than the original **peak voltage** because of the voltage drop caused by the `diodes` earlier in the circuit.
+1. the voltage is not really higher. Simply, the format used to measure AC voltage (RMS) doesn't return the **peak voltage**. Rather, a `multimeter` reads the **Vrms**, with Vrms **being an average from the sine wave from the AC input**. Unlike AC, DC is measured by its **peak voltage**, so it may _appear higher_. Note: this **peak voltage** is less than the original **peak voltage** at the source, because of the voltage drop caused by the `diodes` earlier in the circuit.
 1. `inductors` and voltage `regulators` can also be used to even out the DC voltage.
 
 ### Transformer Questions
