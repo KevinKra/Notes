@@ -1,39 +1,6 @@
-#### Component Questions
+### Topics Covered
 
-1. what is a `HAT`?
-1. can `SBCs` like the Raspberry Pi automatically identify connected HATs?
-1. what is `GPIO`?
-1. what is an `ADC`?
-1. what is a `DAC`?
-1. Arduino vs Raspberry Pi
-1. what is a `Photo Transistor`?
-1. what is an `LDR`?
-1. what is the Raspberry Pi `Pico`?
-1. what are some differences between the Raspberry Pi and the Pico?
-1. what languages can you use to program on the Pico?
-1. what is a `PWM channel`, what is another name for it?
-1. what is an `RTC`?
-1. what does `NOOBS` mean?
-1. what is a `optoisolater` | `photocoupler`? What other names can be used for this?
-1. describe `analogue` vs `digital` signals.
-
-#### Component Answers
-
-1. `HAT` (Hardware Attached on Top). A `HAT` is an add-on board for B+ that conforms to a specific set of rules that will make life easier for users.
-1. yes, A significant feature of HATs is the inclusion of a system that allows the B+ to identify a connected HAT **and automatically configure the GPIOs and drivers for the board.**
-1. `GPIO` (General Purpose Input/Output). At the most basic level, GPIO refers to a set of pins on your computer’s mainboard or add-on card. These pins can send or receive electrical signals, but **they aren’t designed for any specific purpose.** This is why they’re called “general-purpose” IO.
-1. `ADC` (analog-to-digital converter). In electronics, an analog-to-digital converter (ADC, A/D, or A-to-D) is a system that converts an analog signal, such as a sound picked up by a microphone or light entering a digital camera, into a digital signal.
-1. `DAC` (digital-to-analog converter) converts a digital signal from the computer into an electrical voltage which can be used to drive electrical equipment, for example, a stirrer motor.
-1. a `Photo Transistor` is a sensor that detects ambient light, a bit like an LDR (and works in a similar way). When light enters the chip on top, it creates a flow of current from the long to the short pin. When there's no light there's almost no current going across the pins at all. It manages to detect light in a similar way to your own eyes, so it's great for projects that require human-level light monitoring.
-1. `LDR` (Light Dependent Resistors) are little light sensors, as the squiggly face on its head is exposed to more light, the resistance goes down. When it's light, the resistance is about 5-10K ohms, when dark it goes up to 200K ohms.
-1. the `Pico` is an entirely new type of **microcontroller** from Raspberry Pi. Small, cheap and flexible.
-1. the `Pico` isn’t designed to replace the Raspberry Pi, which is a different class of device known as a **single-board computer**. Whereas you might use your Raspberry Pi to play games, write stories and browse the web, your Raspberry Pi Pico is designed for physical computing projects where it can control familiar components such as LEDs, buttons, sensors, motors and even other microcontrollers.
-1. the `Pico` can be quickly and easily programmed using **MicroPython and C/C++** using popular editors such as Thonny.
-1. a `PWM channel` (Pulse-Width modulation), or **pulse-duration modulation** (PDM), is a method of reducing the average power delivered by an electrical signal, by effectively chopping it up into discrete parts.
-1. `RTC` (Real Time Clock) accessory plugs on top of your Pi's GPIO pins and contains a clock chip and a super-cap that allows your Raspberry Pi to remember the time.
-1. `NOOBS` means "New Out of Box Software".
-1. An `optoisolator` (also known as an `optical coupler`, `photocoupler`, `optocoupler`) is a semiconductor device that transfers an electrical signal between isolated circuits using light. These electronic components are used in a wide variety of communications and monitoring systems that use electrical isolation to prevent high voltage emitters from affecting lower power circuitry receiving a signal.
-1. `analog` signals have continuous electrical signals, while `digital` signals have non-continuous electrical signals.
+- solenoid valves, diodes, capacitors, batteries, inductors, transistors, electrical current, inverters, half-width bridge rectifiers, full-width bridge rectifiers, transformers
 
 ---
 
@@ -494,6 +461,43 @@
 1. **copper losses** and **iron losses** refer to the energy loss through leakage flux, disturbances, coil and wire material resistance, etc. These losses reduce efficiency and often generate heat.
 1. AC frequency causes the iron core sheets to expand and contract by tiny amounts causing vibration and the humming sound.
 1. No, power is not created or lost in either `transformer` type. The VA (VoltAmp) power remains the same since if voltage is halved current doubles and vice versa. When the voltage and amps are multiplied together we get VA.
+
+### Component Questions
+
+1. what is a `HAT`?
+1. can `SBCs` like the Raspberry Pi automatically identify connected HATs?
+1. what is `GPIO`?
+1. what is an `ADC`?
+1. what is a `DAC`?
+1. Arduino vs Raspberry Pi
+1. what is a `Photo Transistor`?
+1. what is an `LDR`?
+1. what is the Raspberry Pi `Pico`?
+1. what are some differences between the Raspberry Pi and the Pico?
+1. what languages can you use to program on the Pico?
+1. what is a `PWM channel`, what is another name for it?
+1. what is an `RTC`?
+1. what does `NOOBS` mean?
+1. what is a `optoisolater` | `photocoupler`? What other names can be used for this?
+1. describe `analogue` vs `digital` signals.
+
+### Component Answers
+
+1. `HAT` (Hardware Attached on Top). A `HAT` is an add-on board for B+ that conforms to a specific set of rules that will make life easier for users.
+1. yes, A significant feature of HATs is the inclusion of a system that allows the B+ to identify a connected HAT **and automatically configure the GPIOs and drivers for the board.**
+1. `GPIO` (General Purpose Input/Output). At the most basic level, GPIO refers to a set of pins on your computer’s mainboard or add-on card. These pins can send or receive electrical signals, but **they aren’t designed for any specific purpose.** This is why they’re called “general-purpose” IO.
+1. `ADC` (analog-to-digital converter). In electronics, an analog-to-digital converter (ADC, A/D, or A-to-D) is a system that converts an analog signal, such as a sound picked up by a microphone or light entering a digital camera, into a digital signal.
+1. `DAC` (digital-to-analog converter) converts a digital signal from the computer into an electrical voltage which can be used to drive electrical equipment, for example, a stirrer motor.
+1. a `Photo Transistor` is a sensor that detects ambient light, a bit like an LDR (and works in a similar way). When light enters the chip on top, it creates a flow of current from the long to the short pin. When there's no light there's almost no current going across the pins at all. It manages to detect light in a similar way to your own eyes, so it's great for projects that require human-level light monitoring.
+1. `LDR` (Light Dependent Resistors) are little light sensors, as the squiggly face on its head is exposed to more light, the resistance goes down. When it's light, the resistance is about 5-10K ohms, when dark it goes up to 200K ohms.
+1. the `Pico` is an entirely new type of **microcontroller** from Raspberry Pi. Small, cheap and flexible.
+1. the `Pico` isn’t designed to replace the Raspberry Pi, which is a different class of device known as a **single-board computer**. Whereas you might use your Raspberry Pi to play games, write stories and browse the web, your Raspberry Pi Pico is designed for physical computing projects where it can control familiar components such as LEDs, buttons, sensors, motors and even other microcontrollers.
+1. the `Pico` can be quickly and easily programmed using **MicroPython and C/C++** using popular editors such as Thonny.
+1. a `PWM channel` (Pulse-Width modulation), or **pulse-duration modulation** (PDM), is a method of reducing the average power delivered by an electrical signal, by effectively chopping it up into discrete parts.
+1. `RTC` (Real Time Clock) accessory plugs on top of your Pi's GPIO pins and contains a clock chip and a super-cap that allows your Raspberry Pi to remember the time.
+1. `NOOBS` means "New Out of Box Software".
+1. An `optoisolator` (also known as an `optical coupler`, `photocoupler`, `optocoupler`) is a semiconductor device that transfers an electrical signal between isolated circuits using light. These electronic components are used in a wide variety of communications and monitoring systems that use electrical isolation to prevent high voltage emitters from affecting lower power circuitry receiving a signal.
+1. `analog` signals have continuous electrical signals, while `digital` signals have non-continuous electrical signals.
 
 ---
 
